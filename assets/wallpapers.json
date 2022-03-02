@@ -1,0 +1,86 @@
+{
+    "styles": [{
+            "calendar": "Calendar"
+        },
+        {
+            "miniCalendar": "Mini Calendar"
+        },
+        {
+            "detailed": "Detailed"
+        }
+    ],
+    "teams": {
+        "leafs": {
+            "currentMonth": {
+                "home": {
+                    "label": "Home",
+                    "default": "leafs/Home.png",
+                    "amoled": "leafs/Home-AMOLED.png",
+                    "calendar": {
+                        "default": "leafs/CurrentMonth/Calendar-Home.png",
+                        "amoled": "leafs/CurrentMonth/Calendar-Home-AMOLED.png"
+                    },
+                    "miniCalendar": {
+                        "default": "leafs/CurrentMonth/Calendar-Mini.png",
+                        "amoled": "leafs/CurrentMonth/Calendar-Mini-AMOLED.png"
+                    },
+                    "detailed": {
+                        "default": "leafs/CurrentMonth/Calendar-Long.png",
+                        "amoled": "leafs/CurrentMonth/Calendar-Long-AMOLED.png"
+                    }
+                },
+                "classic": {
+                    "label": "Winter Classic",
+                    "default": "leafs/Classic.png",
+                    "amoled": "leafs/Classic-AMOLED.png",
+                    "calendar": {
+                        "default": "leafs/CurrentMonth/Calendar-Classic.png",
+                        "amoled": "leafs/CurrentMonth/Calendar-Classic-AMOLED.png"
+                    },
+                    "miniCalendar": {
+                        "default": "leafs/CurrentMonth/Calendar-Mini-Classic.png",
+                        "amoled": "leafs/CurrentMonth/Calendar-Mini-Classic-AMOLED.png"
+                    },
+                    "detailed": {
+                        "default": "leafs/CurrentMonth/Calendar-Long-Classic.png",
+                        "amoled": "leafs/CurrentMonth/Calendar-Long-Classic-AMOLED.png"
+                    }
+                },
+                "stpats": {
+                    "label": "St. Pats",
+                    "default": "leafs/StPats.png",
+                    "amoled": null,
+                    "calendar": {
+                        "default": "leafs/CurrentMonth/Calendar-StPats.png",
+                        "amoled": null
+                    },
+                    "miniCalendar": {
+                        "default": "leafs/CurrentMonth/Calendar-Mini-StPats.png",
+                        "amoled": null
+                    },
+                    "detailed": {
+                        "default": "leafs/CurrentMonth/Calendar-Long-StPats.png",
+                        "amoled": null
+                    }
+                },
+                "arenas": {
+                    "label": "Toronto Arenas",
+                    "default": "leafs/Arenas.png",
+                    "amoled": null,
+                    "calendar": {
+                        "default": "leafs/CurrentMonth/Calendar-Arenas.png",
+                        "amoled": null
+                    },
+                    "miniCalendar": {
+                        "default": "leafs/CurrentMonth/Calendar-Mini-Arenas.png",
+                        "amoled": null
+                    },
+                    "detailed": {
+                        "default": "leafs/CurrentMonth/Calendar-Long-Arenas.png",
+                        "amoled": null
+                    }
+                }
+            }
+        }
+    }
+}
