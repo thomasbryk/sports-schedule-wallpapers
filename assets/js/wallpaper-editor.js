@@ -28,8 +28,10 @@ function ResetWallpaper() {
     var $amoled = $("#amoled");
     var $wallpaperDownload = $("#wallpaperDownload");
 
-    $wallpaper.fadeOut()
-        .then($wallpaper.attr('src', ''));
+    $wallpaper.fadeOut('fast', function() {
+        $(this).attr('src', '');
+    });
+
     $logo.val('');
     $month.val('');
     $style.val('');
@@ -85,7 +87,7 @@ function SetWallpaper(logo, style = null) {
     $wallpaperDownload.attr('href', "wallpapers/" + imgUrl);
     $wallpaperDownload.parent().removeClass("disabled");
 
-    $wallpaper.fadeIn();
+    $wallpaper.fadeIn('fast');
 }
 
 function CheckWallpaper() {
