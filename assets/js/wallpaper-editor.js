@@ -28,11 +28,11 @@ function ResetWallpaper() {
     var $amoled = $("#amoled");
     var $wallpaperDownload = $("#wallpaperDownload");
 
-    $wallpaper.fadeOut('fast', function() {
-        $(this).attr('src', '');
-    });
+    $wallpaper.attr('src', '');
 
-    $logo.val('');
+    if (selectedTeamCode == null)
+        $logo.val('');
+
     $month.val('');
     $style.val('');
     $timeZone.val('');
@@ -152,6 +152,8 @@ function PopulateLogos() {
         $logo.append(new Option(label, key));
     }
 
+    $logo.val('home');
+
     PopulateStyles();
 }
 
@@ -201,10 +203,14 @@ function TeamSelected(element) {
 
     PopulateLogos();
 
-    if (resetWallpaper)
-        ResetWallpaper();
-
-    CheckWallpaper();
+    if (resetWallpaper) {
+        var $wallpaper = $("#wallpaper");
+        $wallpaper.fadeOut('fast', function() {
+            ResetWallpaper();
+            CheckWallpaper();
+        });
+    } else
+        CheckWallpaper();
 
     var $selectTeamError = $("#selectTeamError");
     $selectTeamError.fadeOut();
