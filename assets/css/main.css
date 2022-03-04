@@ -2053,7 +2053,7 @@ ol li {
 
 ul {
     list-style: disc;
-    margin: 0 0 2.5em 0;
+    margin: 0 0 3em 0;
 }
 
 ul li {
@@ -2704,7 +2704,7 @@ button:disabled,
     }
     .tiles article {
         height: 8vh;
-        width: 100% !important;
+        width: 50% !important;
     }
 }
 
@@ -3723,15 +3723,16 @@ body.is-menu-visible #menu .inner {
 
 #wallpaper-editor {
     margin-right: auto;
-    min-width: 397px;
+    min-width: 371px;
 }
 
 #wallpaper-viewer .wallpaper-box {
-    min-height: 755px;
+    min-height: 700px;
 }
 
-#wallpaper-download {
+#wallpaperDownload {
     width: 100%;
+    font-size: 10pt;
 }
 
 .wallpaper-modal {
@@ -3745,14 +3746,14 @@ body.is-menu-visible #menu .inner {
     height: 100%;
     background-color: #2a2f4a;
     margin: 0;
-    max-height: 755px;
-    min-width: 349px;
-    max-width: 349px;
+    max-height: 700px;
+    min-width: 323px;
+    max-width: 323px;
 }
 
 .wallpaper-label {
     text-transform: capitalize;
-    font-size: 13pt;
+    font-size: 12pt;
     margin: 0 0 9pt 0;
 }
 
@@ -3765,7 +3766,7 @@ body.is-menu-visible #menu .inner {
 }
 
 .wallpaper-select {
-    font-size: 15pt;
+    font-size: 12pt;
     height: 2.25em;
 }
 
@@ -3780,6 +3781,9 @@ body.is-menu-visible #menu .inner {
     #wallpaper-editor {
         margin: auto;
         padding-left: 1.5em;
+    }
+    .wallpaper-box ul {
+        margin: 0 0 2em 0;
     }
 }
 
