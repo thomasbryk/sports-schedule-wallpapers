@@ -3720,16 +3720,16 @@ body.is-menu-visible #menu .inner {
 #wallpaper-viewer {
     margin-left: auto;
     padding-right: 0;
-    min-width: 350px;
+    min-width: 324px;
 }
 
 #wallpaper-editor {
     margin-right: auto;
-    min-width: 398px;
+    min-width: 348px;
 }
 
 #wallpaper-viewer .wallpaper-box {
-    min-height: 757px;
+    min-height: 649px;
 }
 
 #wallpaperDownload {
@@ -3749,9 +3749,9 @@ body.is-menu-visible #menu .inner {
     height: 100%;
     background-color: #2a2f4a;
     margin: 0;
-    max-height: 757px;
-    min-width: 350px;
-    max-width: 350px;
+    max-height: 649px;
+    min-width: 300px;
+    max-width: 300px;
 }
 
 .wallpaper-label {
@@ -3785,23 +3785,6 @@ body.is-menu-visible #menu .inner {
 
 .disabled>* {
     opacity: 25%;
-}
-
-@media only screen and (max-width: 945px) {
-    #wallpaper-viewer {
-        min-width: 324px;
-    }
-    #wallpaper-viewer .wallpaper-box {
-        min-height: 649px;
-    }
-    #wallpaper-editor {
-        min-width: 348px;
-    }
-    .wallpaper-box {
-        max-height: 649px;
-        min-width: 300px;
-        max-width: 300px;
-    }
 }
 
 @media only screen and (max-width: 750px) {
@@ -3844,14 +3827,6 @@ body.is-menu-visible #menu .inner {
     }
     #wallpaperDownload {
         font-size: 8pt;
-    }
-}
-
-@media only screen and (max-width: 450px) {
-    .wallpaper-box {
-        max-height: 649px;
-        min-width: 300px;
-        max-width: 300px;
     }
 }
 
