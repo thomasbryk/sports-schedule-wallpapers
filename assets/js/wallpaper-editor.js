@@ -69,7 +69,6 @@ function SetWallpaper(logo, style = null) {
             break;
         case true:
             let imgUrlStyle = wallpapersJson.teams[selectedTeamCode].currentMonth[logo][style];
-            console.log(imgUrlStyle);
             if (imgUrlStyle != null) {
                 imgUrl += "CurrentMonth/";
                 imgUrl += (amoled) ?
