@@ -14,70 +14,108 @@
             "currentMonth": {
                 "home": {
                     "label": "Home",
-                    "default": "leafs/Home.png",
-                    "amoled": "leafs/Home-AMOLED.png",
+                    "default": "Home.png",
+                    "amoled": "Home-AMOLED.png",
                     "calendar": {
-                        "default": "leafs/CurrentMonth/Calendar-Home.png",
-                        "amoled": "leafs/CurrentMonth/Calendar-Home-AMOLED.png"
+                        "default": "Calendar-Home.png",
+                        "amoled": "Calendar-Home-AMOLED.png"
                     },
                     "miniCalendar": {
-                        "default": "leafs/CurrentMonth/Calendar-Mini.png",
-                        "amoled": "leafs/CurrentMonth/Calendar-Mini-AMOLED.png"
+                        "default": "Calendar-Mini.png",
+                        "amoled": "Calendar-Mini-AMOLED.png"
                     },
                     "detailed": {
-                        "default": "leafs/CurrentMonth/Calendar-Long.png",
-                        "amoled": "leafs/CurrentMonth/Calendar-Long-AMOLED.png"
-                    }
-                },
-                "classic": {
-                    "label": "Winter Classic",
-                    "default": "leafs/Classic.png",
-                    "amoled": "leafs/Classic-AMOLED.png",
-                    "calendar": {
-                        "default": "leafs/CurrentMonth/Calendar-Classic.png",
-                        "amoled": "leafs/CurrentMonth/Calendar-Classic-AMOLED.png"
-                    },
-                    "miniCalendar": {
-                        "default": "leafs/CurrentMonth/Calendar-Mini-Classic.png",
-                        "amoled": "leafs/CurrentMonth/Calendar-Mini-Classic-AMOLED.png"
-                    },
-                    "detailed": {
-                        "default": "leafs/CurrentMonth/Calendar-Long-Classic.png",
-                        "amoled": "leafs/CurrentMonth/Calendar-Long-Classic-AMOLED.png"
+                        "default": "Calendar-Long.png",
+                        "amoled": "Calendar-Long-AMOLED.png"
                     }
                 },
                 "stpats": {
                     "label": "St. Pats",
-                    "default": "leafs/StPats.png",
+                    "default": "StPats.png",
                     "amoled": null,
                     "calendar": {
-                        "default": "leafs/CurrentMonth/Calendar-StPats.png",
+                        "default": "Calendar-StPats.png",
                         "amoled": null
                     },
                     "miniCalendar": {
-                        "default": "leafs/CurrentMonth/Calendar-Mini-StPats.png",
+                        "default": "Calendar-Mini-StPats.png",
                         "amoled": null
                     },
                     "detailed": {
-                        "default": "leafs/CurrentMonth/Calendar-Long-StPats.png",
+                        "default": "Calendar-Long-StPats.png",
                         "amoled": null
                     }
                 },
                 "arenas": {
                     "label": "Toronto Arenas",
-                    "default": "leafs/Arenas.png",
+                    "default": "Arenas.png",
                     "amoled": null,
                     "calendar": {
-                        "default": "leafs/CurrentMonth/Calendar-Arenas.png",
+                        "default": "Calendar-Arenas.png",
                         "amoled": null
                     },
                     "miniCalendar": {
-                        "default": "leafs/CurrentMonth/Calendar-Mini-Arenas.png",
+                        "default": "Calendar-Mini-Arenas.png",
                         "amoled": null
                     },
                     "detailed": {
-                        "default": "leafs/CurrentMonth/Calendar-Long-Arenas.png",
+                        "default": "Calendar-Long-Arenas.png",
                         "amoled": null
+                    }
+                },
+                "classic": {
+                    "label": "Winter Classic",
+                    "default": "Classic.png",
+                    "amoled": "Classic-AMOLED.png",
+                    "calendar": {
+                        "default": "Calendar-Classic.png",
+                        "amoled": "Calendar-Classic-AMOLED.png"
+                    },
+                    "miniCalendar": {
+                        "default": "Calendar-Mini-Classic.png",
+                        "amoled": "Calendar-Mini-Classic-AMOLED.png"
+                    },
+                    "detailed": {
+                        "default": "Calendar-Long-Classic.png",
+                        "amoled": "Calendar-Long-Classic-AMOLED.png"
+                    }
+                }
+            }
+        },
+        "rangers": {
+            "currentMonth": {
+                "home": {
+                    "label": "Home",
+                    "default": "Home.png",
+                    "amoled": "Home-AMOLED.png",
+                    "calendar": {
+                        "default": "Calendar-Home.png",
+                        "amoled": "Calendar-Home-AMOLED.png"
+                    },
+                    "miniCalendar": {
+                        "default": "Calendar-Mini.png",
+                        "amoled": "Calendar-Mini-AMOLED.png"
+                    },
+                    "detailed": {
+                        "default": "Calendar-Long.png",
+                        "amoled": "Calendar-Long-AMOLED.png"
+                    }
+                },
+                "alternate": {
+                    "label": "Alternate",
+                    "default": "Alternate.png",
+                    "amoled": "Alternate-AMOLED.png",
+                    "calendar": {
+                        "default": "Calendar-Alternate.png",
+                        "amoled": "Calendar-Alternate-AMOLED.png"
+                    },
+                    "miniCalendar": {
+                        "default": "Calendar-Mini-Alternate.png",
+                        "amoled": "Calendar-Mini-Alternate-AMOLED.png"
+                    },
+                    "detailed": {
+                        "default": "Calendar-Long-Alternate.png",
+                        "amoled": "Calendar-Long-Alternate-AMOLED.png"
                     }
                 }
             }

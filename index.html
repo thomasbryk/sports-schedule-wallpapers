@@ -37,14 +37,13 @@
                     <h1>Howdy, this is a hockey wallpaper site</h1>
                 </header>
                 <div class="content">
-                    <p>Still trying to figure this shit out - currently under construction.</p>
+                    <p>Select an NHL Team below and choose a wallpaper from the various designs and options.</p>
                 </div>
             </div>
         </section>
 
         <section>
             <div class="league">
-                <!-- <p>Select an NHL Team and choose a wallpaper from the various designs.</p> -->
                 <h3>NHL Teams</h3>
             </div>
         </section>
@@ -54,14 +53,16 @@
 
             <!-- One -->
             <section id="one" class="tiles">
-                <!-- <article>
+                <article>
                     <span class="image">
                         <img src="images/logos/New_York_Rangers.png" alt="" />
                     </span>
                     <header>
-                        <h3><a href="#wallpaper-selector" class="link">New York Rangers</a></h3>
+                        <a id="rangers" class="link" onclick="TeamSelected(this)">
+                            <label class="teamLabel">New York Rangers</label>
+                        </a>
                     </header>
-                </article> -->
+                </article>
                 <article>
                     <span class="image">
                         <img src="images/logos/leafs_logo.png" alt="" />
@@ -87,7 +88,7 @@
             <div id="wallpaper-editor" class="wallpaper-modal">
                 <div class="wallpaper-box padding">
                     <span class="vertical-align">
-                        <label id="selectTeamError">*Please select a team above</label>
+                        <label id="selectTeamError">*Please select a team</label>
                         <ul>
                             <label for="Logo" class="wallpaper-label">Logo</label>
                             <select name="Logo" id="Logo" class="wallpaper-select" onchange="CheckWallpaper()">

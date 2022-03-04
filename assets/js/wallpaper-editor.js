@@ -56,18 +56,24 @@ function SetWallpaper(logo, style = null) {
     var $amoled = $("#amoled");
     var amoled = $amoled.prop('checked');
 
-    let imgUrl = "";
+    let imgUrl = selectedTeamCode + "/";
 
     switch (style != null) {
         case false:
-            imgUrl = (amoled) ?
-                wallpapersJson.teams.leafs.currentMonth[logo].amoled :
-                wallpapersJson.teams.leafs.currentMonth[logo].default;
+            imgUrl += (amoled) ?
+                wallpapersJson.teams[selectedTeamCode].currentMonth[logo].amoled :
+                wallpapersJson.teams[selectedTeamCode].currentMonth[logo].default;
             break;
         case true:
-            imgUrl = wallpapersJson.teams.leafs.currentMonth[logo][style];
-            if (typeof imgUrl !== 'string') {
-                imgUrl = (amoled) ?
+            let imgUrlStyle = wallpapersJson.teams[selectedTeamCode].currentMonth[logo][style];
+            console.log(imgUrlStyle);
+            if (imgUrlStyle != null) {
+                imgUrl += "CurrentMonth/";
+                imgUrl += (amoled) ?
+                    imgUrlStyle.amoled :
+                    imgUrlStyle.default;
+            } else {
+                imgUrl += (amoled) ?
                     imgUrl.amoled :
                     imgUrl.default;
             }
@@ -85,10 +91,13 @@ function CheckWallpaper() {
     var $logo = $("#Logo");
     var logo_Val = $logo.val();
 
-    if (logo_Val != null) {
+    if (selectedTeamCode != null) {
         $logo.attr("disabled", false);
         $logo.parent().removeClass("disabled");
     }
+
+    if (!logo_Val)
+        return;
 
     var $style = $("#Style");
     var style_Val = $style.val();
@@ -112,21 +121,24 @@ function CheckWallpaper() {
     $style.attr("disabled", false);
     $style.parent().removeClass("disabled");
 
-    if (style_Val == '') {
+    if (!style_Val || style_Val == '') {
+        $timeZone.val('');
         SetWallpaper(logo_Val);
         return;
     }
 
+    $timeZone.val('2');
     //$timeZone.attr("disabled", false);
     //$timeZone.parent().removeClass("disabled");
 
-    if (timeZone_Val == '') {
-        SetWallpaper(logo_Val, style_Val);
-    }
+    //if (timeZone_Val == '') {
+    SetWallpaper(logo_Val, style_Val);
+    //}
 }
 
 function PopulateLogos() {
     var $logo = $("#Logo");
+    $logo.empty();
 
     let keys = Object.keys(wallpapersJson.teams[selectedTeamCode].currentMonth)
     let labels = Object.values(wallpapersJson.teams[selectedTeamCode].currentMonth);
@@ -143,6 +155,9 @@ function PopulateLogos() {
 function PopulateStyles() {
     var $style = $("#Style");
 
+    $style.empty();
+    $style.append(new Option());
+
     for (let style of wallpapersJson.styles) {
         let key = Object.keys(style)[0];
         let label = Object.values(style)[0];
@@ -157,11 +172,10 @@ function HasAmoled(logo, style = '', timeZone = '') {
 }
 
 function GetAmoled(logo, style = null, timeZone = null) {
-    var hasStyle = (style != '');
-    var hasTimeZone = (timeZone != '');
+    var hasStyle = (style != null && style !== '')
+    var hasTimeZone = (timeZone != null && timeZone != '');
 
-    let imgUrl = null;
-
+    let imgUrl;
     switch (hasStyle) {
         case false:
             imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo].amoled;
@@ -171,13 +185,22 @@ function GetAmoled(logo, style = null, timeZone = null) {
             break;
     }
 
+    if (imgUrl != null)
+        imgUrl = selectedTeamCode + "/" + imgUrl
+
     return imgUrl;
 }
 
 function TeamSelected(element) {
+    let resetWallpaper = (selectedTeamCode != null)
+
     selectedTeamCode = element.id;
 
     PopulateLogos();
+
+    if (resetWallpaper)
+        ResetWallpaper();
+
     CheckWallpaper();
 
     var $selectTeamError = $("#selectTeamError");
