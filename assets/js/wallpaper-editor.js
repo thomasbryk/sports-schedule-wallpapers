@@ -1,11 +1,13 @@
 var wallpapersJson;
 
 $(document).ready(function() {
+    var $wallpaper = $("#wallpaper");
+    $wallpaper.hide();
+
     onload();
 });
 
 function onload() {
-    ResetWallpaper();
 
     fetch("assets/wallpapers.json")
         .then(response => response.json())
@@ -14,6 +16,7 @@ function onload() {
 }
 
 function PostJsonRetrieval() {
+    ResetWallpaper();
     PopulateStyles();
 }
 
@@ -33,7 +36,6 @@ function ResetWallpaper() {
     $timeZone.val('');
     $amoled.prop('checked', false);
 
-
     $month.attr("disabled", true);
     $month.parent().addClass("disabled");
     $style.attr("disabled", true);
@@ -44,6 +46,10 @@ function ResetWallpaper() {
     $amoled.parent().addClass("disabled");
 
     $wallpaperDownload.parent().addClass("disabled");
+
+    $logo.val('home');
+    CheckWallpaper();
+    return;
 }
 
 function SetWallpaper(logo, style = null) {
@@ -74,6 +80,8 @@ function SetWallpaper(logo, style = null) {
     $wallpaper.attr('src', "wallpapers/" + imgUrl);
     $wallpaperDownload.attr('href', "wallpapers/" + imgUrl);
     $wallpaperDownload.parent().removeClass("disabled");
+
+    $wallpaper.fadeIn();
 }
 
 function CheckWallpaper() {
@@ -87,11 +95,6 @@ function CheckWallpaper() {
     var timeZone_Val = $timeZone.val();
 
     var $amoled = $("#amoled");
-
-    if (logo_Val == '') {
-        ResetWallpaper();
-        return;
-    }
 
     let hasAmoled = HasAmoled(logo_Val, style_Val, timeZone_Val);
 

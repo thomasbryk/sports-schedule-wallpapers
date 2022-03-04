@@ -77,32 +77,30 @@
             <div id="wallpaper-viewer" class="wallpaper-modal">
                 <div class="image fit wallpaper-box">
                     <img id="wallpaper" src="#" alt="" />
+                    <!-- <p style="margin:auto;">PREVIEW</p> -->
                 </div>
             </div>
-            <div id="wallpaper-editor" class="wallpaper-modal" style="padding-left: 0;">
+            <div id="wallpaper-editor" class="wallpaper-modal">
                 <div class="wallpaper-box padding">
                     <ul>
                         <label for="Logo" class="wallpaper-label">Logo</label>
-                        <select name="Logo" id="Logo" onchange="CheckWallpaper()">
-                                <option value=""></option>
+                        <select name="Logo" id="Logo" class="wallpaper-select" onchange="CheckWallpaper()">
                                 <option value="home">Home</option>
                                 <option value="classic">Classic</option>
                                 <option value="stpats">St. Pats</option>
                                 <option value="arenas">Toronto Arenas</option>
                             </select>
-                        <br>
                     </ul>
                     <ul>
                         <label for="Style" class="wallpaper-label">Schedule Style</label>
-                        <select name="Style" id="Style" onchange="CheckWallpaper()">
+                        <select name="Style" id="Style" class="wallpaper-select" onchange="CheckWallpaper()">
                                 <option value=""></option>
                             </select>
-                        <br>
                     </ul>
 
                     <ul>
                         <label for="TimeZone" class="wallpaper-label">Time Zone</label>
-                        <select name="TimeZone" id="TimeZone">
+                        <select name="TimeZone" class="wallpaper-select" id="TimeZone">
                                 <option value=""></option>
                                 <option value="1">AT - Atlantic Time</option>
                                 <option value="2">ET - Eastern Time</option>
@@ -110,17 +108,13 @@
                                 <option value="4">MT - Mountain Time</option>
                                 <option value="5">PT - Pacific Time</option>
                             </select>
-                        <br>
                     </ul>
                     <ul>
                         <input type="checkbox" id="amoled" name="amoled" disabled="true" onchange="CheckWallpaper()">
                         <label for="amoled" class="wallpaper-label">AMOLED</label>
-                        <br>
                     </ul>
                     <ul>
-                        <br>
                         <a id="wallpaperDownload" href="#" target="_blank" class="button icon solid fa-download" download>Download</a>
-                        <br>
                     </ul>
                 </div>
             </div>
@@ -128,14 +122,14 @@
     </div>
 
     <!-- Footer -->
-    <!-- <footer id="footer">
+    <footer id="footer">
         <div class="inner">
             <ul class="icons">
-                <li><a href="https://github.com/thomasbryk" class="icon brands alt fa-github"><span
+                <li><a href="https://github.com/thomasbryk/Hockey-Wallpapers" class="icon brands alt fa-github"><span
                             class="label">GitHub</span></a></li>
             </ul>
         </div>
-    </footer> -->
+    </footer>
 
     </div>
 

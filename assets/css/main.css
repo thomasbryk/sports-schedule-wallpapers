@@ -1757,7 +1757,6 @@ input[type="email"]:focus,
 input[type="tel"]:focus,
 input[type="search"]:focus,
 input[type="url"]:focus,
-select:focus,
 textarea:focus {
     border-color: #9bf1ff;
     box-shadow: 0 0 0 2px #9bf1ff;
@@ -2054,8 +2053,7 @@ ol li {
 
 ul {
     list-style: disc;
-    margin: 0 0 2em 0;
-    padding-left: 1em;
+    margin: 0 0 2.5em 0;
 }
 
 ul li {
@@ -2573,7 +2571,7 @@ button:disabled,
     background-repeat: no-repeat;
     background-size: cover;
     cursor: default;
-    height: 15vh;
+    height: 12vh;
     overflow: hidden;
     position: relative;
     width: 25%;
@@ -2682,16 +2680,16 @@ button:disabled,
     }
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 984px) {
     .tiles article {
         width: 50% !important;
     }
 }
 
-@media screen and (max-width: 736px) {
+@media screen and (max-width: 860px) {
     .tiles article {
         padding: 3em 1.5em 1em 1.5em;
-        height: 5vh;
+        height: 8vh;
         max-height: none;
         min-height: 0;
     }
@@ -2705,7 +2703,7 @@ button:disabled,
         display: block;
     }
     .tiles article {
-        height: 20em;
+        height: 8vh;
         width: 100% !important;
     }
 }
@@ -3715,10 +3713,8 @@ body.is-menu-visible #menu .inner {
 }
 
 #wallpaper-selector {
-    padding: 3%;
+    padding: 5% 3%;
     display: flex;
-    height: 100%;
-    width: 100%;
 }
 
 #wallpaper-viewer {
@@ -3727,6 +3723,15 @@ body.is-menu-visible #menu .inner {
 
 #wallpaper-editor {
     margin-right: auto;
+    min-width: 397px;
+}
+
+#wallpaper-viewer .wallpaper-box {
+    min-height: 755px;
+}
+
+#wallpaper-download {
+    width: 100%;
 }
 
 .wallpaper-modal {
@@ -3740,15 +3745,15 @@ body.is-menu-visible #menu .inner {
     height: 100%;
     background-color: #2a2f4a;
     margin: 0;
-    /* min-height: 755px; */
     max-height: 755px;
-    /* min-width: 349px; */
+    min-width: 349px;
     max-width: 349px;
 }
 
 .wallpaper-label {
     text-transform: capitalize;
     font-size: 13pt;
+    margin: 0 0 9pt 0;
 }
 
 .padding {
@@ -3757,4 +3762,27 @@ body.is-menu-visible #menu .inner {
 
 .disabled>* {
     opacity: 25%;
+}
+
+.wallpaper-select {
+    font-size: 15pt;
+    height: 2.25em;
+}
+
+@media only screen and (max-width: 860px) {
+    #wallpaper-selector {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    #wallpaper-viewer {
+        margin: auto;
+    }
+    #wallpaper-editor {
+        margin: auto;
+        padding-left: 1.5em;
+    }
+}
+
+footer {
+    padding: 4em;
 }
