@@ -3713,22 +3713,23 @@ body.is-menu-visible #menu .inner {
 }
 
 #wallpaper-selector {
-    padding: 5% 3%;
+    padding: 3em 0;
     display: flex;
 }
 
 #wallpaper-viewer {
     margin-left: auto;
     padding-right: 0;
+    min-width: 350px;
 }
 
 #wallpaper-editor {
     margin-right: auto;
-    min-width: 348px;
+    min-width: 398px;
 }
 
 #wallpaper-viewer .wallpaper-box {
-    min-height: 649px;
+    min-height: 757px;
 }
 
 #wallpaperDownload {
@@ -3748,9 +3749,9 @@ body.is-menu-visible #menu .inner {
     height: 100%;
     background-color: #2a2f4a;
     margin: 0;
-    max-height: 649px;
-    min-width: 300px;
-    max-width: 300px;
+    max-height: 757px;
+    min-width: 350px;
+    max-width: 350px;
 }
 
 .wallpaper-label {
@@ -3779,14 +3780,31 @@ body.is-menu-visible #menu .inner {
 }
 
 .padding {
-    padding: 2em;
+    padding: 32px;
 }
 
 .disabled>* {
     opacity: 25%;
 }
 
-@media only screen and (max-width: 860px) {
+@media only screen and (max-width: 945px) {
+    #wallpaper-viewer {
+        min-width: 324px;
+    }
+    #wallpaper-viewer .wallpaper-box {
+        min-height: 649px;
+    }
+    #wallpaper-editor {
+        min-width: 348px;
+    }
+    .wallpaper-box {
+        max-height: 649px;
+        min-width: 300px;
+        max-width: 300px;
+    }
+}
+
+@media only screen and (max-width: 750px) {
     #wallpaper-selector {
         display: flex;
         flex-direction: column-reverse;
@@ -3794,16 +3812,46 @@ body.is-menu-visible #menu .inner {
     #wallpaper-viewer {
         margin: auto;
         padding-right: 1.5em;
+        min-width: 348px;
+        max-width: 348px;
+    }
+    #wallpaper-viewer .wallpaper-box {
+        min-height: 649px;
     }
     #wallpaper-editor {
         margin: auto;
         padding-bottom: 0;
+        min-width: 348px;
+        max-width: 348px;
+    }
+    .wallpaper-box {
+        max-height: 649px;
+        min-width: 300px;
+        max-width: 300px;
     }
     .wallpaper-box ul {
-        margin: 0 0 2em 0;
+        margin: 0 0 1.5em 0;
     }
     .wallpaper-select {
         height: 2em;
+        font-size: 10.5pt;
+    }
+    .wallpaper-label {
+        font-size: 11pt;
+    }
+    #amoled {
+        font-size: 10pt;
+    }
+    #wallpaperDownload {
+        font-size: 8pt;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .wallpaper-box {
+        max-height: 649px;
+        min-width: 300px;
+        max-width: 300px;
     }
 }
 
