@@ -28,6 +28,7 @@ function ResetWallpaper() {
     var $amoled = $("#amoled");
     var $wallpaperDownload = $("#wallpaperDownload");
 
+    $wallpaper.fadeOut();
     $wallpaper.attr('src', '');
     $logo.val('');
     $month.val('');
