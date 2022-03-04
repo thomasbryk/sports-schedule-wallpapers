@@ -1,4 +1,4 @@
-var wallpapersJson;
+var wallpapersJson, selectedTeamCode;
 
 $(document).ready(function() {
     var $wallpaper = $("#wallpaper");
@@ -17,7 +17,6 @@ function onload() {
 
 function PostJsonRetrieval() {
     ResetWallpaper();
-    PopulateStyles();
 }
 
 function ResetWallpaper() {
@@ -36,6 +35,8 @@ function ResetWallpaper() {
     $timeZone.val('');
     $amoled.prop('checked', false);
 
+    $logo.attr("disabled", true);
+    $logo.parent().addClass("disabled");
     $month.attr("disabled", true);
     $month.parent().addClass("disabled");
     $style.attr("disabled", true);
@@ -46,10 +47,6 @@ function ResetWallpaper() {
     $amoled.parent().addClass("disabled");
 
     $wallpaperDownload.parent().addClass("disabled");
-
-    $logo.val('home');
-    CheckWallpaper();
-    return;
 }
 
 function SetWallpaper(logo, style = null) {
@@ -88,6 +85,11 @@ function CheckWallpaper() {
     var $logo = $("#Logo");
     var logo_Val = $logo.val();
 
+    if (logo_Val != null) {
+        $logo.attr("disabled", false);
+        $logo.parent().removeClass("disabled");
+    }
+
     var $style = $("#Style");
     var style_Val = $style.val();
 
@@ -123,6 +125,21 @@ function CheckWallpaper() {
     }
 }
 
+function PopulateLogos() {
+    var $logo = $("#Logo");
+
+    let keys = Object.keys(wallpapersJson.teams[selectedTeamCode].currentMonth)
+    let labels = Object.values(wallpapersJson.teams[selectedTeamCode].currentMonth);
+
+    for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        let label = labels[i].label;
+        $logo.append(new Option(label, key));
+    }
+
+    PopulateStyles();
+}
+
 function PopulateStyles() {
     var $style = $("#Style");
 
@@ -147,12 +164,25 @@ function GetAmoled(logo, style = null, timeZone = null) {
 
     switch (hasStyle) {
         case false:
-            imgUrl = wallpapersJson.teams.leafs.currentMonth[logo].amoled;
+            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo].amoled;
             break;
         case true:
-            imgUrl = wallpapersJson.teams.leafs.currentMonth[logo][style].amoled;
+            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo][style].amoled;
             break;
     }
 
     return imgUrl;
+}
+
+function TeamSelected(element) {
+    selectedTeamCode = element.id;
+
+    PopulateLogos();
+    CheckWallpaper();
+
+    var $selectTeamError = $("#selectTeamError");
+    $selectTeamError.fadeOut();
+
+    var wallpaperEditor = $("#wallpaper-editor");
+    $('html,body').animate({ scrollTop: wallpaperEditor.offset().top }, 'slow');
 }

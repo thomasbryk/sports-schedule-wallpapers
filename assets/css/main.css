@@ -2053,7 +2053,7 @@ ol li {
 
 ul {
     list-style: disc;
-    margin: 0 0 3em 0;
+    margin: 0 0 2.5em 0;
 }
 
 ul li {
@@ -3713,7 +3713,7 @@ body.is-menu-visible #menu .inner {
 }
 
 #wallpaper-selector {
-    padding: 3em 0;
+    padding: 2.5em 0;
     display: flex;
 }
 
@@ -3776,7 +3776,16 @@ body.is-menu-visible #menu .inner {
 
 .teamLabel {
     text-align: center;
-    font-size: 0.65em;
+    font-size: 0.75em;
+}
+
+#selectTeamError {
+    text-align: left;
+    font-size: 8pt;
+    opacity: 75%;
+    position: absolute;
+    color: red;
+    margin-top: -23px;
 }
 
 .padding {
