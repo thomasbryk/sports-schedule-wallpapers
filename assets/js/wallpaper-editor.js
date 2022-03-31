@@ -102,6 +102,18 @@ function CheckWallpaper() {
         return;
 
     var $style = $("#Style");
+
+    let hasStyles = HasStyles(logo_Val);
+
+    $style.attr("disabled", !hasStyles);
+    if (hasAmoled)
+        $style.parent().removeClass("disabled");
+    else {
+        $style.parent().addClass("disabled");
+        $style.val('');
+        $timeZone.val('');
+    }
+
     var style_Val = $style.val();
 
     var $timeZone = $("#TimeZone");
@@ -118,10 +130,6 @@ function CheckWallpaper() {
         $amoled.parent().addClass("disabled");
         $amoled.prop('checked', false);
     }
-
-
-    $style.attr("disabled", false);
-    $style.parent().removeClass("disabled");
 
     if (!style_Val || style_Val == '') {
         $timeZone.val('');
@@ -167,6 +175,34 @@ function PopulateStyles() {
         let label = Object.values(style)[0];
         $style.append(new Option(label, key));
     }
+}
+
+function HasStyles(logo) {
+    var currLogoJson = wallpapersJson.teams[selectedTeamCode].currentMonth[logo];
+
+    var firstStyleKey = Object.keys(wallpapersJson.styles[0])[0];
+
+    return (currLogoJson[firstStyleKey] != null);
+}
+
+function GetAmoled(logo, style = null, timeZone = null) {
+    var hasStyle = (style != null && style !== '')
+    var hasTimeZone = (timeZone != null && timeZone != '');
+
+    let imgUrl;
+    switch (hasStyle) {
+        case false:
+            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo].amoled;
+            break;
+        case true:
+            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo][style].amoled;
+            break;
+    }
+
+    if (imgUrl != null)
+        imgUrl = selectedTeamCode + "/" + imgUrl
+
+    return imgUrl;
 }
 
 function HasAmoled(logo, style = '', timeZone = '') {
