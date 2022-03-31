@@ -29,6 +29,70 @@
                         "amoled": "Calendar-Long-AMOLED.png"
                     }
                 },
+                "alternate": {
+                    "label": "Alternate",
+                    "default": "Alternate.png",
+                    "amoled": null,
+                    "calendar": {
+                        "default": "Calendar-Alternate.png",
+                        "amoled": null
+                    },
+                    "miniCalendar": {
+                        "default": "Calendar-Mini-Alternate.png",
+                        "amoled": null
+                    },
+                    "detailed": {
+                        "default": "Calendar-Long-Alternate.png",
+                        "amoled": null
+                    }
+                },
+                "classic": {
+                    "label": "Winter Classic",
+                    "default": "Classic.png",
+                    "amoled": "Classic-AMOLED.png",
+                    "calendar": {
+                        "default": "Calendar-Classic.png",
+                        "amoled": "Calendar-Classic-AMOLED.png"
+                    },
+                    "miniCalendar": {
+                        "default": "Calendar-Mini-Classic.png",
+                        "amoled": "Calendar-Mini-Classic-AMOLED.png"
+                    },
+                    "detailed": {
+                        "default": "Calendar-Long-Classic.png",
+                        "amoled": "Calendar-Long-Classic-AMOLED.png"
+                    }
+                },
+                "stpats": {
+                    "label": "St. Pats",
+                    "default": "StPats.png",
+                    "amoled": null
+                },
+                "arenas": {
+                    "label": "Toronto Arenas",
+                    "default": "Arenas.png",
+                    "amoled": null
+                }
+            },
+
+            "previousMonth": {
+                "home": {
+                    "label": "Home",
+                    "default": "Home.png",
+                    "amoled": "Home-AMOLED.png",
+                    "calendar": {
+                        "default": "Calendar-Home.png",
+                        "amoled": "Calendar-Home-AMOLED.png"
+                    },
+                    "miniCalendar": {
+                        "default": "Calendar-Mini.png",
+                        "amoled": "Calendar-Mini-AMOLED.png"
+                    },
+                    "detailed": {
+                        "default": "Calendar-Long.png",
+                        "amoled": "Calendar-Long-AMOLED.png"
+                    }
+                },
                 "stpats": {
                     "label": "St. Pats",
                     "default": "StPats.png",
