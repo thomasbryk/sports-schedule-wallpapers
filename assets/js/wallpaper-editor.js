@@ -102,6 +102,7 @@ function CheckWallpaper() {
         return;
 
     var $style = $("#Style");
+    var $timeZone = $("#TimeZone");
 
     let hasStyles = HasStyles(logo_Val);
 
@@ -116,7 +117,6 @@ function CheckWallpaper() {
 
     var style_Val = $style.val();
 
-    var $timeZone = $("#TimeZone");
     var timeZone_Val = $timeZone.val();
 
     var $amoled = $("#amoled");
