@@ -106,7 +106,7 @@ function CheckWallpaper() {
     let hasStyles = HasStyles(logo_Val);
 
     $style.attr("disabled", !hasStyles);
-    if (hasAmoled)
+    if (hasStyles)
         $style.parent().removeClass("disabled");
     else {
         $style.parent().addClass("disabled");
