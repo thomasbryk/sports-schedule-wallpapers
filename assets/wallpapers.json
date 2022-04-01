@@ -17,8 +17,8 @@
                     "default": "Home.png",
                     "amoled": "Home-AMOLED.png",
                     "calendar": {
-                        "default": "Calendar-Home.png",
-                        "amoled": "Calendar-Home-AMOLED.png"
+                        "default": "Calendar.png",
+                        "amoled": "Calendar-AMOLED.png"
                     },
                     "miniCalendar": {
                         "default": "Calendar-Mini.png",
