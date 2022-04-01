@@ -153,6 +153,42 @@
                     "default": "Home.png",
                     "amoled": "Home-AMOLED.png",
                     "calendar": {
+                        "default": "Calendar.png",
+                        "amoled": "Calendar-AMOLED.png"
+                    },
+                    "miniCalendar": {
+                        "default": "Calendar-Mini.png",
+                        "amoled": "Calendar-Mini-AMOLED.png"
+                    },
+                    "detailed": {
+                        "default": "Calendar-Long.png",
+                        "amoled": "Calendar-Long-AMOLED.png"
+                    }
+                },
+                "alternate": {
+                    "label": "Alternate",
+                    "default": "Alternate.png",
+                    "amoled": "Alternate-AMOLED.png",
+                    "calendar": {
+                        "default": "Calendar-Alternate.png",
+                        "amoled": "Calendar-Alternate-AMOLED.png"
+                    },
+                    "miniCalendar": {
+                        "default": "Calendar-Mini-Alternate.png",
+                        "amoled": "Calendar-Mini-Alternate-AMOLED.png"
+                    },
+                    "detailed": {
+                        "default": "Calendar-Long-Alternate.png",
+                        "amoled": "Calendar-Long-Alternate-AMOLED.png"
+                    }
+                }
+            },
+            "previousMonth": {
+                "home": {
+                    "label": "Home",
+                    "default": "Home.png",
+                    "amoled": "Home-AMOLED.png",
+                    "calendar": {
                         "default": "Calendar-Home.png",
                         "amoled": "Calendar-Home-AMOLED.png"
                     },
