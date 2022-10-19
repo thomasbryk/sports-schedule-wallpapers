@@ -1,14 +1,7 @@
 {
     "styles": [{
-            "calendar": "Calendar"
-        },
-        {
-            "miniCalendar": "Mini Calendar"
-        },
-        {
-            "detailed": "Detailed"
-        }
-    ],
+        "calendar": "Calendar"
+    }],
     "teams": {
         "leafs": {
             "currentMonth": {
@@ -21,12 +14,12 @@
                         "amoled": "Calendar-AMOLED.png"
                     },
                     "miniCalendar": {
-                        "default": "Calendar-Mini.png",
-                        "amoled": "Calendar-Mini-AMOLED.png"
+                        "default": null,
+                        "amoled": null
                     },
                     "detailed": {
-                        "default": "Calendar-Long.png",
-                        "amoled": "Calendar-Long-AMOLED.png"
+                        "default": null,
+                        "amoled": null
                     }
                 },
                 "alternate": {
@@ -38,11 +31,11 @@
                         "amoled": null
                     },
                     "miniCalendar": {
-                        "default": "Calendar-Mini-Alternate.png",
+                        "default": null,
                         "amoled": null
                     },
                     "detailed": {
-                        "default": "Calendar-Long-Alternate.png",
+                        "default": null,
                         "amoled": null
                     }
                 },
@@ -55,12 +48,12 @@
                         "amoled": "Calendar-Classic-AMOLED.png"
                     },
                     "miniCalendar": {
-                        "default": "Calendar-Mini-Classic.png",
-                        "amoled": "Calendar-Mini-Classic-AMOLED.png"
+                        "default": null,
+                        "amoled": null
                     },
                     "detailed": {
-                        "default": "Calendar-Long-Classic.png",
-                        "amoled": "Calendar-Long-Classic-AMOLED.png"
+                        "default": null,
+                        "amoled": null
                     }
                 },
                 "stpats": {
@@ -72,77 +65,6 @@
                     "label": "Toronto Arenas",
                     "default": "Arenas.png",
                     "amoled": null
-                }
-            },
-
-            "previousMonth": {
-                "home": {
-                    "label": "Home",
-                    "default": "Home.png",
-                    "amoled": "Home-AMOLED.png",
-                    "calendar": {
-                        "default": "Calendar-Home.png",
-                        "amoled": "Calendar-Home-AMOLED.png"
-                    },
-                    "miniCalendar": {
-                        "default": "Calendar-Mini.png",
-                        "amoled": "Calendar-Mini-AMOLED.png"
-                    },
-                    "detailed": {
-                        "default": "Calendar-Long.png",
-                        "amoled": "Calendar-Long-AMOLED.png"
-                    }
-                },
-                "stpats": {
-                    "label": "St. Pats",
-                    "default": "StPats.png",
-                    "amoled": null,
-                    "calendar": {
-                        "default": "Calendar-StPats.png",
-                        "amoled": null
-                    },
-                    "miniCalendar": {
-                        "default": "Calendar-Mini-StPats.png",
-                        "amoled": null
-                    },
-                    "detailed": {
-                        "default": "Calendar-Long-StPats.png",
-                        "amoled": null
-                    }
-                },
-                "arenas": {
-                    "label": "Toronto Arenas",
-                    "default": "Arenas.png",
-                    "amoled": null,
-                    "calendar": {
-                        "default": "Calendar-Arenas.png",
-                        "amoled": null
-                    },
-                    "miniCalendar": {
-                        "default": "Calendar-Mini-Arenas.png",
-                        "amoled": null
-                    },
-                    "detailed": {
-                        "default": "Calendar-Long-Arenas.png",
-                        "amoled": null
-                    }
-                },
-                "classic": {
-                    "label": "Winter Classic",
-                    "default": "Classic.png",
-                    "amoled": "Classic-AMOLED.png",
-                    "calendar": {
-                        "default": "Calendar-Classic.png",
-                        "amoled": "Calendar-Classic-AMOLED.png"
-                    },
-                    "miniCalendar": {
-                        "default": "Calendar-Mini-Classic.png",
-                        "amoled": "Calendar-Mini-Classic-AMOLED.png"
-                    },
-                    "detailed": {
-                        "default": "Calendar-Long-Classic.png",
-                        "amoled": "Calendar-Long-Classic-AMOLED.png"
-                    }
                 }
             }
         },
@@ -157,12 +79,12 @@
                         "amoled": "Calendar-AMOLED.png"
                     },
                     "miniCalendar": {
-                        "default": "Calendar-Mini.png",
-                        "amoled": "Calendar-Mini-AMOLED.png"
+                        "default": null,
+                        "amoled": null
                     },
                     "detailed": {
                         "default": "Calendar-Long.png",
-                        "amoled": "Calendar-Long-AMOLED.png"
+                        "amoled": null
                     }
                 },
                 "alternate": {
@@ -174,48 +96,12 @@
                         "amoled": "Calendar-Alternate-AMOLED.png"
                     },
                     "miniCalendar": {
-                        "default": "Calendar-Mini-Alternate.png",
-                        "amoled": "Calendar-Mini-Alternate-AMOLED.png"
+                        "default": null,
+                        "amoled": null
                     },
                     "detailed": {
-                        "default": "Calendar-Long-Alternate.png",
-                        "amoled": "Calendar-Long-Alternate-AMOLED.png"
-                    }
-                }
-            },
-            "previousMonth": {
-                "home": {
-                    "label": "Home",
-                    "default": "Home.png",
-                    "amoled": "Home-AMOLED.png",
-                    "calendar": {
-                        "default": "Calendar-Home.png",
-                        "amoled": "Calendar-Home-AMOLED.png"
-                    },
-                    "miniCalendar": {
-                        "default": "Calendar-Mini.png",
-                        "amoled": "Calendar-Mini-AMOLED.png"
-                    },
-                    "detailed": {
-                        "default": "Calendar-Long.png",
-                        "amoled": "Calendar-Long-AMOLED.png"
-                    }
-                },
-                "alternate": {
-                    "label": "Alternate",
-                    "default": "Alternate.png",
-                    "amoled": "Alternate-AMOLED.png",
-                    "calendar": {
-                        "default": "Calendar-Alternate.png",
-                        "amoled": "Calendar-Alternate-AMOLED.png"
-                    },
-                    "miniCalendar": {
-                        "default": "Calendar-Mini-Alternate.png",
-                        "amoled": "Calendar-Mini-Alternate-AMOLED.png"
-                    },
-                    "detailed": {
-                        "default": "Calendar-Long-Alternate.png",
-                        "amoled": "Calendar-Long-Alternate-AMOLED.png"
+                        "default": null,
+                        "amoled": null
                     }
                 }
             }
