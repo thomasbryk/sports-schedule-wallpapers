@@ -1,22 +1,41 @@
-var wallpapersJson, selectedTeamCode;
+var nhlJson, selectedTeamId;
 
 $(document).ready(function() {
-    var $wallpaper = $("#wallpaper");
-    $wallpaper.hide();
+    //var $wallpaper = $("#wallpaper");
+    //$wallpaper.hide();
 
     onload();
 });
 
 function onload() {
-
-    fetch("assets/wallpapers.json")
+    fetch("leagues/nhl/nhl.json")
         .then(response => response.json())
-        .then(json => wallpapersJson = json)
+        .then(json => nhlJson = json)
         .then(PostJsonRetrieval);
 }
 
 function PostJsonRetrieval() {
-    ResetWallpaper();
+    if (!nhlJson) return;
+
+    PopulateTeams();
+    //ResetWallpaper();
+}
+
+function PopulateTeams() {
+    let $teamsDiv = $("#teams");
+
+    jQuery.each(nhlJson.teams, function(id, teamData) {
+        let html = '<article style=\'background-image: url("leagues/nhl/logos/' + teamData.id + '/Primary.png");\'>\
+                        <span class="image">\
+                            <img src="leagues/nhl/logos/' + teamData.id + '/Primary.png"/>\
+                        </span>\
+                        <header>\
+                            <a id="' + teamData.id + '" class="link" onclick="TeamSelected(this)"><label class="teamLabel">' + teamData.name + '</label></a>\
+                        </header>\
+                    </article>';
+
+        $teamsDiv.append(html);
+    });
 }
 
 function ResetWallpaper() {
@@ -30,7 +49,7 @@ function ResetWallpaper() {
 
     $wallpaper.attr('src', '');
 
-    if (selectedTeamCode == null)
+    if (selectedTeamId == null)
         $logo.val('');
 
     $month.val('');
@@ -59,16 +78,16 @@ function SetWallpaper(logo, style = null) {
     var $amoled = $("#amoled");
     var amoled = $amoled.prop('checked');
 
-    let imgUrl = selectedTeamCode + "/";
+    let imgUrl = selectedTeamId + "/";
 
     switch (style != null) {
         case false:
             imgUrl += (amoled) ?
-                wallpapersJson.teams[selectedTeamCode].currentMonth[logo].amoled :
-                wallpapersJson.teams[selectedTeamCode].currentMonth[logo].default;
+                wallpapersJson.teams[selectedTeamId].currentMonth[logo].amoled :
+                wallpapersJson.teams[selectedTeamId].currentMonth[logo].default;
             break;
         case true:
-            let imgUrlStyle = wallpapersJson.teams[selectedTeamCode].currentMonth[logo][style];
+            let imgUrlStyle = wallpapersJson.teams[selectedTeamId].currentMonth[logo][style];
             if (imgUrlStyle != null) {
                 imgUrl += "CurrentMonth/";
                 imgUrl += (amoled) ?
@@ -93,7 +112,7 @@ function CheckWallpaper() {
     var $logo = $("#Logo");
     var logo_Val = $logo.val();
 
-    if (selectedTeamCode != null) {
+    if (selectedTeamId != null) {
         $logo.attr("disabled", false);
         $logo.parent().removeClass("disabled");
     }
@@ -101,27 +120,27 @@ function CheckWallpaper() {
     if (!logo_Val)
         return;
 
-    var $style = $("#Style");
+    //var $style = $("#Style");
     var $timeZone = $("#TimeZone");
 
-    let hasStyles = HasStyles(logo_Val);
+    // let hasStyles = HasStyles(logo_Val);
 
-    $style.attr("disabled", !hasStyles);
-    if (hasStyles)
-        $style.parent().removeClass("disabled");
-    else {
-        $style.parent().addClass("disabled");
-        $style.val('');
-        $timeZone.val('');
-    }
+    // $style.attr("disabled", !hasStyles);
+    // if (hasStyles)
+    //     $style.parent().removeClass("disabled");
+    // else {
+    //     $style.parent().addClass("disabled");
+    //     $style.val('');
+    //     $timeZone.val('');
+    // }
 
-    var style_Val = $style.val();
+    //var style_Val = $style.val();
 
-    var timeZone_Val = $timeZone.val();
+    //var timeZone_Val = $timeZone.val();
 
-    var $amoled = $("#amoled");
+    // var $amoled = $("#amoled");
 
-    let hasAmoled = HasAmoled(logo_Val, style_Val, timeZone_Val);
+    // let hasAmoled = HasAmoled(logo_Val, style_Val, timeZone_Val);
 
     $amoled.attr("disabled", !hasAmoled);
     if (hasAmoled)
@@ -131,11 +150,11 @@ function CheckWallpaper() {
         $amoled.prop('checked', false);
     }
 
-    if (!style_Val || style_Val == '') {
-        $timeZone.val('');
-        SetWallpaper(logo_Val);
-        return;
-    }
+    //if (!style_Val || style_Val == '') {
+    $timeZone.val('');
+    SetWallpaper(logo_Val);
+    return;
+    //}
 
     $timeZone.val('2');
     //$timeZone.attr("disabled", false);
@@ -150,35 +169,43 @@ function PopulateLogos() {
     var $logo = $("#Logo");
     $logo.empty();
 
-    let keys = Object.keys(wallpapersJson.teams[selectedTeamCode].currentMonth)
-    let labels = Object.values(wallpapersJson.teams[selectedTeamCode].currentMonth);
+    $.ajax({
+        url: "leagues/nhl/logos/" + selectedTeamId + "/",
+        success: function(data) {
+            $(data).find("a:contains(.png)").each(function() {
+                var fileName = $(this).attr("title");
+                let label = fileName.substring(0, fileName.indexOf(".png"));
+                let option = new Option(label, fileName);
 
-    for (let i = 0; i < keys.length; i++) {
-        let key = keys[i];
-        let label = labels[i].label;
-        $logo.append(new Option(label, key));
-    }
+                if (label == "Primary")
+                    $logo.prepend(option);
+                else
+                    $logo.append(option);
+            });
 
-    $logo.val('home');
+            $logo.prepend(new Option('', null));
+            $logo.val('');
 
-    PopulateStyles();
+            //PopulateStyles();
+        }
+    });
 }
 
-function PopulateStyles() {
-    var $style = $("#Style");
+// function PopulateStyles() {
+//     var $style = $("#Style");
 
-    $style.empty();
-    $style.append(new Option());
+//     $style.empty();
+//     $style.append(new Option());
 
-    for (let style of wallpapersJson.styles) {
-        let key = Object.keys(style)[0];
-        let label = Object.values(style)[0];
-        $style.append(new Option(label, key));
-    }
-}
+//     for (let style of wallpapersJson.styles) {
+//         let key = Object.keys(style)[0];
+//         let label = Object.values(style)[0];
+//         $style.append(new Option(label, key));
+//     }
+// }
 
 function HasStyles(logo) {
-    var currLogoJson = wallpapersJson.teams[selectedTeamCode].currentMonth[logo];
+    var currLogoJson = wallpapersJson.teams[selectedTeamId].currentMonth[logo];
 
     var firstStyleKey = Object.keys(wallpapersJson.styles[0])[0];
 
@@ -192,60 +219,40 @@ function GetAmoled(logo, style = null, timeZone = null) {
     let imgUrl;
     switch (hasStyle) {
         case false:
-            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo].amoled;
+            imgUrl = wallpapersJson.teams[selectedTeamId].currentMonth[logo].amoled;
             break;
         case true:
-            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo][style].amoled;
+            imgUrl = wallpapersJson.teams[selectedTeamId].currentMonth[logo][style].amoled;
             break;
     }
 
     if (imgUrl != null)
-        imgUrl = selectedTeamCode + "/" + imgUrl
+        imgUrl = selectedTeamId + "/" + imgUrl
 
     return imgUrl;
 }
 
-function HasAmoled(logo, style = '', timeZone = '') {
-    let imgUrl = GetAmoled(logo, style, timeZone);
+// function HasAmoled(logo, style = '', timeZone = '') {
+//     let imgUrl = GetAmoled(logo, style, timeZone);
 
-    return (imgUrl != null);
-}
-
-function GetAmoled(logo, style = null, timeZone = null) {
-    var hasStyle = (style != null && style !== '')
-    var hasTimeZone = (timeZone != null && timeZone != '');
-
-    let imgUrl;
-    switch (hasStyle) {
-        case false:
-            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo].amoled;
-            break;
-        case true:
-            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo][style].amoled;
-            break;
-    }
-
-    if (imgUrl != null)
-        imgUrl = selectedTeamCode + "/" + imgUrl
-
-    return imgUrl;
-}
+//     return (imgUrl != null);
+// }
 
 function TeamSelected(element) {
-    let resetWallpaper = (selectedTeamCode != null)
+    let resetWallpaper = (selectedTeamId != null)
 
-    selectedTeamCode = element.id;
+    selectedTeamId = element.id;
 
     PopulateLogos();
 
-    if (resetWallpaper) {
-        var $wallpaper = $("#wallpaper");
-        $wallpaper.fadeOut('fast', function() {
-            ResetWallpaper();
-            CheckWallpaper();
-        });
-    } else
-        CheckWallpaper();
+    // if (resetWallpaper) {
+    //     var $wallpaper = $("#wallpaper");
+    //     $wallpaper.fadeOut('fast', function() {
+    //         ResetWallpaper();
+    //         CheckWallpaper();
+    //     });
+    // } else
+    //     CheckWallpaper();
 
     var $selectTeamError = $("#selectTeamError");
     $selectTeamError.fadeOut();

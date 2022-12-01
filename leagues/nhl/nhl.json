@@ -1,0 +1,19 @@
+{
+    "teams": {
+        "3": {
+            "id": 3,
+            "name": "New York Rangers",
+            "colours": {
+                "Blue": "#0038A8",
+                "Navy": "#001645"
+            }
+        },
+        "10": {
+            "id": 10,
+            "name": "Toronto Maple Leafs",
+            "colours": {
+                "Blue": "#00205b"
+            }
+        }
+    }
+}
