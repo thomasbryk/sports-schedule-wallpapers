@@ -5,6 +5,8 @@
     <title>Hockey Wallpapers</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <script src="assets/js/p5.js"></script>
+    <script src="assets/js/sketch.js"></script>
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript>
         <link rel="stylesheet" href="assets/css/noscript.css" />
@@ -52,36 +54,14 @@
         <div id="main">
 
             <!-- One -->
-            <section id="one" class="tiles">
-                <article>
-                    <span class="image">
-                        <img src="images/logos/New_York_Rangers.png" alt="" />
-                    </span>
-                    <header>
-                        <a id="rangers" class="link" onclick="TeamSelected(this)">
-                            <label class="teamLabel">New York Rangers</label>
-                        </a>
-                    </header>
-                </article>
-                <article>
-                    <span class="image">
-                        <img src="images/logos/leafs_logo.png" alt="" />
-                    </span>
-                    <header>
-                        <a id="leafs" class="link" onclick="TeamSelected(this)">
-                            <label class="teamLabel">Toronto Maple Leafs</label>
-                        </a>
-                    </header>
-                </article>
-            </section>
+            <section id="teams" class="tiles"></section>
         </div>
 
         <div id="wallpaper-selector">
 
             <div id="wallpaper-viewer" class="wallpaper-modal">
-                <div class="image fit wallpaper-box">
-                    <img id="wallpaper" src="#" alt="" />
-                    <!-- <p style="margin:auto;">PREVIEW</p> -->
+                <div id="sketch-holder" class="image fit wallpaper-box">
+                    <!-- <img id="wallpaper" src="#"> alt="" /> -->
                 </div>
             </div>
 
@@ -94,12 +74,12 @@
                             <select name="Logo" id="Logo" class="wallpaper-select" onchange="CheckWallpaper()">
                             </select>
                         </ul>
-                        <ul>
+                        <!-- <ul>
                             <label for="Style" class="wallpaper-label">Schedule Style</label>
                             <select name="Style" id="Style" class="wallpaper-select" onchange="CheckWallpaper()">
                                 <option value=""></option>
                             </select>
-                        </ul>
+                        </ul> -->
                         <ul>
                             <label for="TimeZone" class="wallpaper-label">Time Zone</label>
                             <select name="TimeZone" class="wallpaper-select" id="TimeZone">
