@@ -1,18 +1,280 @@
 {
     "teams": {
+        "1": {
+            "id": 1,
+            "name": "New Jersey Devils",
+            "abbreviation": "NJD",
+            "colours": {
+                "Red": "#CE1126"
+            }
+        },
+        "2": {
+            "id": 2,
+            "name": "New York Islanders",
+            "abbreviation": "NYI",
+            "colours": {
+                "Blue": "#00539b",
+                "Orange": "#f47d30"
+            }
+        },
         "3": {
             "id": 3,
             "name": "New York Rangers",
+            "abbreviation": "NYR",
             "colours": {
                 "Blue": "#0038A8",
                 "Navy": "#001645"
             }
         },
+        "4": {
+            "id": 4,
+            "name": "Philadelphia Flyers",
+            "abbreviation": "PHI",
+            "colours": {
+                "Orange": "#F74902"
+            }
+        },
+        "5": {
+            "id": 5,
+            "name": "Pittsburgh Penguins",
+            "abbreviation": "PIT",
+            "colours": {
+                "Gold": "#FCB514"
+            }
+        },
+        "6": {
+            "id": 6,
+            "name": "Boston Bruins",
+            "abbreviation": "BOS",
+            "colours": {
+                "Gold": "#FFB81C"
+            }
+        },
+        "7": {
+            "id": 7,
+            "name": "Buffalo Sabres",
+            "abbreviation": "BUF",
+            "colours": {
+                "Blue": "#003087",
+                "Gold": "#FFB81C"
+            }
+        },
+        "8": {
+            "id": 8,
+            "name": "Montréal Canadiens",
+            "abbreviation": "MTL",
+            "colours": {
+                "Red": "#AF1E2D",
+                "Blue": "#192168"
+            }
+        },
+        "9": {
+            "id": 9,
+            "name": "Ottawa Senators",
+            "abbreviation": "OTT",
+            "colours": {
+                "Red": "#DA1A32"
+            }
+        },
         "10": {
             "id": 10,
             "name": "Toronto Maple Leafs",
+            "abbreviation": "TOR",
             "colours": {
                 "Blue": "#00205b"
+            }
+        },
+        "13": {
+            "id": 13,
+            "name": "Florida Panthers",
+            "abbreviation": "FLA",
+            "colours": {
+                "Navy": "#041E42",
+                "Red": "#c8102E",
+                "Tan": "#B9975B"
+            }
+        },
+        "14": {
+            "id": 14,
+            "name": "Tampa Bay Lightning",
+            "abbreviation": "TBL",
+            "colours": {
+                "Blue": "#002868"
+            }
+        },
+        "15": {
+            "id": 15,
+            "name": "Washington Capitals",
+            "abbreviation": "WSH",
+            "colours": {
+                "Navy": "#041E42",
+                "Red": "#C8102E"
+            }
+        },
+        "16": {
+            "id": 16,
+            "name": "Chicago Blackhawks",
+            "abbreviation": "CHI",
+            "colours": {
+                "Red": "#CF0A2C"
+            }
+        },
+        "17": {
+            "id": 17,
+            "name": "Detroit Red Wings",
+            "abbreviation": "DET",
+            "colours": {
+                "Red": "#ce1126"
+            }
+        },
+        "18": {
+            "id": 18,
+            "name": "Nashville Predators",
+            "abbreviation": "NSH",
+            "colours": {
+                "Gold": "#FFB81C",
+                "Navy": "#041E42"
+            }
+        },
+        "19": {
+            "id": 19,
+            "name": "St. Louis Blues",
+            "abbreviation": "STL",
+            "colours": {
+                "Blue": "#002F87",
+                "Navy": "#041E42",
+                "Yellow": "#FCB514"
+            }
+        },
+        "20": {
+            "id": 20,
+            "name": "Calgary Flames",
+            "abbreviation": "CGY",
+            "colours": {
+                "Red": "#D2001C",
+                "Yellow": "#FAAF19"
+            }
+        },
+        "21": {
+            "id": 21,
+            "name": "Colorado Avalanche",
+            "abbreviation": "COL",
+            "colours": {
+                "Burgundy": "#6F263D",
+                "Blue": "#236192",
+                "Silver": "#A2AAAD"
+            }
+        },
+        "22": {
+            "id": 22,
+            "name": "Edmonton Oilers",
+            "abbreviation": "EDM",
+            "colours": {
+                "Blue": "#041E42",
+                "Orange": "#FF4C00"
+            }
+        },
+        "23": {
+            "id": 23,
+            "name": "Vancouver Canucks",
+            "abbreviation": "VAN",
+            "colours": {
+                "Blue": "#00205B",
+                "Green": "#00843d",
+                "Dark Blue": "#041C2C"
+            }
+        },
+        "24": {
+            "id": 24,
+            "name": "Anaheim Ducks",
+            "abbreviation": "ANA",
+            "colours": {
+                "Orange": "#F47A38",
+                "Gold": "#B9975B"
+            }
+        },
+        "25": {
+            "id": 25,
+            "name": "Dallas Stars",
+            "abbreviation": "DAL",
+            "colours": {
+                "Green": "#006847",
+                "Silver": "#8F8F8C"
+            }
+        },
+        "26": {
+            "id": 26,
+            "name": "Los Angeles Kings",
+            "abbreviation": "LAK",
+            "colours": {
+                "Silver": "#A2AAAD",
+                "Purple": "#572A84",
+                "Yellow": "#FFC80C"
+            }
+        },
+        "28": {
+            "id": 28,
+            "name": "San Jose Sharks",
+            "abbreviation": "SJS",
+            "colours": {
+                "Teal": "#006D75"
+            }
+        },
+        "29": {
+            "id": 29,
+            "name": "Columbus Blue Jackets",
+            "abbreviation": "CBJ",
+            "colours": {
+                "Blue": "#002654",
+                "Red": "#ce1126"
+            }
+        },
+        "30": {
+            "id": 30,
+            "name": "Minnesota Wild",
+            "abbreviation": "MIN",
+            "colours": {
+                "Red": "#A6192E",
+                "Green": "#154734"
+            }
+        },
+        "52": {
+            "id": 52,
+            "name": "Winnipeg Jets",
+            "abbreviation": "WPG",
+            "colours": {
+                "Navy": "#041E42",
+                "Blue": "#004C97"
+            }
+        },
+        "53": {
+            "id": 53,
+            "name": "Arizona Coyotes",
+            "abbreviation": "ARI",
+            "colours": {
+                "Red": "#8C2633",
+                "Sand": "#e2d6b5"
+            }
+        },
+        "54": {
+            "id": 54,
+            "name": "Vegas Golden Knights",
+            "abbreviation": "VGK",
+            "colours": {
+                "Gold": "#B4975A",
+                "Gray": "#333f42",
+                "Red": "#c8102E"
+            }
+        },
+        "55": {
+            "id": 55,
+            "name": "Seattle Kraken",
+            "abbreviation": "SEA",
+            "colours": {
+                "Deep Sea Blue": "#001628",
+                "Ice Blue": "#99d9d9",
+                "Boundless Blue": "#355464",
+                "Shadow Blue": "#68a2b9"
             }
         }
     }
