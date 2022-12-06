@@ -144,7 +144,7 @@ const sketch = (p) => {
 
 
     p.preload = () => {
-        jerseyFont = p.loadFont('/assets/webfonts/Jersey M54 Custom.ttf');
+        jerseyFont = p.loadFont('assets/webfonts/Jersey-M54-Custom.ttf');
     }
 
     p.setup = () => {
