@@ -5,8 +5,8 @@
     <title>Hockey Wallpapers</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <script src="assets/js/p5.js"></script>
-    <script src="assets/js/sketch.js"></script>
+
+    <!-- Styles -->
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript>
         <link rel="stylesheet" href="assets/css/noscript.css" />
@@ -36,10 +36,10 @@
         <section id="banner">
             <div class="inner">
                 <header class="major">
-                    <h1>Howdy, this is a hockey wallpaper site</h1>
+                    <h1>Howdy, this is a hockey wallpaper generator</h1>
                 </header>
                 <div class="content">
-                    <p>Select an NHL Team below and choose a wallpaper from the various designs and options.</p>
+                    <p>Select an NHL Team below and choose a wallpaper from the various options.</p>
                 </div>
             </div>
         </section>
@@ -71,34 +71,33 @@
                         <label id="selectTeamError">*Select a team above</label>
                         <ul>
                             <label for="Logo" class="wallpaper-label">Logo</label>
-                            <select name="Logo" id="Logo" class="wallpaper-select" onchange="CheckWallpaper()">
+                            <select name="Logo" id="Logo" class="wallpaper-select" onchange="CreateWallpaper()">
                             </select>
                         </ul>
+                        <ol>
+                            <label for="Colour" class="wallpaper-label">Colour</label>
+                            <select name="Colour" id="Colour" class="wallpaper-select" onchange="CreateWallpaper()">
+                            </select>
+                        </ol>
                         <!-- <ul>
                             <label for="Style" class="wallpaper-label">Schedule Style</label>
-                            <select name="Style" id="Style" class="wallpaper-select" onchange="CheckWallpaper()">
+                            <select name="Style" id="Style" class="wallpaper-select" onchange="CreateWallpaper()">
                                 <option value=""></option>
                             </select>
                         </ul> -->
                         <ul>
                             <label for="TimeZone" class="wallpaper-label">Time Zone</label>
-                            <select name="TimeZone" class="wallpaper-select" id="TimeZone">
-                                <option value=""></option>
-                                <option value="1">AT - Atlantic Time</option>
-                                <option value="2">ET - Eastern Time</option>
-                                <option value="3">CT - Central Time</option>
-                                <option value="4">MT - Mountain Time</option>
-                                <option value="5">PT - Pacific Time</option>
+                            <select name="TimeZone" class="wallpaper-select" id="TimeZone" onchange="BuildSchedule()">
                             </select>
                         </ul>
-                        <ul>
+                        <!-- <ul>
                             <input type="checkbox" id="amoled" name="amoled" disabled="true"
                                 onchange="CheckWallpaper()">
                             <label id="amoled" for="amoled" class="wallpaper-label">AMOLED</label>
-                        </ul>
+                        </ul> -->
                         <ul style="margin:0;">
-                            <a id="wallpaperDownload" href="#" class="button icon solid fa-download"
-                                download>Download</a>
+                            <a id="wallpaperDownload" href="#" onclick="DownloadWallpaper()"
+                                class="button icon solid fa-download" download>Download</a>
                         </ul>
                     </span>
                 </div>
@@ -117,17 +116,18 @@
     </footer> -->
 
     </div>
-
-    <!-- Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.scrolly.min.js"></script>
-    <script src="assets/js/jquery.scrollex.min.js"></script>
-    <script src="assets/js/browser.min.js"></script>
-    <script src="assets/js/breakpoints.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/wallpaper-editor.js"></script>
-
 </body>
+<!-- Scripts -->
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/p5.js"></script>
+<script src="assets/js/p5functions.js"></script>
+<script src="assets/js/tzintl.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/wallpaper-editor.js"></script>
 
 </html>

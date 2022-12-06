@@ -1712,7 +1712,7 @@ label {
     display: block;
     font-size: 0.8em;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     margin: 0 0 1em 0;
     text-transform: uppercase;
 }
@@ -2043,11 +2043,10 @@ a.icon.alt:active:before {
 
 ol {
     list-style: decimal;
-    margin: 0 0 2em 0;
-    padding-left: 1.25em;
+    margin: 0 0 2.5em 0;
 }
 
-ol li {
+li {
     padding-left: 0.25em;
 }
 
@@ -2566,7 +2565,7 @@ button:disabled,
     -webkit-transition: -webkit-transform 0.25s ease, opacity 0.25s ease, -webkit-filter 1s ease, -webkit-filter 1s ease;
     -ms-transition: -ms-transform 0.25s ease, opacity 0.25s ease, -ms-filter 1s ease, -webkit-filter 1s ease;
     transition: transform 0.25s ease, opacity 0.25s ease, filter 1s ease, -webkit-filter 1s ease;
-    padding: 4em 4em 2em 4em;
+    padding: 0;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -2574,7 +2573,7 @@ button:disabled,
     height: 12vh;
     overflow: hidden;
     position: relative;
-    width: 25%;
+    width: 10%;
 }
 
 .tiles article .image {
@@ -2584,6 +2583,7 @@ button:disabled,
 .tiles article header {
     position: relative;
     z-index: 3;
+    width: 100%
 }
 
 .tiles article h3 {
@@ -2604,7 +2604,7 @@ button:disabled,
     z-index: 4;
 }
 
-.tiles article:before {
+.tiles article.team:before {
     -moz-transition: opacity 0.5s ease;
     -webkit-transition: opacity 0.5s ease;
     -ms-transition: opacity 0.5s ease;
@@ -2614,20 +2614,22 @@ button:disabled,
     display: block;
     height: 100%;
     left: 0;
-    opacity: 0.85;
+    opacity: 0.9;
+    filter: brightness(100%);
     position: absolute;
     width: 100%;
     z-index: 2;
+    background-color: #2a2f4a;
 }
 
 .tiles article:after {
-    background-color: rgba(36, 41, 67, 0.25);
     content: '';
     display: block;
     height: 100%;
     left: 0;
     position: absolute;
     top: 0;
+    opacity: 1;
     width: 100%;
     z-index: 1;
 }
@@ -2648,43 +2650,39 @@ button:disabled,
     opacity: 0;
 }
 
-.tiles article:nth-child(1):before {
-    background-color: #162e5a;
-}
-
-.tiles article:nth-child(2):before {
-    background-color: #00205b;
+.tiles article.division {
+    width: 100%;
+    height: 100%;
+    align-content: center;
 }
 
 @media screen and (max-width: 1280px) {
-    .tiles article {
-        padding: 4em 3em 2em 3em;
-        height: 8vh;
+    .tiles article.team {
+        height: 7vh;
         max-height: 30em;
     }
 }
 
 @media screen and (max-width: 984px) {
-    .tiles article {
-        width: 25% !important;
+    .tiles article.team {
+        width: 12.5% !important;
     }
 }
 
 @media screen and (max-width: 860px) {
-    .tiles article {
-        padding: 3em 1.5em 1em 1.5em;
-        height: 9vh;
+    .tiles articl.teame {
+        height: 6vh;
         max-height: none;
         min-height: 0;
     }
-    .tiles article h3 {
+    .tiles article.team h3 {
         font-size: 1.5em;
     }
 }
 
 @media screen and (max-width: 480px) {
-    .tiles article {
-        width: 50% !important;
+    .tiles article.team {
+        width: 12.5% !important;
     }
 }
 
@@ -3699,7 +3697,7 @@ body.is-menu-visible #menu .inner {
 #wallpaper-viewer {
     margin-left: auto;
     padding-right: 0;
-    min-width: 324px;
+    min-width: 390px;
 }
 
 #wallpaper-editor {
@@ -3708,7 +3706,7 @@ body.is-menu-visible #menu .inner {
 }
 
 #wallpaper-viewer .wallpaper-box {
-    min-height: 649px;
+    min-height: 844px;
 }
 
 #wallpaperDownload {
@@ -3728,9 +3726,9 @@ body.is-menu-visible #menu .inner {
     height: 100%;
     background-color: #2a2f4a;
     margin: 0;
-    max-height: 649px;
-    min-width: 300px;
-    max-width: 300px;
+    max-height: 844px;
+    min-width: 390px;
+    max-width: 390px;
 }
 
 .wallpaper-label {
@@ -3775,7 +3773,7 @@ body.is-menu-visible #menu .inner {
     opacity: 25%;
 }
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 850px) {
     #wallpaper-selector {
         display: flex;
         flex-direction: column-reverse;
@@ -3783,22 +3781,22 @@ body.is-menu-visible #menu .inner {
     #wallpaper-viewer {
         margin: auto;
         padding-right: 1.5em;
-        min-width: 348px;
-        max-width: 348px;
+        min-width: 238px;
+        max-width: 238px;
     }
     #wallpaper-viewer .wallpaper-box {
-        min-height: 649px;
+        min-height: 422px;
     }
     #wallpaper-editor {
         margin: auto;
         padding-bottom: 0;
-        min-width: 348px;
-        max-width: 348px;
+        min-width: 238px;
+        max-width: 238px;
     }
     .wallpaper-box {
-        max-height: 649px;
-        min-width: 300px;
-        max-width: 300px;
+        max-height: 422px;
+        min-width: 195px;
+        max-width: 195px;
     }
     .wallpaper-box ul {
         margin: 0 0 1.5em 0;
