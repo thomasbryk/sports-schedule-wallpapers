@@ -98,6 +98,7 @@ const sketch = (p) => {
 
     let drawVars = {
         schedule: null,
+        selectedTeam: null,
         saveWallpaper: false,
         wallpaperFileName: null,
         logo: false,
@@ -190,6 +191,7 @@ const sketch = (p) => {
 
         if (!selectedTeamId) return;
 
+        drawVars.selectedTeamId = selectedTeamId;
         drawVars.schedule = schedule;
 
         graphics.clear(); // Clear graphics each frame
@@ -210,7 +212,7 @@ const sketch = (p) => {
 
     p.draw_Logo = (selectedTeamId) => {
         let logoFileName = $('#Logo').val();
-        let filePath = '../../leagues/nhl/logos/' + selectedTeamId + '/' + logoFileName;
+        let filePath = window.location.href + 'leagues/nhl/logos/' + selectedTeamId + '/' + logoFileName;
 
         p.loadImage(filePath, (img) => {
             let imgSize = p.scaleImage(img, WallpaperData.logos.main.width, WallpaperData.logos.main.height);
@@ -251,7 +253,7 @@ const sketch = (p) => {
 
         let drawDatePromises = [];
 
-        let monthFilePath = 'assets/images/' + WallpaperData.month.block.filename;
+        let monthFilePath = window.location.href + 'assets/images/' + WallpaperData.month.block.filename;
 
         p.loadImage(monthFilePath, (img) => {
             let imgSize = p.scaleImage(img, WallpaperData.month.block.size.width, WallpaperData.month.block.size.height);
@@ -326,7 +328,7 @@ const sketch = (p) => {
             graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.date.fontSize));
             graphics.text(game.date.dateText, timeX, timeY);
 
-            let filePath = '../../leagues/nhl/logos/' + game.opponent.id + '/Primary.png';
+            let filePath = window.location.href + 'leagues/nhl/logos/' + game.opponent.id + '/Primary.png';
 
             return new Promise((resolve) => {
                 p.loadImage(filePath, (img) => {
@@ -372,7 +374,7 @@ const sketch = (p) => {
         scaleRatio = 1;
         graphics = p.createGraphics(w, h);
 
-        p.draw(selectedTeamId, drawVars.schedule);
+        p.draw(drawVars.selectedTeamId, drawVars.schedule);
     }
 }
 
