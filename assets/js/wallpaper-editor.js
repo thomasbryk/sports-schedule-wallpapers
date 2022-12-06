@@ -1,4 +1,4 @@
-var nhlJson, selectedTeamId, schedule;
+var nhlJson, selectedTeam, schedule;
 
 var scheduleRetrieved = false;
 var dropdownsPopulated = false;
@@ -41,27 +41,15 @@ function PopulateTeams() {
                 return;
             }
 
-            console.log(response)
-
-            jQuery.each(response.divisions, function(i, division) {
-                let teamsInDivision = nhlJson.teams.filter(team => team.division == division.id);
-                teamsInDivision.sort((a, b) => a.name.localeCompare(b.name));
-                console.log(teamsInDivision);
-
-                let html = '<article class="division">';
-
-                jQuery.each(teamsInDivision, function(id, teamData) {
-                    html += '<article class="team" style=\'background-image: url("leagues/nhl/logos/' + teamData.id + '/Primary.png"); background-color: ' + Object.values(teamData.colours)[0] + ';\'>\
+            jQuery.each(nhlJson.teams, (id, teamData) => {
+                let html = '<article class="team" style=\'background-image: url("leagues/nhl/logos/' + teamData.id + '/Primary.png"); background-color: ' + Object.values(teamData.colours)[0] + ';\'>\
                                 <header>\
                                     <a id="' + teamData.id + '" class="link" onclick="TeamSelected(this)"><label class="teamLabel">' + teamData.name + '</label></a>\
                                 </header>\
                             </article>';
 
-                });
-                html += '</article>';
-
                 $teamsDiv.append(html);
-            })
+            });
         }
     })
 }
@@ -82,26 +70,19 @@ function PopulateLogos() {
     var $logo = $("#Logo");
     $logo.empty();
 
-    $.ajax({
-        url: "leagues/nhl/logos/" + selectedTeamId + "/",
-        success: function(data) {
-            $(data).find("a:contains(.png)").each(function() {
-                var fileName = $(this).attr("title");
-                let label = fileName.substring(0, fileName.indexOf(".png"));
-                let option = new Option(label, fileName);
+    let logos = selectedTeam.logos;
+    jQuery.each(logos, (key, logo) => {
+        let option = new Option(key, logo);
 
-                if (label == "Primary")
-                    $logo.prepend(option);
-                else
-                    $logo.append(option);
-            });
+        if (key == "Primary")
+            $logo.prepend(option);
+        else
+            $logo.append(option);
+    })
 
-            $logo.prop("selectedIndex", 0);
+    $logo.prop("selectedIndex", 0);
 
-            PopulateColours();
-            //PopulateStyles();
-        }
-    });
+    PopulateColours();
 }
 
 function PopulateColours() {
@@ -109,9 +90,8 @@ function PopulateColours() {
     $colour.empty();
 
     $colour.append(new Option("Black", "#000000"));
-    let selectedTeam = nhlJson.teams.find(team => team.id == selectedTeamId);
 
-    jQuery.each(selectedTeam.colours, function(name, hex) {
+    jQuery.each(selectedTeam.colours, (name, hex) => {
         $colour.append(new Option(name, hex));
     });
 
@@ -134,13 +114,14 @@ function PopulateStyles() {
 }
 
 function TeamSelected(element) {
-    if (selectedTeamId == element.id) return; //Same team, skip
+    if (selectedTeam && selectedTeam.id == element.id) return; //Same team, skip
 
-    selectedTeamId = element.id;
+    selectedTeam = nhlJson.teams.find(team => team.id == element.id);
+
     scheduleRetrieved = false;
     dropdownsPopulated = false;
 
-    RetrieveSchedule(selectedTeamId);
+    RetrieveSchedule();
     PopulateLogos();
 
     var $selectTeamError = $("#selectTeamError");
@@ -150,7 +131,7 @@ function TeamSelected(element) {
     $('html,body').animate({ scrollTop: wallpaperEditor.offset().top }, 'slow');
 }
 
-function RetrieveSchedule(teamId) {
+function RetrieveSchedule() {
     schedule = null;
 
     let currDate = new Date(),
@@ -164,7 +145,7 @@ function RetrieveSchedule(teamId) {
     lastDay = lastDay.substring(0, lastDay.indexOf("T"));
 
     $.ajax({
-        url: "https://statsapi.web.nhl.com/api/v1/schedule?teamId=" + teamId + "&startDate=" + firstDay + "&endDate=" + lastDay,
+        url: "https://statsapi.web.nhl.com/api/v1/schedule?teamId=" + selectedTeam.id + "&startDate=" + firstDay + "&endDate=" + lastDay,
         accepts: {
             text: "application/json"
         },
@@ -195,7 +176,7 @@ function BuildSchedule(scheduleJson = null) {
             let timeMin = (currScheduleObj.date.minute < 10 ? "0" + currScheduleObj.date.minute : currScheduleObj.date.minute);
             currScheduleObj.date.dateText = timeHour + ":" + timeMin;
 
-            currScheduleObj.home = (currGame.teams.home.team.id == selectedTeamId);
+            currScheduleObj.home = (currGame.teams.home.team.id == selectedTeam.id);
 
             let opponent = (currScheduleObj.home ?
                 currGame.teams.away.team :
@@ -222,21 +203,18 @@ function BuildSchedule(scheduleJson = null) {
     }
 
     scheduleRetrieved = true;
-    console.log(schedule);
 
     CreateWallpaper();
 }
 
 function CreateWallpaper() {
     if (scheduleRetrieved && dropdownsPopulated)
-        p.draw(selectedTeamId, schedule);
+        p.draw(selectedTeam.id, schedule);
 }
 
 function DownloadWallpaper() {
-    let teamObj = nhlJson.teams.find(team => team.id == selectedTeamId);
-
     let month = new Date().toLocaleString('default', { month: 'long' });
-    let fileName = teamObj.abbreviation + "_" + month;
+    let fileName = selectedTeam.abbreviation + "_" + month;
 
-    p.exportHighResolution(fileName, selectedTeamId, schedule);
+    p.exportHighResolution(fileName, selectedTeam.id, schedule);
 }

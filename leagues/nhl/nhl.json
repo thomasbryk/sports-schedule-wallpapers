@@ -4,6 +4,9 @@
             "name": "New Jersey Devils",
             "abbreviation": "NJD",
             "division": 18,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Red": "#CE1126"
             }
@@ -13,6 +16,9 @@
             "name": "New York Islanders",
             "abbreviation": "NYI",
             "division": 18,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Blue": "#00539b",
                 "Orange": "#f47d30"
@@ -23,6 +29,10 @@
             "name": "New York Rangers",
             "abbreviation": "NYR",
             "division": 18,
+            "logos": {
+                "Primary": "Primary.png",
+                "Reverse Retro": "Reverse Retro.png"
+            },
             "colours": {
                 "Blue": "#0038A8",
                 "Navy": "#001645"
@@ -33,6 +43,9 @@
             "name": "Philadelphia Flyers",
             "abbreviation": "PHI",
             "division": 18,
+            "logos": {
+                "Primary": "Primary"
+            },
             "colours": {
                 "Orange": "#F74902"
             }
@@ -42,6 +55,9 @@
             "name": "Pittsburgh Penguins",
             "abbreviation": "PIT",
             "division": 18,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Gold": "#FCB514"
             }
@@ -51,6 +67,9 @@
             "name": "Boston Bruins",
             "abbreviation": "BOS",
             "division": 17,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Gold": "#FFB81C"
             }
@@ -60,6 +79,9 @@
             "name": "Buffalo Sabres",
             "abbreviation": "BUF",
             "division": 17,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Blue": "#003087",
                 "Gold": "#FFB81C"
@@ -70,6 +92,9 @@
             "name": "Montréal Canadiens",
             "abbreviation": "MTL",
             "division": 17,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Red": "#AF1E2D",
                 "Blue": "#192168"
@@ -80,6 +105,9 @@
             "name": "Ottawa Senators",
             "abbreviation": "OTT",
             "division": 17,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Red": "#DA1A32"
             }
@@ -89,6 +117,11 @@
             "name": "Toronto Maple Leafs",
             "abbreviation": "TOR",
             "division": 17,
+            "logos": {
+                "Primary": "Primary.png",
+                "Alternate": "Alternate.png",
+                "Winter Classic": "Winter Classic.png"
+            },
             "colours": {
                 "Blue": "#00205b"
             }
@@ -98,6 +131,9 @@
             "name": "Carolina Hurricanes",
             "abbreviation": "CAR",
             "division": 18,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Red": "#CE1126"
             }
@@ -107,6 +143,9 @@
             "name": "Florida Panthers",
             "abbreviation": "FLA",
             "division": 17,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Red": "#c8102E",
                 "Navy": "#041E42",
@@ -118,6 +157,9 @@
             "name": "Tampa Bay Lightning",
             "abbreviation": "TBL",
             "division": 17,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Blue": "#002868"
             }
@@ -127,6 +169,9 @@
             "name": "Washington Capitals",
             "abbreviation": "WSH",
             "division": 18,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Navy": "#041E42",
                 "Red": "#C8102E"
@@ -137,6 +182,9 @@
             "name": "Chicago Blackhawks",
             "abbreviation": "CHI",
             "division": 16,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Red": "#CF0A2C"
             }
@@ -146,6 +194,9 @@
             "name": "Detroit Red Wings",
             "abbreviation": "DET",
             "division": 16,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Red": "#ce1126"
             }
@@ -155,6 +206,9 @@
             "name": "Nashville Predators",
             "abbreviation": "NSH",
             "division": 16,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Gold": "#FFB81C",
                 "Navy": "#041E42"
@@ -165,6 +219,9 @@
             "name": "St. Louis Blues",
             "abbreviation": "STL",
             "division": 16,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Blue": "#002F87",
                 "Navy": "#041E42",
@@ -176,6 +233,9 @@
             "name": "Calgary Flames",
             "abbreviation": "CGY",
             "division": 15,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Red": "#D2001C",
                 "Yellow": "#FAAF19"
@@ -186,6 +246,9 @@
             "name": "Colorado Avalanche",
             "abbreviation": "COL",
             "division": 16,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Silver": "#A2AAAD",
                 "Burgundy": "#6F263D",
@@ -197,6 +260,9 @@
             "name": "Edmonton Oilers",
             "abbreviation": "EDM",
             "division": 15,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Orange": "#FF4C00",
                 "Blue": "#041E42"
@@ -207,6 +273,9 @@
             "name": "Vancouver Canucks",
             "abbreviation": "VAN",
             "division": 15,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Green": "#00843d",
                 "Blue": "#00205B",
@@ -218,6 +287,9 @@
             "name": "Anaheim Ducks",
             "abbreviation": "ANA",
             "division": 15,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Orange": "#F47A38",
                 "Gold": "#B9975B"
@@ -228,6 +300,9 @@
             "name": "Dallas Stars",
             "abbreviation": "DAL",
             "division": 16,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Green": "#006847",
                 "Silver": "#8F8F8C"
@@ -238,6 +313,9 @@
             "name": "Los Angeles Kings",
             "abbreviation": "LAK",
             "division": 15,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Silver": "#A2AAAD",
                 "Purple": "#572A84",
@@ -249,6 +327,9 @@
             "name": "San Jose Sharks",
             "abbreviation": "SJS",
             "division": 15,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Teal": "#006D75"
             }
@@ -258,6 +339,9 @@
             "name": "Columbus Blue Jackets",
             "abbreviation": "CBJ",
             "division": 18,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Blue": "#002654",
                 "Red": "#ce1126"
@@ -268,6 +352,9 @@
             "name": "Minnesota Wild",
             "abbreviation": "MIN",
             "division": 16,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Green": "#154734",
                 "Red": "#A6192E"
@@ -278,6 +365,9 @@
             "name": "Winnipeg Jets",
             "abbreviation": "WPG",
             "division": 16,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Navy": "#041E42",
                 "Blue": "#004C97"
@@ -288,6 +378,9 @@
             "name": "Arizona Coyotes",
             "abbreviation": "ARI",
             "division": 16,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Red": "#8C2633",
                 "Sand": "#e2d6b5"
@@ -298,6 +391,9 @@
             "name": "Vegas Golden Knights",
             "abbreviation": "VGK",
             "division": 15,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Gold": "#B4975A",
                 "Gray": "#333f42",
@@ -309,6 +405,9 @@
             "name": "Seattle Kraken",
             "abbreviation": "SEA",
             "division": 15,
+            "logos": {
+                "Primary": "Primary.png"
+            },
             "colours": {
                 "Deep Sea Blue": "#001628",
                 "Ice Blue": "#99d9d9",
