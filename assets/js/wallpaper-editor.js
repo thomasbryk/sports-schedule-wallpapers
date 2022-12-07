@@ -5,9 +5,6 @@ var dropdownsPopulated = false;
 
 
 $(document).ready(function() {
-    //var $wallpaper = $("#wallpaper");
-    //$wallpaper.hide();
-
     onload();
 });
 
@@ -28,30 +25,39 @@ function PostJsonRetrieval() {
 
 
 function PopulateTeams() {
-    let $teamsDiv = $("#teams");
+    let $teamsDiv = $(".teamsCarousel");
 
-    $.ajax({
-        url: "https://statsapi.web.nhl.com/api/v1/divisions",
-        accepts: {
-            text: "application/json"
-        },
-        success: function(response) {
-            if (!response) {
-                console.log("[PopulateTeams]: Retrieved divisions object is null");
-                return;
+    nhlJson.teams.sort((a, b) => a.name.localeCompare(b.name))
+
+    jQuery.each(nhlJson.teams, (id, teamData) => {
+        let html = '<a id="' + teamData.id + '" class="link" onclick="TeamSelected(this)">\
+                        <article class="team" style=\'background-image: url("leagues/nhl/logos/' + teamData.id + '/Primary.png"); background-color: ' + Object.values(teamData.colours)[0] + ';\'></article>\
+                    </a>';
+
+        $teamsDiv.append(html);
+    });
+
+    $('.teamsCarousel').slick({
+        slidesToShow: 32,
+        slidesToScroll: 32,
+        infinite: false,
+
+        responsive: [{
+                breakpoint: 1920,
+                settings: {
+                    slidesToShow: 16,
+                    slidesToScroll: 16
+                }
+            },
+            {
+                breakpoint: 1140,
+                settings: {
+                    slidesToShow: 8,
+                    slidesToScroll: 8
+                }
             }
-
-            jQuery.each(nhlJson.teams, (id, teamData) => {
-                let html = '<article class="team" style=\'background-image: url("leagues/nhl/logos/' + teamData.id + '/Primary.png"); background-color: ' + Object.values(teamData.colours)[0] + ';\'>\
-                                <header>\
-                                    <a id="' + teamData.id + '" class="link" onclick="TeamSelected(this)"><label class="teamLabel">' + teamData.name + '</label></a>\
-                                </header>\
-                            </article>';
-
-                $teamsDiv.append(html);
-            });
-        }
-    })
+        ]
+    });
 }
 
 function PopulateTimeZones() {

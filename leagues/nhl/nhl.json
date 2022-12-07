@@ -250,9 +250,9 @@
                 "Primary": "Primary.png"
             },
             "colours": {
+                "Blue": "#236192",
                 "Silver": "#A2AAAD",
-                "Burgundy": "#6F263D",
-                "Blue": "#236192"
+                "Burgundy": "#6F263D"
             }
         },
         {
