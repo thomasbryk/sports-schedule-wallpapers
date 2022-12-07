@@ -158,7 +158,7 @@ const sketch = (p) => {
         exportRatio = (w == 390 ? 3 : 6);
 
         graphics = p.createGraphics(w, h);
-        canvas = p.createCanvas(w * exportRatio, h * exportRatio);
+        canvas = p.createCanvas(w, h);
         canvas.parent('sketch-holder');
 
         center = p.width / 2;
@@ -180,6 +180,7 @@ const sketch = (p) => {
 
         // Re-create graphics with exportRatio and re-draw
         graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
+        canvas = p.createCanvas(scaleRatio * w, scaleRatio * h);
         p.draw(selectedTeamId, schedule);
     }
 
@@ -391,11 +392,11 @@ const sketch = (p) => {
         drawVars.datesDrawn = 0;
 
         if (drawVars.saveWallpaper)
-            p.saveWallpaper();
+            canvas.elt.toBlob(p.saveWallpaper);
     }
 
-    p.saveWallpaper = () => {
-        p.saveCanvas(canvas, drawVars.wallpaperFileName, '.png');
+    p.saveWallpaper = (blob) => {
+        saveAs(blob, drawVars.wallpaperFileName + '.png');
         drawVars.saveWallpaper = false;
 
         const $element = $('#sketch-holder');
@@ -406,7 +407,7 @@ const sketch = (p) => {
         // Reset scaleRation back to 1, re-create graphics, re-draw
         scaleRatio = 1;
         graphics = p.createGraphics(w, h);
-        canvas = p.clear()
+        canvas = p.createCanvas(w, h);
 
         p.draw(drawVars.selectedTeamId, drawVars.schedule);
     }
