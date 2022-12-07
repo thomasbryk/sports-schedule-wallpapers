@@ -393,7 +393,8 @@ const sketch = (p) => {
         drawVars.logo = false;
         drawVars.calendar = false;
         drawVars.datesDrawn = 0;
-
+        alert(canvas.elt);
+        alert(canvas.elt.toBlob)
         if (drawVars.saveWallpaper)
             canvas.elt.toBlob(p.saveWallpaper);
     }
