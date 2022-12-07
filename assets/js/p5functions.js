@@ -163,6 +163,8 @@ const sketch = (p) => {
 
         center = p.width / 2;
         middle = p.height / 2;
+
+        p.pixelDensity(1);
     }
 
     p.exportHighResolution = (fileName, selectedTeamId, schedule = null) => {
@@ -180,10 +182,10 @@ const sketch = (p) => {
 
         // Re-create graphics with exportRatio and re-draw
         graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
-        canvas = p.createCanvas(w, h);
+        canvas = p.createCanvas(scaleRatio * w, scaleRatio * h);
         canvas.parent('sketch-holder');
         alert(canvas.elt.toDataURL());
-        //$(canvas.elt).hide();
+        $(canvas.elt).hide();
 
         p.draw(selectedTeamId, schedule);
     }
