@@ -163,7 +163,6 @@ const sketch = (p) => {
         center = p.width / 2;
         middle = p.height / 2;
 
-        exportRatio /= p.pixelDensity();
         $('#testing').append("w: " + w + "   h: " + h + "   exportRatio: " + exportRatio);
     }
 
@@ -171,6 +170,7 @@ const sketch = (p) => {
         if (!canvas) return;
         drawVars.wallpaperFileName = fileName;
         drawVars.schedule = schedule;
+        $('#testing').append("exportHighResolution");
 
         const $element = $('#sketch-holder');
 
