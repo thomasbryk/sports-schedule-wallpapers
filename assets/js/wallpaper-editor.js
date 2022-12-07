@@ -38,22 +38,22 @@ function PopulateTeams() {
     });
 
     $('.teamsCarousel').slick({
-        slidesToShow: 32,
-        slidesToScroll: 32,
+        slidesToShow: 16,
+        slidesToScroll: 16,
         infinite: false,
 
         responsive: [{
                 breakpoint: 1920,
                 settings: {
-                    slidesToShow: 16,
-                    slidesToScroll: 16
+                    slidesToShow: 8,
+                    slidesToScroll: 8
                 }
             },
             {
                 breakpoint: 1140,
                 settings: {
-                    slidesToShow: 8,
-                    slidesToScroll: 8
+                    slidesToShow: 4,
+                    slidesToScroll: 4
                 }
             }
         ]
