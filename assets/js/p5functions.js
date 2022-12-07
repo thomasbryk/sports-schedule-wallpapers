@@ -391,22 +391,23 @@ const sketch = (p) => {
     p.drawGraphics = () => {
         if (!drawVars.logo || !drawVars.calendar) return;
 
-        p.image(graphics, 0, 0); // Draw graphics to canvas
-
         drawVars.logo = false;
         drawVars.calendar = false;
 
         if (drawVars.saveWallpaper) {
-            alert(pixelDensity);
-            p.pixelDensity((pixelDensity >= 2 ? 1 : 2));
+            if (pixelDensity == 1)
+                p.pixelDensity(2);
             p.image(graphics, 0, 0); // Draw graphics to canvas
 
             canvas.elt.toBlob(p.saveWallpaper);
+        } else {
+            p.image(graphics, 0, 0); // Draw graphics to canvas
         }
     }
 
 
     p.saveWallpaper = (blob) => {
+        alert(blob)
         saveAs(blob, drawVars.wallpaperFileName);
 
         drawVars.saveWallpaper = false;
