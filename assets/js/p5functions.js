@@ -167,7 +167,6 @@ const sketch = (p) => {
 
     p.exportHighResolution = (fileName, selectedTeamId, schedule = null) => {
         if (!canvas) return;
-        alert(canvas.elt.toDataURL());
         drawVars.wallpaperFileName = fileName;
         drawVars.schedule = schedule;
 
@@ -183,6 +182,7 @@ const sketch = (p) => {
         graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
         canvas = p.createCanvas(scaleRatio * w, scaleRatio * h);
         canvas.parent('sketch-holder');
+        alert(canvas.elt.toDataURL());
         //$(canvas.elt).hide();
 
         p.draw(selectedTeamId, schedule);
@@ -388,6 +388,7 @@ const sketch = (p) => {
 
     p.drawGraphics = () => {
         if (!drawVars.logo || !drawVars.calendar) return;
+        alert(canvas.elt.toDataURL());
 
         p.image(graphics, 0, 0); // Draw graphics to canvas
 
@@ -403,7 +404,7 @@ const sketch = (p) => {
 
 
     p.saveWallpaper = (blob = null) => {
-        p.image(canvas, 0, 0); // Draw graphics to canvas
+        alert(canvas.elt.toDataURL());
         var image = canvas.elt.toDataURL("image/png")
 
         let a = document.createElement('a');
