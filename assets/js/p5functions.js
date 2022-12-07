@@ -96,6 +96,7 @@ const sketch = (p) => {
     let exportRatio;
     let graphics;
     let canvas;
+    let pixelDensity;
 
     let drawVars = {
         schedule: null,
@@ -155,6 +156,7 @@ const sketch = (p) => {
         const h = $element.height();
 
         exportRatio = (w == 390 ? 3 : 6);
+        pixelDensity = p.pixelDensity();
         p.pixelDensity(1);
 
         graphics = p.createGraphics(w, h);
@@ -342,6 +344,7 @@ const sketch = (p) => {
                     let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
 
                     //graphics.copy(img, 0, 0, img.width, img.height, imgX, imgY, imgSize.width, imgSize.height);
+                    p.pixelDensity(exportRatio);
                     graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
                     resolve();
@@ -387,13 +390,16 @@ const sketch = (p) => {
 
     p.drawGraphics = () => {
         if (!drawVars.logo || !drawVars.calendar) return;
-        p.pixelDensity(exportRatio);
+
         p.image(graphics, 0, 0); // Draw graphics to canvas
 
         drawVars.logo = false;
         drawVars.calendar = false;
 
         if (drawVars.saveWallpaper) {
+            p.pixelDensity((pixelDensity > 2 ? 2 : exportRatio));
+            p.image(graphics, 0, 0); // Draw graphics to canvas
+
             canvas.elt.toBlob(p.saveWallpaper);
         }
     }
