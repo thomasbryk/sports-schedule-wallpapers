@@ -2639,7 +2639,7 @@ article.team.is-transitioning {
 
 @media screen and (max-width: 736px) {
     article.team {
-        height: 6vh;
+        height: 7vh;
     }
 }
 
@@ -3462,7 +3462,7 @@ body.is-preload #banner>.inner {
 #wrapper>*>.inner {
     padding: 1em 0 1em 0;
     margin: 0 auto;
-    width: calc(100% - 6em);
+    width: calc(100% - 5em);
 }
 
 @media screen and (max-width: 736px) {
