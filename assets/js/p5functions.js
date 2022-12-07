@@ -395,7 +395,7 @@ const sketch = (p) => {
     }
 
     p.saveWallpaper = () => {
-        p.save(graphics, drawVars.wallpaperFileName, '.png');
+        p.saveCanvas(graphics, drawVars.wallpaperFileName, '.png');
         drawVars.saveWallpaper = false;
 
         const $element = $('#sketch-holder');
