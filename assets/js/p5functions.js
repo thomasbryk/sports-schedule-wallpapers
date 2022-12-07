@@ -180,7 +180,7 @@ const sketch = (p) => {
 
         // Re-create graphics with exportRatio and re-draw
         graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
-        //canvas = p.createCanvas(scaleRatio * w, scaleRatio * h);
+        canvas = p.createCanvas(scaleRatio * w, scaleRatio * h);
         p.draw(selectedTeamId, schedule);
     }
 
@@ -406,8 +406,8 @@ const sketch = (p) => {
         // Reset scaleRation back to 1, re-create graphics, re-draw
         scaleRatio = 1;
         graphics = p.createGraphics(w, h);
-        //canvas = p.createCanvas(w, h);
-        //canvas.parent('sketch-holder');
+        canvas = p.createCanvas(w, h);
+        canvas.parent('sketch-holder');
 
         p.draw(drawVars.selectedTeamId, drawVars.schedule);
     }
