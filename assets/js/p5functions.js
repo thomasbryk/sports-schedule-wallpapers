@@ -406,8 +406,8 @@ const sketch = (p) => {
         // Reset scaleRation back to 1, re-create graphics, re-draw
         scaleRatio = 1;
         graphics = p.createGraphics(w, h);
-        canvas = p.createCanvas(w, h);
-        canvas.parent('sketch-holder');
+        //canvas = p.createCanvas(w, h);
+        //canvas.parent('sketch-holder');
 
         p.draw(drawVars.selectedTeamId, drawVars.schedule);
     }
