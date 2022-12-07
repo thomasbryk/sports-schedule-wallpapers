@@ -180,7 +180,8 @@ const sketch = (p) => {
         const h = $element.height();
 
         scaleRatio = exportRatio;
-        //exportRatio = 1;
+        p.pixelDensity((pixelDensity >= 2 ? 1.5 : 2));
+
         drawVars.saveWallpaper = true;
 
         // Re-create graphics with exportRatio and re-draw
@@ -343,8 +344,6 @@ const sketch = (p) => {
                     let imgX = p.getScaledPosition(blockCenter, imgSize.width);
                     let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
 
-                    //graphics.copy(img, 0, 0, img.width, img.height, imgX, imgY, imgSize.width, imgSize.height);
-                    p.pixelDensity(exportRatio);
                     graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
                     resolve();
@@ -393,21 +392,16 @@ const sketch = (p) => {
 
         drawVars.logo = false;
         drawVars.calendar = false;
+        p.image(graphics, 0, 0); // Draw graphics to canvas
 
         if (drawVars.saveWallpaper) {
-            if (pixelDensity == 1)
-                p.pixelDensity(2);
-            p.image(graphics, 0, 0); // Draw graphics to canvas
 
             canvas.elt.toBlob(p.saveWallpaper);
-        } else {
-            p.image(graphics, 0, 0); // Draw graphics to canvas
         }
     }
 
 
     p.saveWallpaper = (blob) => {
-        alert(blob)
         saveAs(blob, drawVars.wallpaperFileName);
 
         drawVars.saveWallpaper = false;
