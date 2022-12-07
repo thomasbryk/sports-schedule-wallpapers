@@ -62,9 +62,10 @@
         ]);
     }
     if (HTMLCanvasElement && (!canvas_proto.toBlob || !canvas_proto.toBlobHD)) {
-        if (!canvas_proto.toBlob)
+        if (HTMLCanvasElement) {
+            alert("HEREEE")
             canvas_proto.toBlob = function(callback, type /*, ...args*/ ) {
-                alert("Should be here")
+                alert("HEREEE2")
                 if (!type) {
                     type = "image/png";
                 }
@@ -103,17 +104,16 @@
                 }
                 callback(blob);
             };
+        }
 
         if (!canvas_proto.toBlobHD && canvas_proto.toDataURLHD) {
             canvas_proto.toBlobHD = function() {
-                alert("Should be here 2")
                 to_data_url = "toDataURLHD";
                 var blob = this.toBlob();
                 to_data_url = "toDataURL";
                 return blob;
             }
         } else {
-            alert("Should be here 3")
             canvas_proto.toBlobHD = canvas_proto.toBlob;
         }
     }
