@@ -12,7 +12,7 @@ let WallpaperData = {
             height: 52,
             offset: {
                 x: 69.5,
-                y: 67.5
+                y: 66.5
             }
         },
         solo: {
@@ -33,7 +33,7 @@ let WallpaperData = {
             y: 14
         },
         position: {
-            x: 69,
+            x: 65.75,
             y: 1469
         },
 
@@ -79,7 +79,8 @@ let WallpaperData = {
             size: {
                 width: 66,
                 height: 66
-            }
+            },
+            fontSize: 22.2
         },
         weekdays: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
     }
@@ -224,6 +225,8 @@ const sketch = (p) => {
     }
 
     p.draw_Calendar = (schedule = null) => {
+        graphics.noStroke();
+
         let date = new Date();
         drawVars.datesToDraw = p.daysInMonth(date.getMonth(), date.getFullYear());
 
@@ -245,7 +248,7 @@ const sketch = (p) => {
             graphics.text(WallpaperData.month.weekdays[i - 1], dayOfWeek.posX, dayOfWeek.posY);
         }
 
-
+        p.draw_HomeAway();
 
         let drawDatePromises = [];
 
@@ -262,6 +265,7 @@ const sketch = (p) => {
             let colour = $('#Colour').val();
             let month = date.toLocaleDateString('default', { month: 'long' });
 
+            graphics.textAlign(p.CENTER, p.CENTER);
             graphics.fill(colour);
             graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.block.fontSize));
             graphics.text(month.toUpperCase(), center, imgY + p.getScaled(WallpaperData.month.block.size.height / 2) - 1.25);
@@ -308,8 +312,6 @@ const sketch = (p) => {
         graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.time.fontSize));
         graphics.text(dayNum, dayX, dayY);
 
-        graphics.noStroke();
-
         let opacity = (game ? (game.home ? WallpaperData.dateBlock.opacity.home : WallpaperData.dateBlock.opacity.away) : WallpaperData.dateBlock.opacity.default);
         graphics.fill('rgba(255, 255, 255, ' + opacity + ')');
         graphics.rect(block.x, block.y, block.width, block.height);
@@ -344,6 +346,41 @@ const sketch = (p) => {
         }
     }
 
+    p.draw_HomeAway = () => {
+        let date = new Date();
+        let dayOfWeek_firstDay = (new Date(date.getFullYear, date.getMonth, 1)).getDay();
+
+        let offsetX = 0;
+        let offsetY = 0;
+
+        if (dayOfWeek_firstDay == 0) {
+            let weekOfMonth = p.getWeekOfMonth(date.getFullYear(), date.getMonth(), drawVars.datesToDraw);
+
+            offsetX = (WallpaperData.dateBlock.width + WallpaperData.dateBlock.offset.x) * (6)
+            offsetY = (weekOfMonth == 1) ? 0 : (WallpaperData.dateBlock.height + WallpaperData.dateBlock.offset.y) * (weekOfMonth - 1)
+        }
+
+        let x_home = p.getScaled(WallpaperData.dateBlock.position.x + offsetX);
+        let x_away = p.getScaled(WallpaperData.dateBlock.position.x + offsetX + (WallpaperData.dateBlock.width - WallpaperData.month.home_away.size.width));
+        let y = p.getScaled(WallpaperData.dateBlock.position.y + offsetY);
+
+        graphics.fill('rgba(255, 255, 255, ' + WallpaperData.dateBlock.opacity.home + ')');
+        graphics.rect(x_home, y, p.getScaled(WallpaperData.month.home_away.size.width), p.getScaled(WallpaperData.month.home_away.size.height));
+
+        graphics.fill('rgba(255, 255, 255, ' + WallpaperData.dateBlock.opacity.away + ')');
+        graphics.rect(x_away, y, p.getScaled(WallpaperData.month.home_away.size.width), p.getScaled(WallpaperData.month.home_away.size.height));
+
+        let x_homeText = x_home + p.getScaled(WallpaperData.month.home_away.size.width / 2);
+        let x_awayText = x_away + p.getScaled((WallpaperData.month.home_away.size.width / 2) - 4);
+        let y_text = y + p.getScaled(WallpaperData.month.home_away.size.height / 2);
+
+        graphics.textAlign(p.CENTER, p.CENTER);
+        graphics.fill('white');
+        graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.home_away.fontSize));
+        graphics.text("HOME", x_homeText, y_text);
+        graphics.text("AWAY", x_awayText, y_text);
+    }
+
     p.drawGraphics = () => {
         if (!drawVars.logo || !drawVars.calendar) return;
 
@@ -358,8 +395,7 @@ const sketch = (p) => {
     }
 
     p.saveWallpaper = () => {
-        p.saveCanvas(canvas, drawVars.wallpaperFileName, '.png')
-            //p.save(graphics, drawVars.wallpaperFileName, '.png');
+        p.save(graphics, drawVars.wallpaperFileName, '.png');
         drawVars.saveWallpaper = false;
 
         const $element = $('#sketch-holder');
