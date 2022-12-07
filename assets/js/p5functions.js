@@ -397,7 +397,7 @@ const sketch = (p) => {
         drawVars.calendar = false;
 
         if (drawVars.saveWallpaper) {
-            p.pixelDensity((pixelDensity > 2 ? 2 : exportRatio));
+            p.pixelDensity((pixelDensity > 2 ? 1.5 : 2));
             p.image(graphics, 0, 0); // Draw graphics to canvas
 
             canvas.elt.toBlob(p.saveWallpaper);
@@ -409,13 +409,13 @@ const sketch = (p) => {
         saveAs(blob, drawVars.wallpaperFileName);
 
         drawVars.saveWallpaper = false;
+        scaleRatio = 1;
+        p.pixelDensity(1);
+
         const $element = $('#sketch-holder');
 
         const w = $element.width();
         const h = $element.height();
-
-        // Reset scaleRation back to 1, re-create graphics, re-draw
-        scaleRatio = 1;
 
         graphics = p.createGraphics(w, h);
         canvas = p.createCanvas(w, h);
