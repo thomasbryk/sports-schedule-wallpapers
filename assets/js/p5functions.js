@@ -182,7 +182,7 @@ const sketch = (p) => {
         graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
         canvas = p.createCanvas(scaleRatio * w, scaleRatio * h);
         canvas.parent('sketch-holder');
-        $(canvas.elt).hide();
+        //$(canvas.elt).hide();
 
         p.draw(selectedTeamId, schedule);
     }
@@ -402,9 +402,13 @@ const sketch = (p) => {
 
 
     p.saveWallpaper = (blob = null) => {
+        alert("HERE")
         var image = canvas.elt.toDataURL("image/png")
-        alert(image)
-        window.location.href = image; // it will save locally
+
+        let a = document.createElement('a');
+        a.target = '_blank';
+        a.href = image;
+        a.click();
         //alert(blob);
         //saveAs(blob, drawVars.wallpaperFileName + '.png');
         drawVars.saveWallpaper = false;
