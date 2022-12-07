@@ -167,6 +167,7 @@ const sketch = (p) => {
 
     p.exportHighResolution = (fileName, selectedTeamId, schedule = null) => {
         if (!canvas) return;
+        alert(canvas.elt.toDataURL());
         drawVars.wallpaperFileName = fileName;
         drawVars.schedule = schedule;
 
@@ -408,7 +409,6 @@ const sketch = (p) => {
         let a = document.createElement('a');
         a.target = '_blank';
         a.href = image;
-        alert(image)
         a.click();
         //alert(blob);
         //saveAs(blob, drawVars.wallpaperFileName + '.png');
