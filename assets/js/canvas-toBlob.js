@@ -62,10 +62,8 @@
         ]);
     }
     if (HTMLCanvasElement && (!canvas_proto.toBlob || !canvas_proto.toBlobHD)) {
-        if (HTMLCanvasElement) {
-            alert("HEREEE")
+        if (!canvas_proto.toBlob)
             canvas_proto.toBlob = function(callback, type /*, ...args*/ ) {
-                alert("HEREEE2")
                 if (!type) {
                     type = "image/png";
                 }
@@ -104,7 +102,6 @@
                 }
                 callback(blob);
             };
-        }
 
         if (!canvas_proto.toBlobHD && canvas_proto.toDataURLHD) {
             canvas_proto.toBlobHD = function() {

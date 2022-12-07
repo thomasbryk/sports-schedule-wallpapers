@@ -395,7 +395,7 @@ const sketch = (p) => {
         drawVars.datesDrawn = 0;
 
         if (drawVars.saveWallpaper)
-            canvas.elt.toBlob(p.saveWallpaper);
+            canvas.elt.toBlobHD(p.saveWallpaper);
     }
 
     p.saveWallpaper = (blob) => {
