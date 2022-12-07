@@ -402,12 +402,13 @@ const sketch = (p) => {
 
 
     p.saveWallpaper = (blob = null) => {
-        alert("HERE")
+        p.image(canvas, 0, 0); // Draw graphics to canvas
         var image = canvas.elt.toDataURL("image/png")
 
         let a = document.createElement('a');
         a.target = '_blank';
         a.href = image;
+        alert(image)
         a.click();
         //alert(blob);
         //saveAs(blob, drawVars.wallpaperFileName + '.png');
