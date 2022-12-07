@@ -397,7 +397,8 @@ const sketch = (p) => {
         drawVars.calendar = false;
 
         if (drawVars.saveWallpaper) {
-            p.pixelDensity((pixelDensity > 2 ? 1 : 2));
+            alert(pixelDensity);
+            p.pixelDensity((pixelDensity >= 2 ? 1 : 2));
             p.image(graphics, 0, 0); // Draw graphics to canvas
 
             canvas.elt.toBlob(p.saveWallpaper);
