@@ -156,6 +156,7 @@ const sketch = (p) => {
         const h = $element.height();
 
         exportRatio = (w == 390 ? 3 : 6);
+        p.pixelDensity(1);
 
         graphics = p.createGraphics(w, h);
         canvas = p.createCanvas(w, h);
@@ -163,8 +164,6 @@ const sketch = (p) => {
 
         center = p.width / 2;
         middle = p.height / 2;
-
-        p.pixelDensity(1);
     }
 
     p.exportHighResolution = (fileName, selectedTeamId, schedule = null) => {
@@ -184,7 +183,7 @@ const sketch = (p) => {
         graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
         canvas = p.createCanvas(scaleRatio * w, scaleRatio * h);
         canvas.parent('sketch-holder');
-        alert(canvas.elt.toDataURL());
+
         $(canvas.elt).hide();
 
         p.draw(selectedTeamId, schedule);
@@ -390,7 +389,6 @@ const sketch = (p) => {
 
     p.drawGraphics = () => {
         if (!drawVars.logo || !drawVars.calendar) return;
-        alert(canvas.elt.toDataURL());
 
         p.image(graphics, 0, 0); // Draw graphics to canvas
 
@@ -399,22 +397,16 @@ const sketch = (p) => {
         drawVars.datesDrawn = 0;
 
         if (drawVars.saveWallpaper) {
-            //canvas.elt.toBlobHD(p.saveWallpaper);
-            p.saveWallpaper();
+            alert(canvas.elt.toDataURL());
+            canvas.elt.toBlob(p.saveWallpaper);
         }
     }
 
 
-    p.saveWallpaper = (blob = null) => {
-        alert(canvas.elt.toDataURL());
-        var image = canvas.elt.toDataURL("image/png")
+    p.saveWallpaper = (blob) => {
+        alert(blob);
+        saveAs(blob, drawVars.wallpaperFileName);
 
-        let a = document.createElement('a');
-        a.target = '_blank';
-        a.href = image;
-        a.click();
-        //alert(blob);
-        //saveAs(blob, drawVars.wallpaperFileName + '.png');
         drawVars.saveWallpaper = false;
         const $element = $('#sketch-holder');
 

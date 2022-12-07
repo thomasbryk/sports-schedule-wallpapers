@@ -220,7 +220,7 @@ function CreateWallpaper() {
 
 function DownloadWallpaper() {
     let month = new Date().toLocaleString('default', { month: 'long' });
-    let fileName = selectedTeam.abbreviation + "_" + month;
+    let fileName = selectedTeam.abbreviation + "_" + month + ".png";
 
     p.exportHighResolution(fileName, selectedTeam.id, schedule);
 }
