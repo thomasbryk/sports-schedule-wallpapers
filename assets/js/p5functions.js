@@ -12,7 +12,7 @@ let WallpaperData = {
             height: 52,
             offset: {
                 x: 69.5,
-                y: 68
+                y: 67.5
             }
         },
         solo: {
@@ -41,7 +41,7 @@ let WallpaperData = {
             fontSize: 36.82,
             offset: {
                 x: 8,
-                y: 5
+                y: 4
             }
         },
 
@@ -197,8 +197,6 @@ const sketch = (p) => {
 
         graphics.background(colour);
         graphics.scale(scaleRatio); // Transform (scale) all the drawings
-
-        //p.image(graphics, 0, 0); // Draw graphics to canvas
 
         drawVars.datesDrawn = 0;
         drawVars.logo = false;
@@ -359,7 +357,8 @@ const sketch = (p) => {
     }
 
     p.saveWallpaper = () => {
-        p.save(graphics, drawVars.wallpaperFileName);
+        p.saveCanvas(canvas, drawVars.wallpaperFileName, '.png')
+            //p.save(graphics, drawVars.wallpaperFileName, '.png');
         drawVars.saveWallpaper = false;
 
         const $element = $('#sketch-holder');
