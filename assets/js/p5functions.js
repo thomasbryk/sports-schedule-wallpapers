@@ -394,13 +394,18 @@ const sketch = (p) => {
         drawVars.calendar = false;
         drawVars.datesDrawn = 0;
 
-        if (drawVars.saveWallpaper)
-            canvas.elt.toBlobHD(p.saveWallpaper);
+        if (drawVars.saveWallpaper) {
+            //canvas.elt.toBlobHD(p.saveWallpaper);
+            p.saveWallpaper();
+        }
     }
 
-    p.saveWallpaper = (blob) => {
-        alert(blob);
-        saveAs(blob, drawVars.wallpaperFileName + '.png');
+
+    p.saveWallpaper = (blob = null) => {
+        var image = canvas.elt.toDataURL("image/png")
+        window.location.href = image; // it will save locally
+        //alert(blob);
+        //saveAs(blob, drawVars.wallpaperFileName + '.png');
         drawVars.saveWallpaper = false;
         const $element = $('#sketch-holder');
 
