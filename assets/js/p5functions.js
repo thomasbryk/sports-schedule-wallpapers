@@ -403,6 +403,7 @@ const sketch = (p) => {
 
     p.saveWallpaper = (blob = null) => {
         var image = canvas.elt.toDataURL("image/png")
+        alert(image)
         window.location.href = image; // it will save locally
         //alert(blob);
         //saveAs(blob, drawVars.wallpaperFileName + '.png');
