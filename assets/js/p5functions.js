@@ -158,7 +158,7 @@ const sketch = (p) => {
         exportRatio = (w == 390 ? 3 : 6);
 
         graphics = p.createGraphics(w, h);
-        canvas = p.createCanvas(w, h);
+        canvas = p.createCanvas(w * exportRatio, h * exportRatio);
         canvas.parent('sketch-holder');
 
         center = p.width / 2;
@@ -180,7 +180,6 @@ const sketch = (p) => {
 
         // Re-create graphics with exportRatio and re-draw
         graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
-        canvas = p.createCanvas(w, h);
         p.draw(selectedTeamId, schedule);
     }
 
@@ -194,6 +193,7 @@ const sketch = (p) => {
         drawVars.schedule = schedule;
 
         graphics.clear(); // Clear graphics each frame
+        canvas.clear()
 
         let colour = $('#Colour').val();
 
@@ -406,8 +406,7 @@ const sketch = (p) => {
         // Reset scaleRation back to 1, re-create graphics, re-draw
         scaleRatio = 1;
         graphics = p.createGraphics(w, h);
-        //canvas = p.createCanvas(w, h);
-        //canvas.parent('sketch-holder');
+        canvas = p.clear()
 
         p.draw(drawVars.selectedTeamId, drawVars.schedule);
     }
