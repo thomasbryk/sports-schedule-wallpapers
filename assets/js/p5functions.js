@@ -357,7 +357,7 @@ const sketch = (p) => {
     }
 
     p.saveWallpaper = () => {
-        p.saveCanvas(canvas, drawVars.wallpaperFileName, '.png')
+        p.saveCanvas(graphics, drawVars.wallpaperFileName, '.png')
             //p.save(graphics, drawVars.wallpaperFileName, '.png');
         drawVars.saveWallpaper = false;
 
