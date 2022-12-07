@@ -12,7 +12,7 @@ let WallpaperData = {
             height: 52,
             offset: {
                 x: 69.5,
-                y: 66.5
+                y: 66.25
             }
         },
         solo: {
@@ -105,7 +105,6 @@ const sketch = (p) => {
         logo: false,
         games: false,
         datesToDraw: 0,
-        datesDrawn: 0,
         calendar: false
     }
 
@@ -164,6 +163,8 @@ const sketch = (p) => {
 
         center = p.width / 2;
         middle = p.height / 2;
+
+        //p.noSmooth();
     }
 
     p.exportHighResolution = (fileName, selectedTeamId, schedule = null) => {
@@ -177,6 +178,7 @@ const sketch = (p) => {
         const h = $element.height();
 
         scaleRatio = exportRatio;
+        //exportRatio = 1;
         drawVars.saveWallpaper = true;
 
         // Re-create graphics with exportRatio and re-draw
@@ -206,7 +208,6 @@ const sketch = (p) => {
         graphics.background(colour);
         graphics.scale(scaleRatio); // Transform (scale) all the drawings
 
-        drawVars.datesDrawn = 0;
         drawVars.logo = false;
 
         p.draw_Logo(selectedTeamId);
@@ -340,14 +341,12 @@ const sketch = (p) => {
                     let imgX = p.getScaledPosition(blockCenter, imgSize.width);
                     let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
 
+                    //graphics.copy(img, 0, 0, img.width, img.height, imgX, imgY, imgSize.width, imgSize.height);
                     graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
-                    drawVars.datesDrawn++;
 
                     resolve();
                 })
             });
-        } else {
-            drawVars.datesDrawn++;
         }
     }
 
@@ -388,12 +387,11 @@ const sketch = (p) => {
 
     p.drawGraphics = () => {
         if (!drawVars.logo || !drawVars.calendar) return;
-
+        p.pixelDensity(exportRatio);
         p.image(graphics, 0, 0); // Draw graphics to canvas
 
         drawVars.logo = false;
         drawVars.calendar = false;
-        drawVars.datesDrawn = 0;
 
         if (drawVars.saveWallpaper) {
             canvas.elt.toBlob(p.saveWallpaper);
