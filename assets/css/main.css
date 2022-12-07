@@ -2639,7 +2639,7 @@ article.team.is-transitioning {
 
 @media screen and (max-width: 736px) {
     article.team {
-        height: 7vh;
+        height: 8vh;
     }
 }
 
@@ -3317,7 +3317,7 @@ body.is-preload #banner>.inner {
     #main>.inner {
         max-width: 65em;
         padding: 1em 0 1em 0;
-        width: calc(100% - 3em);
+        width: calc(100% - 4em);
     }
 }
 
@@ -3462,7 +3462,7 @@ body.is-preload #banner>.inner {
 #wrapper>*>.inner {
     padding: 1em 0 1em 0;
     margin: 0 auto;
-    width: calc(100% - 5em);
+    width: calc(100% - 4.5em);
 }
 
 @media screen and (max-width: 736px) {
@@ -3724,11 +3724,11 @@ body.is-menu-visible #menu .inner {
 }
 
 .slick-next {
-    right: -30px;
+    right: -29px;
 }
 
 .slick-prev {
-    left: -30px;
+    left: -29px;
 }
 
 .padding {
