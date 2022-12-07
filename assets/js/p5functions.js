@@ -154,8 +154,7 @@ const sketch = (p) => {
         const w = $element.width();
         const h = $element.height();
 
-        if (w == 390) exportRatio = 3;
-        else exportRatio = 6;
+        exportRatio = (w == 390) ? 3 : 6;
 
         graphics = p.createGraphics(w, h);
         canvas = p.createCanvas(w, h);
@@ -165,6 +164,7 @@ const sketch = (p) => {
         middle = p.height / 2;
 
         exportRatio /= p.pixelDensity();
+        $('#testing').append("w: " + w + "   h: " + h + "   exportRatio: " + exportRatio);
     }
 
     p.exportHighResolution = (fileName, selectedTeamId, schedule = null) => {
