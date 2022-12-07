@@ -154,7 +154,7 @@ const sketch = (p) => {
         const w = $element.width();
         const h = $element.height();
 
-        exportRatio = (w == 390) ? 3 : 6;
+        exportRatio = (w == 390 ? 3 : 6);
 
         graphics = p.createGraphics(w, h);
         canvas = p.createCanvas(w, h);
@@ -162,15 +162,12 @@ const sketch = (p) => {
 
         center = p.width / 2;
         middle = p.height / 2;
-
-        $('#testing').append("w: " + w + "   h: " + h + "   exportRatio: " + exportRatio);
     }
 
     p.exportHighResolution = (fileName, selectedTeamId, schedule = null) => {
         if (!canvas) return;
         drawVars.wallpaperFileName = fileName;
         drawVars.schedule = schedule;
-        $('#testing').append("exportHighResolution");
 
         const $element = $('#sketch-holder');
 
@@ -362,7 +359,7 @@ const sketch = (p) => {
     }
 
     p.saveWallpaper = () => {
-        p.save(graphics, drawVars.wallpaperFileName, 'png'); // Save as PNG
+        p.save(graphics, drawVars.wallpaperFileName);
         drawVars.saveWallpaper = false;
 
         const $element = $('#sketch-holder');
