@@ -274,8 +274,7 @@ const sketch = (p) => {
             graphics.textAlign(p.CENTER, p.CENTER);
             graphics.fill(colour);
             graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.block.fontSize));
-            graphics.text(month.toUpperCase(), center, imgY + p.getScaled(WallpaperData.month.block.size.height / 2) - 1.25);
-
+            graphics.text(month.toUpperCase(), center, imgY + p.getScaled(WallpaperData.month.block.size.height / 2) - (exportRatio == 3 ? 1.25 : 0.625));
 
             let currDate, currGame = null;
 
@@ -397,14 +396,12 @@ const sketch = (p) => {
         drawVars.datesDrawn = 0;
 
         if (drawVars.saveWallpaper) {
-            alert(canvas.elt.toDataURL());
             canvas.elt.toBlob(p.saveWallpaper);
         }
     }
 
 
     p.saveWallpaper = (blob) => {
-        alert(blob);
         saveAs(blob, drawVars.wallpaperFileName);
 
         drawVars.saveWallpaper = false;
@@ -415,9 +412,11 @@ const sketch = (p) => {
 
         // Reset scaleRation back to 1, re-create graphics, re-draw
         scaleRatio = 1;
+
         graphics = p.createGraphics(w, h);
         canvas = p.createCanvas(w, h);
         canvas.parent('sketch-holder');
+
         $(canvas.elt).show();
 
         p.draw(drawVars.selectedTeamId, drawVars.schedule);
