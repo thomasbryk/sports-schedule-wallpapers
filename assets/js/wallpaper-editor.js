@@ -2,9 +2,12 @@ var nhlJson, selectedTeam, schedule;
 
 var scheduleRetrieved = false;
 var dropdownsPopulated = false;
+var teamSlider_mouseDownX = null;
 
 
 $(document).ready(function() {
+
+
     onload();
 });
 
@@ -30,7 +33,7 @@ function PopulateTeams() {
     nhlJson.teams.sort((a, b) => a.name.localeCompare(b.name))
 
     jQuery.each(nhlJson.teams, (id, teamData) => {
-        let html = '<a id="' + teamData.id + '" class="link" onclick="TeamSelected(this)">\
+        let html = '<a id="' + teamData.id + '" class="link">\
                         <article class="team" style=\'background-image: url("leagues/nhl/logos/' + teamData.id + '/Primary.png"); background-color: ' + Object.values(teamData.colours)[0] + ';\'></article>\
                     </a>';
 
@@ -57,6 +60,21 @@ function PopulateTeams() {
                 }
             }
         ]
+    });
+
+    let $teams = $('.link');
+
+    jQuery.each($teams, (i, team) => {
+        $(team).mousedown((e) => {
+            teamSlider_mouseDownX = e.pageX;
+        });
+
+        $(team).mouseup((e) => {
+            if (teamSlider_mouseDownX >= e.pageX - 3 && teamSlider_mouseDownX <= e.pageX + 3) {
+                let teamId = $(e.target).parent().attr('id');
+                TeamSelected(teamId);
+            }
+        });
     });
 }
 
@@ -119,10 +137,10 @@ function PopulateStyles() {
     }
 }
 
-function TeamSelected(element) {
-    if (selectedTeam && selectedTeam.id == element.id) return; //Same team, skip
+function TeamSelected(teamId) {
+    if (selectedTeam && selectedTeam.id == teamId) return; //Same team, skip
 
-    selectedTeam = nhlJson.teams.find(team => team.id == element.id);
+    selectedTeam = nhlJson.teams.find(team => team.id == teamId);
 
     scheduleRetrieved = false;
     dropdownsPopulated = false;
