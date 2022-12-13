@@ -3744,22 +3744,10 @@ body.is-menu-visible #menu .inner {
     #wallpaper-viewer {
         margin: auto;
         padding-right: 1.5em;
-        min-width: 238px;
-        max-width: 238px;
-    }
-    #wallpaper-viewer .wallpaper-box {
-        min-height: 422px;
     }
     #wallpaper-editor {
         margin: auto;
         padding-bottom: 0;
-        min-width: 238px;
-        max-width: 238px;
-    }
-    .wallpaper-box {
-        max-height: 422px;
-        min-width: 195px;
-        max-width: 195px;
     }
     .wallpaper-box ul {
         margin: 0 0 1.5em 0;
