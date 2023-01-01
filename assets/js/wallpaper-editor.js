@@ -1,167 +1,126 @@
-var wallpapersJson, selectedTeamCode;
+var nhlJson, selectedTeam, schedule;
+
+var scheduleRetrieved = false;
+var dropdownsPopulated = false;
+var teamSlider_mouseDownX = null;
+
 
 $(document).ready(function() {
-    var $wallpaper = $("#wallpaper");
-    $wallpaper.hide();
-
     onload();
 });
 
 function onload() {
-
-    fetch("assets/wallpapers.json")
+    fetch("leagues/nhl/nhl.json")
         .then(response => response.json())
-        .then(json => wallpapersJson = json)
+        .then(json => nhlJson = json)
         .then(PostJsonRetrieval);
 }
 
 function PostJsonRetrieval() {
-    ResetWallpaper();
+    if (!nhlJson) return;
+
+    PopulateTeams();
+    PopulateTimeZones();
 }
 
-function ResetWallpaper() {
-    var $wallpaper = $("#wallpaper");
-    var $logo = $("#Logo");
-    var $month = $("#Month");
-    var $style = $("#Style");
-    var $timeZone = $("#TimeZone");
-    var $amoled = $("#amoled");
-    var $wallpaperDownload = $("#wallpaperDownload");
 
-    $wallpaper.attr('src', '');
+function PopulateTeams() {
+    let $teamsDiv = $(".teamsCarousel");
 
-    if (selectedTeamCode == null)
-        $logo.val('');
+    nhlJson.teams.sort((a, b) => a.name.localeCompare(b.name))
 
-    $month.val('');
-    $style.val('');
-    $timeZone.val('');
-    $amoled.prop('checked', false);
+    jQuery.each(nhlJson.teams, (id, teamData) => {
+        let html = '<a id="' + teamData.id + '" class="link">\
+                        <article class="team" style=\'background-image: url("leagues/nhl/logos/' + teamData.id + '/Primary.png"); background-color: ' + Object.values(teamData.colours)[0] + ';\'></article>\
+                    </a>';
 
-    $logo.attr("disabled", true);
-    $logo.parent().addClass("disabled");
-    $month.attr("disabled", true);
-    $month.parent().addClass("disabled");
-    $style.attr("disabled", true);
-    $style.parent().addClass("disabled");
-    $timeZone.attr("disabled", true);
-    $timeZone.parent().addClass("disabled");
-    $amoled.attr("disabled", true);
-    $amoled.parent().addClass("disabled");
+        $teamsDiv.append(html);
+    });
 
-    $wallpaperDownload.parent().addClass("disabled");
-}
+    $('.teamsCarousel').slick({
+        slidesToShow: 16,
+        slidesToScroll: 16,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        infinite: true,
 
-function SetWallpaper(logo, style = null) {
-    var $wallpaper = $("#wallpaper");
-    var $wallpaperDownload = $("#wallpaperDownload");
-
-    var $amoled = $("#amoled");
-    var amoled = $amoled.prop('checked');
-
-    let imgUrl = selectedTeamCode + "/";
-
-    switch (style != null) {
-        case false:
-            imgUrl += (amoled) ?
-                wallpapersJson.teams[selectedTeamCode].currentMonth[logo].amoled :
-                wallpapersJson.teams[selectedTeamCode].currentMonth[logo].default;
-            break;
-        case true:
-            let imgUrlStyle = wallpapersJson.teams[selectedTeamCode].currentMonth[logo][style];
-            if (imgUrlStyle != null) {
-                imgUrl += "CurrentMonth/";
-                imgUrl += (amoled) ?
-                    imgUrlStyle.amoled :
-                    imgUrlStyle.default;
-            } else {
-                imgUrl += (amoled) ?
-                    imgUrl.amoled :
-                    imgUrl.default;
+        responsive: [{
+                breakpoint: 1920,
+                settings: {
+                    slidesToShow: 8,
+                    slidesToScroll: 8
+                }
+            },
+            {
+                breakpoint: 1140,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4
+                }
             }
-            break;
-    }
+        ]
+    });
 
-    $wallpaper.attr('src', "wallpapers/" + imgUrl);
-    $wallpaperDownload.attr('href', "wallpapers/" + imgUrl);
-    $wallpaperDownload.parent().removeClass("disabled");
+    let $teams = $('.link');
 
-    $wallpaper.fadeIn('fast');
+    jQuery.each($teams, (i, team) => {
+        $(team).mousedown((e) => {
+            teamSlider_mouseDownX = e.pageX;
+        });
+
+        $(team).mouseup((e) => {
+            if (teamSlider_mouseDownX >= e.pageX - 3 && teamSlider_mouseDownX <= e.pageX + 3) {
+                let teamId = $(e.target).parent().attr('id');
+                TeamSelected(teamId);
+            }
+        });
+    });
 }
 
-function CheckWallpaper() {
-    var $logo = $("#Logo");
-    var logo_Val = $logo.val();
+function PopulateTimeZones() {
+    let $timeZone = $("#TimeZone");
 
-    if (selectedTeamCode != null) {
-        $logo.attr("disabled", false);
-        $logo.parent().removeClass("disabled");
-    }
+    const timeZones = Intl.supportedValuesOf('timeZone')
+    timeZones.forEach(tz => {
+        let tzName = tz.replaceAll('_', ' ');
+        $timeZone.append(new Option(tzName, tz));
+    })
 
-    if (!logo_Val)
-        return;
-
-    var $style = $("#Style");
-    var $timeZone = $("#TimeZone");
-
-    let hasStyles = HasStyles(logo_Val);
-
-    $style.attr("disabled", !hasStyles);
-    if (hasStyles)
-        $style.parent().removeClass("disabled");
-    else {
-        $style.parent().addClass("disabled");
-        $style.val('');
-        $timeZone.val('');
-    }
-
-    var style_Val = $style.val();
-
-    var timeZone_Val = $timeZone.val();
-
-    var $amoled = $("#amoled");
-
-    let hasAmoled = HasAmoled(logo_Val, style_Val, timeZone_Val);
-
-    $amoled.attr("disabled", !hasAmoled);
-    if (hasAmoled)
-        $amoled.parent().removeClass("disabled");
-    else {
-        $amoled.parent().addClass("disabled");
-        $amoled.prop('checked', false);
-    }
-
-    if (!style_Val || style_Val == '') {
-        $timeZone.val('');
-        SetWallpaper(logo_Val);
-        return;
-    }
-
-    $timeZone.val('2');
-    //$timeZone.attr("disabled", false);
-    //$timeZone.parent().removeClass("disabled");
-
-    //if (timeZone_Val == '') {
-    SetWallpaper(logo_Val, style_Val);
-    //}
+    $timeZone.val(Intl.DateTimeFormat().resolvedOptions().timeZone);
 }
 
 function PopulateLogos() {
     var $logo = $("#Logo");
     $logo.empty();
 
-    let keys = Object.keys(wallpapersJson.teams[selectedTeamCode].currentMonth)
-    let labels = Object.values(wallpapersJson.teams[selectedTeamCode].currentMonth);
+    let logos = selectedTeam.logos;
+    jQuery.each(logos, (key, logo) => {
+        let option = new Option(key, logo);
 
-    for (let i = 0; i < keys.length; i++) {
-        let key = keys[i];
-        let label = labels[i].label;
-        $logo.append(new Option(label, key));
-    }
+        if (key == "Primary")
+            $logo.prepend(option);
+        else
+            $logo.append(option);
+    })
 
-    $logo.val('home');
+    $logo.prop("selectedIndex", 0);
 
-    PopulateStyles();
+    PopulateColours();
+}
+
+function PopulateColours() {
+    var $colour = $("#Colour");
+    $colour.empty();
+
+    $colour.append(new Option("Black", "#000000"));
+
+    jQuery.each(selectedTeam.colours, (name, hex) => {
+        $colour.append(new Option(name, hex));
+    });
+
+    dropdownsPopulated = true;
+
+    CreateWallpaper();
 }
 
 function PopulateStyles() {
@@ -177,79 +136,108 @@ function PopulateStyles() {
     }
 }
 
-function HasStyles(logo) {
-    var currLogoJson = wallpapersJson.teams[selectedTeamCode].currentMonth[logo];
+function TeamSelected(teamId) {
+    if (selectedTeam && selectedTeam.id == teamId) return; //Same team, skip
 
-    var firstStyleKey = Object.keys(wallpapersJson.styles[0])[0];
+    selectedTeam = nhlJson.teams.find(team => team.id == teamId);
 
-    return (currLogoJson[firstStyleKey] != null);
-}
+    scheduleRetrieved = false;
+    dropdownsPopulated = false;
 
-function GetAmoled(logo, style = null, timeZone = null) {
-    var hasStyle = (style != null && style !== '')
-    var hasTimeZone = (timeZone != null && timeZone != '');
-
-    let imgUrl;
-    switch (hasStyle) {
-        case false:
-            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo].amoled;
-            break;
-        case true:
-            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo][style].amoled;
-            break;
-    }
-
-    if (imgUrl != null)
-        imgUrl = selectedTeamCode + "/" + imgUrl
-
-    return imgUrl;
-}
-
-function HasAmoled(logo, style = '', timeZone = '') {
-    let imgUrl = GetAmoled(logo, style, timeZone);
-
-    return (imgUrl != null);
-}
-
-function GetAmoled(logo, style = null, timeZone = null) {
-    var hasStyle = (style != null && style !== '')
-    var hasTimeZone = (timeZone != null && timeZone != '');
-
-    let imgUrl;
-    switch (hasStyle) {
-        case false:
-            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo].amoled;
-            break;
-        case true:
-            imgUrl = wallpapersJson.teams[selectedTeamCode].currentMonth[logo][style].amoled;
-            break;
-    }
-
-    if (imgUrl != null)
-        imgUrl = selectedTeamCode + "/" + imgUrl
-
-    return imgUrl;
-}
-
-function TeamSelected(element) {
-    let resetWallpaper = (selectedTeamCode != null)
-
-    selectedTeamCode = element.id;
-
+    RetrieveSchedule();
     PopulateLogos();
-
-    if (resetWallpaper) {
-        var $wallpaper = $("#wallpaper");
-        $wallpaper.fadeOut('fast', function() {
-            ResetWallpaper();
-            CheckWallpaper();
-        });
-    } else
-        CheckWallpaper();
 
     var $selectTeamError = $("#selectTeamError");
     $selectTeamError.fadeOut();
 
     var wallpaperEditor = $("#wallpaper-editor");
     $('html,body').animate({ scrollTop: wallpaperEditor.offset().top }, 'slow');
+}
+
+function RetrieveSchedule() {
+    schedule = null;
+
+    let currDate = new Date(),
+        yyyy = currDate.getFullYear(),
+        mm = currDate.getMonth();
+
+    let firstDay = new Date(yyyy, mm, 1).toISOString();
+    firstDay = firstDay.substring(0, firstDay.indexOf("T"));
+
+    let lastDay = new Date(yyyy, mm + 1, 0).toISOString();
+    lastDay = lastDay.substring(0, lastDay.indexOf("T"));
+
+    $.ajax({
+        url: "https://statsapi.web.nhl.com/api/v1/schedule?teamId=" + selectedTeam.id + "&startDate=" + firstDay + "&endDate=" + lastDay,
+        accepts: {
+            text: "application/json"
+        },
+        success: function(games) {
+            if (!games) {
+                console.log("[RetrieveSchedule]: Retrieved schedule object is null");
+                return;
+            }
+            let scheduleJson = games.dates;
+
+            BuildSchedule(scheduleJson);
+        }
+    })
+}
+
+function BuildSchedule(scheduleJson = null) {
+    let timeZone_Val = $("#TimeZone").val();
+    if (scheduleJson) {
+        schedule = [];
+
+        scheduleJson.forEach(gameData => {
+            let currScheduleObj = {};
+            let currGame = gameData.games[0];
+
+            currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.gameDate);
+
+            let timeHour = (currScheduleObj.date.hour > 12 ? currScheduleObj.date.hour - 12 : (currScheduleObj.date.hour == 0 ? 12 : currScheduleObj.date.hour));
+            let timeMin = (currScheduleObj.date.minute < 10 ? "0" + currScheduleObj.date.minute : currScheduleObj.date.minute);
+            currScheduleObj.date.dateText = timeHour + ":" + timeMin;
+
+            currScheduleObj.home = (currGame.teams.home.team.id == selectedTeam.id);
+
+            let opponent = (currScheduleObj.home ?
+                currGame.teams.away.team :
+                currGame.teams.home.team);
+
+            let opponentObj = nhlJson.teams.find(team => team.id == opponent.id);
+
+            currScheduleObj.opponent = {
+                id: opponentObj.id,
+                abbreviation: opponentObj.abbreviation,
+                logo: "../../leagues/nhl/logos/" + opponentObj.id + "/Primary.png"
+            }
+
+            schedule.push(currScheduleObj);
+        })
+    } else if (schedule) {
+        schedule.forEach(gameData => {
+            gameData.date = TZIntl.getDateTime(timeZone_Val, gameData.date.toISOString());
+
+            let timeHour = (gameData.date.hour > 12 ? gameData.date.hour - 12 : (gameData.date.hour == 0 ? 12 : gameData.date.hour));
+            let timeMin = (gameData.date.minute < 10 ? "0" + gameData.date.minute : gameData.date.minute);
+            gameData.date.dateText = timeHour + ":" + timeMin;
+        })
+    }
+
+    scheduleRetrieved = true;
+
+    CreateWallpaper();
+}
+
+function CreateWallpaper() {
+    if (scheduleRetrieved && dropdownsPopulated)
+        p.draw(selectedTeam.id, schedule);
+}
+
+function DownloadWallpaper() {
+    let month = new Date().toLocaleString('default', { month: 'long' });
+    let fileName = selectedTeam.abbreviation + "_" + month + ".png";
+
+    p.exportHighResolution(fileName, selectedTeam.id, schedule);
 }

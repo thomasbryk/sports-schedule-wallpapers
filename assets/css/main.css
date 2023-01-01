@@ -1712,7 +1712,7 @@ label {
     display: block;
     font-size: 0.8em;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     margin: 0 0 1em 0;
     text-transform: uppercase;
 }
@@ -2043,11 +2043,10 @@ a.icon.alt:active:before {
 
 ol {
     list-style: decimal;
-    margin: 0 0 2em 0;
-    padding-left: 1.25em;
+    margin: 0 0 2.5em 0;
 }
 
-ol li {
+li {
     padding-left: 0.25em;
 }
 
@@ -2168,6 +2167,7 @@ ul.icons {
     cursor: default;
     list-style: none;
     padding-left: 0;
+    margin: auto;
 }
 
 ul.icons li {
@@ -2322,8 +2322,6 @@ table.alt tfoot {
 
 input[type="submit"],
 input[type="reset"],
-input[type="button"],
-button,
 .button {
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -2356,10 +2354,6 @@ input[type="submit"]:hover,
 input[type="submit"]:active,
 input[type="reset"]:hover,
 input[type="reset"]:active,
-input[type="button"]:hover,
-input[type="button"]:active,
-button:hover,
-button:active,
 .button:hover,
 .button:active {
     box-shadow: inset 0 0 0 2px #9bf1ff;
@@ -2368,8 +2362,6 @@ button:active,
 
 input[type="submit"]:active,
 input[type="reset"]:active,
-input[type="button"]:active,
-button:active,
 .button:active {
     background-color: rgba(155, 241, 255, 0.1);
     box-shadow: inset 0 0 0 2px #53e3fb;
@@ -2553,7 +2545,7 @@ button:disabled,
     border-top: 0 !important;
 }
 
-.tiles article {
+article.team {
     -moz-align-items: center;
     -webkit-align-items: center;
     -ms-align-items: center;
@@ -2566,45 +2558,41 @@ button:disabled,
     -webkit-transition: -webkit-transform 0.25s ease, opacity 0.25s ease, -webkit-filter 1s ease, -webkit-filter 1s ease;
     -ms-transition: -ms-transform 0.25s ease, opacity 0.25s ease, -ms-filter 1s ease, -webkit-filter 1s ease;
     transition: transform 0.25s ease, opacity 0.25s ease, filter 1s ease, -webkit-filter 1s ease;
-    padding: 4em 4em 2em 4em;
+    padding: 0;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     cursor: default;
-    height: 12vh;
+    height: 9vh;
+    max-height: 110px;
     overflow: hidden;
     position: relative;
-    width: 25%;
 }
 
-.tiles article .image {
+article.team .image {
     display: none;
 }
 
-.tiles article header {
+article.team header {
     position: relative;
     z-index: 3;
+    width: 100%
 }
 
-.tiles article h3 {
+article.team h3 {
     font-size: 1.75em;
 }
 
-.tiles article h3 a:hover {
+article.team h3 a:hover {
     color: inherit !important;
 }
 
-.tiles article .link.primary {
-    border: 0;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 4;
+.link {
+    width: 10%;
+    border-bottom: none;
 }
 
-.tiles article:before {
+article.team:before {
     -moz-transition: opacity 0.5s ease;
     -webkit-transition: opacity 0.5s ease;
     -ms-transition: opacity 0.5s ease;
@@ -2614,29 +2602,31 @@ button:disabled,
     display: block;
     height: 100%;
     left: 0;
-    opacity: 0.85;
+    opacity: 0.8;
+    filter: brightness(100%);
     position: absolute;
     width: 100%;
     z-index: 2;
+    background-color: #2a2f4a;
 }
 
-.tiles article:after {
-    background-color: rgba(36, 41, 67, 0.25);
+article.team:after {
     content: '';
     display: block;
     height: 100%;
     left: 0;
     position: absolute;
     top: 0;
+    opacity: 1;
     width: 100%;
     z-index: 1;
 }
 
-.tiles article:hover:before {
+article.team:hover:before {
     opacity: 0;
 }
 
-.tiles article.is-transitioning {
+article.team.is-transitioning {
     -moz-transform: scale(0.95);
     -webkit-transform: scale(0.95);
     -ms-transform: scale(0.95);
@@ -2648,43 +2638,9 @@ button:disabled,
     opacity: 0;
 }
 
-.tiles article:nth-child(1):before {
-    background-color: #162e5a;
-}
-
-.tiles article:nth-child(2):before {
-    background-color: #00205b;
-}
-
-@media screen and (max-width: 1280px) {
-    .tiles article {
-        padding: 4em 3em 2em 3em;
+@media screen and (max-width: 736px) {
+    article.team {
         height: 8vh;
-        max-height: 30em;
-    }
-}
-
-@media screen and (max-width: 984px) {
-    .tiles article {
-        width: 25% !important;
-    }
-}
-
-@media screen and (max-width: 860px) {
-    .tiles article {
-        padding: 3em 1.5em 1em 1.5em;
-        height: 9vh;
-        max-height: none;
-        min-height: 0;
-    }
-    .tiles article h3 {
-        font-size: 1.5em;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .tiles article {
-        width: 50% !important;
     }
 }
 
@@ -3142,7 +3098,6 @@ body.is-preload #header.alt {
     -webkit-align-items: center;
     -ms-align-items: center;
     align-items: center;
-    background-image: url("../../images/banner.jpg");
     display: -moz-flex;
     display: -webkit-flex;
     display: -ms-flex;
@@ -3196,6 +3151,7 @@ body.is-preload #header.alt {
     padding: 0 !important;
     position: relative;
     z-index: 2;
+    max-width: 65em;
 }
 
 #banner>.inner .image {
@@ -3351,16 +3307,22 @@ body.is-preload #banner>.inner {
     border-top: 0;
 }
 
-#main>*>.inner {
-    padding: 4em 0 2em 0;
+#main>.inner {
+    padding: 0.5em 0 0.5em 0;
     margin: 0 auto;
-    max-width: 65em;
+    max-width: 100em;
     width: calc(100% - 6em);
 }
 
+@media screen and (max-width: 1919px) {
+    #main>.inner {
+        max-width: 65em;
+        width: calc(100% - 4em);
+    }
+}
+
 @media screen and (max-width: 736px) {
-    #main>*>.inner {
-        padding: 3em 0 1em 0;
+    #main>.inner {
         width: calc(100% - 3em);
     }
 }
@@ -3497,17 +3459,8 @@ body.is-preload #banner>.inner {
 }
 
 #wrapper>*>.inner {
-    padding: 4em 0 2em 0;
     margin: 0 auto;
-    max-width: 65em;
-    width: calc(100% - 6em);
-}
-
-@media screen and (max-width: 736px) {
-    #wrapper>*>.inner {
-        padding: 3em 0 1em 0;
-        width: calc(100% - 3em);
-    }
+    width: calc(100% - 4.5em);
 }
 
 @media screen and (max-width: 736px) {
@@ -3700,16 +3653,18 @@ body.is-menu-visible #menu .inner {
 #wallpaper-viewer {
     margin-left: auto;
     padding-right: 0;
-    min-width: 324px;
+    min-width: 390px;
+    min-height: 844px;
+}
+
+#wallpaper-viewer>.wallpaper-box {
+    min-height: 844px;
 }
 
 #wallpaper-editor {
     margin-right: auto;
     min-width: 348px;
-}
-
-#wallpaper-viewer .wallpaper-box {
-    min-height: 649px;
+    min-height: 0px;
 }
 
 #wallpaperDownload {
@@ -3729,9 +3684,9 @@ body.is-menu-visible #menu .inner {
     height: 100%;
     background-color: #2a2f4a;
     margin: 0;
-    max-height: 649px;
-    min-width: 300px;
-    max-width: 300px;
+    max-height: 844px;
+    min-width: 390px;
+    max-width: 390px;
 }
 
 .wallpaper-label {
@@ -3750,10 +3705,6 @@ body.is-menu-visible #menu .inner {
     width: 100%
 }
 
-#amoled {
-    font-size: 11pt;
-}
-
 .teamLabel {
     text-align: center;
     font-size: 0.75em;
@@ -3768,15 +3719,23 @@ body.is-menu-visible #menu .inner {
     margin-top: -23px;
 }
 
+.slick-next {
+    right: -29px;
+}
+
+.slick-prev {
+    left: -29px;
+}
+
 .padding {
-    padding: 32px;
+    padding: 25px;
 }
 
 .disabled>* {
     opacity: 25%;
 }
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 850px) {
     #wallpaper-selector {
         display: flex;
         flex-direction: column-reverse;
@@ -3784,22 +3743,10 @@ body.is-menu-visible #menu .inner {
     #wallpaper-viewer {
         margin: auto;
         padding-right: 1.5em;
-        min-width: 348px;
-        max-width: 348px;
-    }
-    #wallpaper-viewer .wallpaper-box {
-        min-height: 649px;
     }
     #wallpaper-editor {
         margin: auto;
         padding-bottom: 0;
-        min-width: 348px;
-        max-width: 348px;
-    }
-    .wallpaper-box {
-        max-height: 649px;
-        min-width: 300px;
-        max-width: 300px;
     }
     .wallpaper-box ul {
         margin: 0 0 1.5em 0;
@@ -3811,14 +3758,39 @@ body.is-menu-visible #menu .inner {
     .wallpaper-label {
         font-size: 11pt;
     }
-    #amoled {
-        font-size: 10pt;
-    }
     #wallpaperDownload {
         font-size: 8pt;
     }
 }
 
+@media only screen and (max-width: 440px) {
+    #wallpaper-viewer {
+        margin: auto;
+        padding-right: 10px;
+        min-width: 260px;
+        min-height: 0px;
+    }
+    #wallpaper-viewer>.wallpaper-box {
+        min-height: calc(2532px / 4.5);
+    }
+    .wallpaper-modal {
+        padding: 10px;
+        align-items: center;
+        background-color: #22253b;
+    }
+    .wallpaper-box {
+        max-height: calc(2532px / 4.5);
+        min-width: 260px;
+        max-width: 260px;
+    }
+    #wallpaper-editor {
+        min-width: 0px;
+        min-height: 0px;
+    }
+}
+
 footer {
-    padding: 4em;
+    padding: 1em;
+    display: flex;
+    background-color: #22253b;
 }
