@@ -354,7 +354,7 @@ const sketch = (p) => {
 
     p.draw_HomeAway = () => {
         let date = new Date();
-        let dayOfWeek_firstDay = (new Date(date.getFullYear, date.getMonth, 1)).getDay();
+        let dayOfWeek_firstDay = (new Date(date.getFullYear(), date.getMonth(), 1)).getDay();
 
         let offsetX = 0;
         let offsetY = 0;
