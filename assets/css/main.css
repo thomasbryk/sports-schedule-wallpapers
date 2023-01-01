@@ -3653,15 +3653,17 @@ body.is-menu-visible #menu .inner {
     margin-left: auto;
     padding-right: 0;
     min-width: 390px;
+    min-height: 844px;
+}
+
+#wallpaper-viewer>.wallpaper-box {
+    min-height: 844px;
 }
 
 #wallpaper-editor {
     margin-right: auto;
     min-width: 348px;
-}
-
-#wallpaper-viewer .wallpaper-box {
-    min-height: 844px;
+    min-height: 0px;
 }
 
 #wallpaperDownload {
@@ -3764,6 +3766,32 @@ body.is-menu-visible #menu .inner {
     }
     #wallpaperDownload {
         font-size: 8pt;
+    }
+}
+
+@media only screen and (max-width: 440px) {
+    #wallpaper-viewer {
+        margin: auto;
+        padding-right: 10px;
+        min-width: 260px;
+        min-height: 0px;
+    }
+    #wallpaper-viewer>.wallpaper-box {
+        min-height: calc(2532px / 4.5);
+    }
+    .wallpaper-modal {
+        padding: 10px;
+        align-items: center;
+        background-color: #22253b;
+    }
+    .wallpaper-box {
+        max-height: calc(2532px / 4.5);
+        min-width: 260px;
+        max-width: 260px;
+    }
+    #wallpaper-editor {
+        min-width: 0px;
+        min-height: 0px;
     }
 }
 

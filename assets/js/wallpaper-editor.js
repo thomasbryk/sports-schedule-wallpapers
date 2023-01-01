@@ -6,8 +6,6 @@ var teamSlider_mouseDownX = null;
 
 
 $(document).ready(function() {
-
-
     onload();
 });
 
@@ -23,7 +21,6 @@ function PostJsonRetrieval() {
 
     PopulateTeams();
     PopulateTimeZones();
-    //ResetWallpaper();
 }
 
 
@@ -43,7 +40,9 @@ function PopulateTeams() {
     $('.teamsCarousel').slick({
         slidesToShow: 16,
         slidesToScroll: 16,
-        infinite: false,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        infinite: true,
 
         responsive: [{
                 breakpoint: 1920,

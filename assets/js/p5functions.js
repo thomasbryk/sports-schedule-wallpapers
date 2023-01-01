@@ -12,7 +12,7 @@ let WallpaperData = {
             height: 52,
             offset: {
                 x: 69.5,
-                y: 66.25
+                y: 66.5
             }
         },
         solo: {
@@ -155,7 +155,7 @@ const sketch = (p) => {
         const w = $element.width();
         const h = $element.height();
 
-        exportRatio = (w == 390 ? 3 : 6);
+        exportRatio = (w == 390 ? 3 : 4.5);
         pixelDensity = p.pixelDensity();
         p.pixelDensity(1);
 
