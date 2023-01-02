@@ -395,11 +395,12 @@ const sketch = (p) => {
         drawVars.calendar = false;
         alert("drawGraphics");
         p.image(graphics, 0, 0); // Draw graphics to canvas
-        alert(graphics);
-        alert(canvas.elt);
         if (drawVars.saveWallpaper) {
-
-            canvas.elt.toBlobHD(p.saveWallpaper);
+            let imageUrl = canvas.elt.toDataURL("image/jpeg", 1)
+            alert(imageUrl);
+            document.querySelector("#wallpaper").src = imageUrl;
+            alert("drawGraphics DONE");
+            //canvas.elt.toBlobHD(p.saveWallpaper, "image/jpeg");
         }
     }
 
