@@ -396,9 +396,10 @@ const sketch = (p) => {
         alert("drawGraphics");
         p.image(graphics, 0, 0); // Draw graphics to canvas
         alert(graphics);
+        alert(canvas.elt);
         if (drawVars.saveWallpaper) {
 
-            canvas.elt.toBlob(p.saveWallpaper);
+            canvas.elt.toBlobHD(p.saveWallpaper);
         }
     }
 
@@ -407,7 +408,6 @@ const sketch = (p) => {
         alert("saveWallpaper");
         alert(blob)
         var urlCreator = window.URL || window.webkitURL;
-        alert(urlCreator)
         var imageUrl = urlCreator.createObjectURL(blob);
         alert(imageUrl);
         document.querySelector("#wallpaper").src = imageUrl;
