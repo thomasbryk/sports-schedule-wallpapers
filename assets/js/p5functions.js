@@ -404,6 +404,7 @@ const sketch = (p) => {
 
 
     p.saveWallpaper = (blob) => {
+        alert("saveWallpaper");
         var urlCreator = window.URL || window.webkitURL;
         var imageUrl = urlCreator.createObjectURL(blob);
         document.querySelector("#wallpaper").src = imageUrl;
