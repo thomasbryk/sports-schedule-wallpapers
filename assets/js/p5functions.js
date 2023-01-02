@@ -191,7 +191,7 @@ const sketch = (p) => {
         graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
         canvas = p.createCanvas(scaleRatio * w, scaleRatio * h);
         canvas.parent('sketch-holder');
-
+        alert("exportHighResolution");
         p.draw(selectedTeamId, schedule);
     }
 
@@ -393,8 +393,9 @@ const sketch = (p) => {
 
         drawVars.logo = false;
         drawVars.calendar = false;
+        alert("drawGraphics");
         p.image(graphics, 0, 0); // Draw graphics to canvas
-
+        alert(graphics);
         if (drawVars.saveWallpaper) {
 
             canvas.elt.toBlob(p.saveWallpaper);
