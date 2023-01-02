@@ -3745,8 +3745,8 @@ body.is-menu-visible #menu .inner {
     content: '';
     box-sizing: border-box;
     position: absolute;
-    top: calc(50% - 10px);
-    left: calc(50% - 10px);
+    top: calc(50% - 15px);
+    left: calc(50% - 15px);
     width: 20px;
     height: 20px;
     border-radius: 50%;
