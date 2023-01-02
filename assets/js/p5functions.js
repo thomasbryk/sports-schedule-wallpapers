@@ -93,16 +93,13 @@ const sketch = (p) => {
     let center, middle;
 
     let scaleRatio = 1;
-    let exportRatio;
     let graphics;
     let canvas;
-    let pixelDensity;
 
     let drawVars = {
         schedule: null,
         selectedTeam: null,
         saveWallpaper: false,
-        wallpaperFileName: null,
         logo: false,
         games: false,
         datesToDraw: 0,
@@ -113,8 +110,8 @@ const sketch = (p) => {
     p.center = (objectWidth) => center - (objectWidth / 2);
     p.middle = (objectHeight) => middle - (objectHeight / 2);
 
-    p.getScaled = (pixels) => (pixels / exportRatio);
-    p.getScaledPosition = (position, objectSize) => (position / exportRatio) - (objectSize / 2);
+    p.getScaled = (pixels) => (pixels / scaleRatio);
+    p.getScaledPosition = (position, objectSize) => (position / scaleRatio) - (objectSize / 2);
 
     // returns week of the month starting with 0
     p.getWeekOfMonth = (year, month, day) => {
@@ -137,8 +134,8 @@ const sketch = (p) => {
         scaleFactor = (imgW / hScaleFactor > widthLimit ? wScaleFactor : hScaleFactor);
 
         let imgSize = {
-            width: (imgW / scaleFactor) / exportRatio,
-            height: (imgH / scaleFactor) / exportRatio
+            width: (imgW / scaleFactor) / scaleRatio,
+            height: (imgH / scaleFactor) / scaleRatio
         }
 
         return imgSize;
@@ -155,53 +152,29 @@ const sketch = (p) => {
         const w = $element.width();
         const h = $element.height();
 
-        exportRatio = (w == 390 ? 3 : 4.5);
-        pixelDensity = p.pixelDensity();
-        p.pixelDensity(1);
+        scaleRatio = (w == 390 ? 3 : 4.5);
 
-        graphics = p.createGraphics(w, h);
+        p.pixelDensity(2);
+
+        graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
         canvas = p.createCanvas(w, h);
         canvas.parent('sketch-holder');
 
-        center = p.width / 2;
-        middle = p.height / 2;
+        center = graphics.width / 2;
+        middle = graphics.height / 2;
+        scaleRatio = 1;
 
         $(canvas.elt).hide();
 
+        p.noLoop();
         //p.noSmooth();
-    }
-
-    p.exportHighResolution = (fileName, selectedTeamId, schedule = null) => {
-        if (!canvas) return;
-        drawVars.wallpaperFileName = fileName;
-        drawVars.schedule = schedule;
-
-        const $element = $('#sketch-holder');
-
-        const w = $element.width();
-        const h = $element.height();
-        alert(exportRatio)
-        scaleRatio = exportRatio;
-        p.pixelDensity((pixelDensity >= 2.1 ? 2 : exportRatio));
-
-        drawVars.saveWallpaper = true;
-
-        // Re-create graphics with exportRatio and re-draw
-        graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
-        canvas = p.createCanvas(scaleRatio * w, scaleRatio * h);
-        canvas.parent('sketch-holder');
-        alert("exportHighResolution");
-        p.draw(selectedTeamId, schedule);
     }
 
 
     p.draw = (selectedTeamId, schedule = null) => {
-        p.noLoop();
-
         if (!selectedTeamId) return;
 
         drawVars.selectedTeamId = selectedTeamId;
-        drawVars.schedule = schedule;
 
         graphics.clear(); // Clear graphics each frame
         canvas.clear()
@@ -209,32 +182,37 @@ const sketch = (p) => {
         let colour = $('#Colour').val();
 
         graphics.background(colour);
-        graphics.scale(scaleRatio); // Transform (scale) all the drawings
 
         drawVars.logo = false;
 
-        p.draw_Logo(selectedTeamId);
-        p.draw_Calendar(schedule);
+        let drawPromises = [];
+        drawPromises.push(p.draw_Logo(selectedTeamId));
+        drawPromises.push(p.draw_Calendar(schedule));
+
+        Promise.all(drawPromises).then(() => {
+            p.drawGraphics();
+        })
     }
 
-    p.draw_Logo = (selectedTeamId) => {
+    p.draw_Logo = async(selectedTeamId) => {
         let logoFileName = $('#Logo').val();
         let filePath = window.location.href + 'leagues/nhl/logos/' + selectedTeamId + '/' + logoFileName;
 
-        p.loadImage(filePath, (img) => {
-            let imgSize = p.scaleImage(img, WallpaperData.logos.main.width, WallpaperData.logos.main.height);
+        return new Promise((resolve) => {
+            p.loadImage(filePath, (img) => {
+                let imgSize = p.scaleImage(img, WallpaperData.logos.main.width, WallpaperData.logos.main.height);
 
-            let imgX = p.center(imgSize.width);
-            let imgY = p.getScaledPosition(WallpaperData.logos.main.position.y, imgSize.height)
+                let imgX = p.center(imgSize.width);
+                let imgY = p.getScaledPosition(WallpaperData.logos.main.position.y, imgSize.height)
 
-            graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
+                graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
-            drawVars.logo = true;
-            p.drawGraphics();
+                resolve();
+            });
         });
     }
 
-    p.draw_Calendar = (schedule = null) => {
+    p.draw_Calendar = async(schedule = null) => {
         graphics.noStroke();
 
         let date = new Date();
@@ -264,35 +242,37 @@ const sketch = (p) => {
 
         let monthFilePath = window.location.href + 'assets/images/' + WallpaperData.month.block.filename;
 
-        p.loadImage(monthFilePath, (img) => {
-            let imgSize = p.scaleImage(img, WallpaperData.month.block.size.width, WallpaperData.month.block.size.height);
+        return new Promise((resolve) => {
+            p.loadImage(monthFilePath, (img) => {
+                let imgSize = p.scaleImage(img, WallpaperData.month.block.size.width, WallpaperData.month.block.size.height);
 
-            let imgX = p.center(imgSize.width);
-            let imgY = p.getScaledPosition(WallpaperData.month.block.position.y, imgSize.height)
+                let imgX = p.center(imgSize.width);
+                let imgY = p.getScaledPosition(WallpaperData.month.block.position.y, imgSize.height)
 
-            graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
+                graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
-            let colour = $('#Colour').val();
-            let month = date.toLocaleDateString('default', { month: 'long' });
+                let colour = $('#Colour').val();
+                let month = date.toLocaleDateString('default', { month: 'long' });
 
-            graphics.textAlign(p.CENTER, p.CENTER);
-            graphics.fill(colour);
-            graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.block.fontSize));
-            graphics.text(month.toUpperCase(), center, imgY + p.getScaled(WallpaperData.month.block.size.height / 2) - (exportRatio == 3 ? 1.25 : 0.625));
+                graphics.textAlign(p.CENTER, p.CENTER);
+                graphics.fill(colour);
+                graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.block.fontSize));
+                graphics.text(month.toUpperCase(), center, imgY + p.getScaled(WallpaperData.month.block.size.height / 2) - 2.5);
 
-            let currDate, currGame = null;
+                let currDate, currGame = null;
 
-            for (let i = 1; i <= drawVars.datesToDraw; i++) {
-                currDate = new Date(date.getFullYear(), date.getMonth(), i);
-                currGame = (schedule ? schedule.find(g => g.date.day == currDate.getDate()) : null);
+                for (let i = 1; i <= drawVars.datesToDraw; i++) {
+                    currDate = new Date(date.getFullYear(), date.getMonth(), i);
+                    currGame = (schedule ? schedule.find(g => g.date.day == currDate.getDate()) : null);
 
-                drawDatePromises.push(p.draw_Date(currDate, currGame));
-            }
+                    drawDatePromises.push(p.draw_Date(currDate, currGame));
+                }
 
-            Promise.all(drawDatePromises).then(() => {
-                drawVars.calendar = true;
-                p.drawGraphics();
-            })
+
+                Promise.all(drawDatePromises).then(() => {
+                    resolve();
+                })
+            });
         });
     }
 
@@ -388,51 +368,14 @@ const sketch = (p) => {
     }
 
     p.drawGraphics = () => {
-        if (!drawVars.logo || !drawVars.calendar) return;
-
-        drawVars.logo = false;
-        drawVars.calendar = false;
-        alert("drawGraphics");
         p.image(graphics, 0, 0); // Draw graphics to canvas
-        if (drawVars.saveWallpaper) {
-            let imageUrl = canvas.elt.toDataURL("image/jpeg", 1)
-            alert(imageUrl);
-            document.querySelector("#wallpaper").src = imageUrl;
-            alert("drawGraphics DONE");
-            //canvas.elt.toBlobHD(p.saveWallpaper, "image/jpeg");
-        }
-    }
-
-
-    p.saveWallpaper = (blob) => {
-        alert("saveWallpaper");
-        alert(blob)
-        var urlCreator = window.URL || window.webkitURL;
-        var imageUrl = urlCreator.createObjectURL(blob);
-        alert(imageUrl);
-        document.querySelector("#wallpaper").src = imageUrl;
-        alert("saveWallpaper DONE");
-
-        return;
-
-        saveAs(blob, drawVars.wallpaperFileName);
-
-        drawVars.saveWallpaper = false;
-        scaleRatio = 1;
-        p.pixelDensity(1);
-
-        const $element = $('#sketch-holder');
-
-        const w = $element.width();
-        const h = $element.height();
-
-        graphics = p.createGraphics(w, h);
-        canvas = p.createCanvas(w, h);
-        canvas.parent('sketch-holder');
-
-        $(canvas.elt).show();
-
-        p.draw(drawVars.selectedTeamId, drawVars.schedule);
+        graphics.elt.toBlob((blob) => {
+            let $wallpaper = $("#wallpaper");
+            $wallpaper.attr("src", URL.createObjectURL(blob));
+            if (!$wallpaper.is(":visible")) {
+                $wallpaper.show();
+            }
+        }, "image/jpeg")
     }
 }
 

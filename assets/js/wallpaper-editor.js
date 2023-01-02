@@ -6,7 +6,7 @@ var teamSlider_mouseDownX = null;
 
 
 $(document).ready(function() {
-    //$("#wallpaper").hide();
+    $("#wallpaper").hide();
     onload();
 });
 
@@ -73,7 +73,6 @@ function PopulateTeams() {
 
         $(team).mouseup((e) => {
             if (teamSlider_mouseDownX >= e.pageX - 3 && teamSlider_mouseDownX <= e.pageX + 3) {
-                console.log(e.target);
                 let teamId = $(e.target).parent().attr('name');
                 TeamSelected(teamId);
             }
@@ -139,7 +138,6 @@ function PopulateStyles() {
 }
 
 function TeamSelected(teamId) {
-    console.log(teamId)
     if (selectedTeam && selectedTeam.id == teamId) return; //Same team, skip
 
     selectedTeam = nhlJson.teams.find(team => team.id == teamId);
@@ -234,16 +232,14 @@ function BuildSchedule(scheduleJson = null) {
 }
 
 function CreateWallpaper() {
-    DownloadWallpaper();
-    return;
-
     if (scheduleRetrieved && dropdownsPopulated)
         p.draw(selectedTeam.id, schedule);
 }
 
 function DownloadWallpaper() {
+    let imageUrl = $("#wallpaper").attr("src");
     let month = new Date().toLocaleString('default', { month: 'long' });
-    let fileName = selectedTeam.abbreviation + "_" + month + ".png";
+    let filename = selectedTeam.abbreviation + "_" + month + ".png";
 
-    p.exportHighResolution(fileName, selectedTeam.id, schedule);
+    saveAs(imageUrl, filename);
 }
