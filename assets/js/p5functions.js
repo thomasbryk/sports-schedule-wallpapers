@@ -180,9 +180,9 @@ const sketch = (p) => {
 
         const w = $element.width();
         const h = $element.height();
-
+        alert(exportRatio)
         scaleRatio = exportRatio;
-        p.pixelDensity((pixelDensity >= 2 ? 1.8 : exportRatio));
+        p.pixelDensity((pixelDensity >= 2.1 ? 2 : exportRatio));
 
         drawVars.saveWallpaper = true;
 
