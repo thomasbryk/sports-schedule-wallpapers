@@ -41,8 +41,11 @@ function PopulateTeams() {
         slidesToShow: 16,
         slidesToScroll: 16,
         autoplay: true,
-        autoplaySpeed: 3000,
+        autoplaySpeed: 3500,
         infinite: true,
+        swipe: true,
+        swipeToSlide: true,
+        touchMove: true,
 
         responsive: [{
                 breakpoint: 1920,
