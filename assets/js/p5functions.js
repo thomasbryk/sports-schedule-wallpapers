@@ -409,6 +409,8 @@ const sketch = (p) => {
         document.querySelector("#wallpaper").src = imageUrl;
         alert(imageUrl);
 
+        return;
+
         saveAs(blob, drawVars.wallpaperFileName);
 
         drawVars.saveWallpaper = false;

@@ -6,7 +6,7 @@ var teamSlider_mouseDownX = null;
 
 
 $(document).ready(function() {
-    $("#wallpaper").hide();
+    //$("#wallpaper").hide();
     onload();
 });
 
@@ -123,8 +123,6 @@ function PopulateColours() {
     });
 
     dropdownsPopulated = true;
-
-    CreateWallpaper();
 }
 
 function PopulateStyles() {
