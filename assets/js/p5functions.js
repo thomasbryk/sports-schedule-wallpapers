@@ -406,9 +406,7 @@ const sketch = (p) => {
         var urlCreator = window.URL || window.webkitURL;
         var imageUrl = urlCreator.createObjectURL(blob);
         document.querySelector("#wallpaper").src = imageUrl;
-
-        $("#wallpaper").show();
-        return;
+        alert(imageUrl);
 
         saveAs(blob, drawVars.wallpaperFileName);
 
