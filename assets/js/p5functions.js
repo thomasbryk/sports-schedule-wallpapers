@@ -347,7 +347,6 @@ const sketch = (p) => {
             offsetX = (WallpaperData.dateBlock.width + WallpaperData.dateBlock.offset.x) * (6)
             offsetY = (WallpaperData.dateBlock.height + WallpaperData.dateBlock.offset.y) * (weekOfMonth - 1)
             offsetY_TimeZone = offsetY + WallpaperData.month.home_away.size.height / 2;
-            console.log
             offsetY += WallpaperData.dateBlock.height - WallpaperData.month.home_away.size.height
         }
 
@@ -382,7 +381,7 @@ const sketch = (p) => {
 
             let x_text = x_home + p.getScaled(WallpaperData.dateBlock.width / 2);
             let y_text = y + p.getScaled(WallpaperData.month.home_away.size.height / 4) - 2;
-            console.log(timeZone)
+
             graphics.textAlign(p.CENTER, p.CENTER);
             graphics.fill('rgba(255, 255, 255, ' + WallpaperData.month.text.opacity + ')');
             graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.home_away.fontSize));

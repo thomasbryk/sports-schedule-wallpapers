@@ -145,14 +145,14 @@ function TeamSelected(teamId) {
     scheduleRetrieved = false;
     dropdownsPopulated = false;
 
-    RetrieveSchedule();
-    PopulateLogos();
-
     var $selectTeamError = $("#selectTeamError");
     $selectTeamError.fadeOut();
 
-    var wallpaperEditor = $("#wallpaper-editor");
-    $('html,body').animate({ scrollTop: wallpaperEditor.offset().top }, 'slow');
+    var wallpaperEditor = $("#wallpaper-selector");
+    $('html,body').animate({ scrollTop: wallpaperEditor.offset().top }, 'slow').promise().done(() => {
+        RetrieveSchedule();
+        PopulateLogos();
+    });
 }
 
 function RetrieveSchedule() {
