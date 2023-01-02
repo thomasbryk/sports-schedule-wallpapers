@@ -166,6 +166,8 @@ const sketch = (p) => {
         center = p.width / 2;
         middle = p.height / 2;
 
+        $(canvas.elt).hide();
+
         //p.noSmooth();
     }
 
@@ -180,7 +182,8 @@ const sketch = (p) => {
         const h = $element.height();
 
         scaleRatio = exportRatio;
-        p.pixelDensity((pixelDensity >= 2 ? 1.5 : exportRatio));
+        //p.pixelDensity((pixelDensity >= 2 ? 1.5 : exportRatio));
+        p.pixelDensity(exportRatio);
 
         drawVars.saveWallpaper = true;
 
@@ -188,8 +191,6 @@ const sketch = (p) => {
         graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
         canvas = p.createCanvas(scaleRatio * w, scaleRatio * h);
         canvas.parent('sketch-holder');
-
-        $(canvas.elt).hide();
 
         p.draw(selectedTeamId, schedule);
     }
@@ -402,6 +403,13 @@ const sketch = (p) => {
 
 
     p.saveWallpaper = (blob) => {
+        var urlCreator = window.URL || window.webkitURL;
+        var imageUrl = urlCreator.createObjectURL(blob);
+        document.querySelector("#wallpaper").src = imageUrl;
+
+        $("#wallpaper").show();
+        return;
+
         saveAs(blob, drawVars.wallpaperFileName);
 
         drawVars.saveWallpaper = false;

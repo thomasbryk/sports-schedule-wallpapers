@@ -2602,7 +2602,7 @@ article.team:before {
     display: block;
     height: 100%;
     left: 0;
-    opacity: 0.8;
+    opacity: 0.75;
     filter: brightness(100%);
     position: absolute;
     width: 100%;

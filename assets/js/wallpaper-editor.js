@@ -6,6 +6,7 @@ var teamSlider_mouseDownX = null;
 
 
 $(document).ready(function() {
+    $("#wallpaper").hide();
     onload();
 });
 
@@ -30,7 +31,7 @@ function PopulateTeams() {
     nhlJson.teams.sort((a, b) => a.name.localeCompare(b.name))
 
     jQuery.each(nhlJson.teams, (id, teamData) => {
-        let html = '<a id="' + teamData.id + '" class="link">\
+        let html = '<a name="' + teamData.id + '" class="link">\
                         <article class="team" style=\'background-image: url("leagues/nhl/logos/' + teamData.id + '/Primary.png"); background-color: ' + Object.values(teamData.colours)[0] + ';\'></article>\
                     </a>';
 
@@ -42,7 +43,6 @@ function PopulateTeams() {
         slidesToScroll: 16,
         autoplay: true,
         autoplaySpeed: 3500,
-        infinite: true,
         swipe: true,
         swipeToSlide: true,
         touchMove: true,
@@ -73,7 +73,8 @@ function PopulateTeams() {
 
         $(team).mouseup((e) => {
             if (teamSlider_mouseDownX >= e.pageX - 3 && teamSlider_mouseDownX <= e.pageX + 3) {
-                let teamId = $(e.target).parent().attr('id');
+                console.log(e.target);
+                let teamId = $(e.target).parent().attr('name');
                 TeamSelected(teamId);
             }
         });
@@ -140,6 +141,7 @@ function PopulateStyles() {
 }
 
 function TeamSelected(teamId) {
+    console.log(teamId)
     if (selectedTeam && selectedTeam.id == teamId) return; //Same team, skip
 
     selectedTeam = nhlJson.teams.find(team => team.id == teamId);
@@ -234,6 +236,9 @@ function BuildSchedule(scheduleJson = null) {
 }
 
 function CreateWallpaper() {
+    DownloadWallpaper();
+    return;
+
     if (scheduleRetrieved && dropdownsPopulated)
         p.draw(selectedTeam.id, schedule);
 }
