@@ -395,8 +395,9 @@ const sketch = (p) => {
             let $wallpaper = $("#wallpaper");
             $wallpaper.attr("src", URL.createObjectURL(blob));
             if (!$wallpaper.is(":visible")) {
-                $wallpaper.show();
+                $wallpaper.fadeIn();
             }
+            setTimeout(() => $("#wallpaper-viewer").removeClass("spinner"), 100);
         }, "image/jpeg")
     }
 }

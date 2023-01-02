@@ -3735,6 +3735,35 @@ body.is-menu-visible #menu .inner {
     opacity: 25%;
 }
 
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner:after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 47%;
+    left: 47%;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 25px solid transparent;
+    border-top-color: #fff;
+    border-bottom-color: #fff;
+    animation: spinner .8s ease infinite;
+}
+
+#wallpaper-viewer.spinner {
+    position: relative;
+}
+
+#wallpaper-viewer.spinner #sketch-holder #wallpaper {
+    opacity: 0.1;
+}
+
 @media only screen and (max-width: 850px) {
     #wallpaper-selector {
         display: flex;

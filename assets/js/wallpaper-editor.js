@@ -140,6 +140,8 @@ function PopulateStyles() {
 function TeamSelected(teamId) {
     if (selectedTeam && selectedTeam.id == teamId) return; //Same team, skip
 
+    $("#wallpaper-viewer").addClass("spinner");
+
     selectedTeam = nhlJson.teams.find(team => team.id == teamId);
 
     scheduleRetrieved = false;
@@ -186,6 +188,8 @@ function RetrieveSchedule() {
 }
 
 function BuildSchedule(scheduleJson = null) {
+    $("#wallpaper-viewer").addClass("spinner");
+
     let timeZone_Val = $("#TimeZone").val();
     if (scheduleJson) {
         schedule = [];
@@ -232,8 +236,10 @@ function BuildSchedule(scheduleJson = null) {
 }
 
 function CreateWallpaper() {
-    if (scheduleRetrieved && dropdownsPopulated)
+    if (scheduleRetrieved && dropdownsPopulated) {
+        $("#wallpaper-viewer").addClass("spinner");
         p.draw(selectedTeam.id, schedule);
+    }
 }
 
 function DownloadWallpaper() {
