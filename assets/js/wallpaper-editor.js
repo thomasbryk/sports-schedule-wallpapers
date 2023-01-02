@@ -239,7 +239,7 @@ function CreateWallpaper() {
 function DownloadWallpaper() {
     let imageUrl = $("#wallpaper").attr("src");
     let month = new Date().toLocaleString('default', { month: 'long' });
-    let filename = selectedTeam.abbreviation + "_" + month + ".png";
+    let filename = selectedTeam.abbreviation + "_" + month;
 
     saveAs(imageUrl, filename);
 }

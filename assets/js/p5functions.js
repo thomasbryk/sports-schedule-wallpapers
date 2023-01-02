@@ -72,7 +72,7 @@ let WallpaperData = {
             opacity: 0.25,
             fontSize: 27.78,
             position: {
-                y: 1421
+                y: 1430
             }
         },
         home_away: {
@@ -236,7 +236,8 @@ const sketch = (p) => {
             graphics.text(WallpaperData.month.weekdays[i - 1], dayOfWeek.posX, dayOfWeek.posY);
         }
 
-        p.draw_HomeAway();
+        let timeZone = schedule ? schedule[0].date.timeZoneName : null;
+        p.draw_HomeAway(timeZone);
 
         let drawDatePromises = [];
 
@@ -257,7 +258,7 @@ const sketch = (p) => {
                 graphics.textAlign(p.CENTER, p.CENTER);
                 graphics.fill(colour);
                 graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.block.fontSize));
-                graphics.text(month.toUpperCase(), center, imgY + p.getScaled(WallpaperData.month.block.size.height / 2) - 2.5);
+                graphics.text(month.toUpperCase(), center, imgY + p.getScaled(WallpaperData.month.block.size.height / 2) - 3);
 
                 let currDate, currGame = null;
 
@@ -332,18 +333,22 @@ const sketch = (p) => {
         }
     }
 
-    p.draw_HomeAway = () => {
+    p.draw_HomeAway = (timeZone = null) => {
         let date = new Date();
         let dayOfWeek_firstDay = (new Date(date.getFullYear(), date.getMonth(), 1)).getDay();
 
         let offsetX = 0;
         let offsetY = 0;
+        let offsetY_TimeZone = WallpaperData.dateBlock.height - WallpaperData.month.home_away.size.height;
 
         if (dayOfWeek_firstDay == 0) {
             let weekOfMonth = p.getWeekOfMonth(date.getFullYear(), date.getMonth(), drawVars.datesToDraw);
 
             offsetX = (WallpaperData.dateBlock.width + WallpaperData.dateBlock.offset.x) * (6)
-            offsetY = (weekOfMonth == 1) ? 0 : (WallpaperData.dateBlock.height + WallpaperData.dateBlock.offset.y) * (weekOfMonth - 1)
+            offsetY = (WallpaperData.dateBlock.height + WallpaperData.dateBlock.offset.y) * (weekOfMonth - 1)
+            offsetY_TimeZone = offsetY + WallpaperData.month.home_away.size.height / 2;
+            console.log
+            offsetY += WallpaperData.dateBlock.height - WallpaperData.month.home_away.size.height
         }
 
         let x_home = p.getScaled(WallpaperData.dateBlock.position.x + offsetX);
@@ -365,6 +370,24 @@ const sketch = (p) => {
         graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.home_away.fontSize));
         graphics.text("HOME", x_homeText, y_text);
         graphics.text("AWAY", x_awayText, y_text);
+
+        if (timeZone) {
+            y = p.getScaled(WallpaperData.dateBlock.position.y + offsetY_TimeZone);
+
+            graphics.noFill()
+            graphics.strokeWeight(1)
+            graphics.stroke('rgba(255, 255, 255, ' + WallpaperData.month.text.opacity + ')')
+            graphics.rect(x_home, y, p.getScaled(WallpaperData.dateBlock.width), p.getScaled(WallpaperData.month.home_away.size.height / 2));
+            graphics.noStroke()
+
+            let x_text = x_home + p.getScaled(WallpaperData.dateBlock.width / 2);
+            let y_text = y + p.getScaled(WallpaperData.month.home_away.size.height / 4) - 2;
+            console.log(timeZone)
+            graphics.textAlign(p.CENTER, p.CENTER);
+            graphics.fill('rgba(255, 255, 255, ' + WallpaperData.month.text.opacity + ')');
+            graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.home_away.fontSize));
+            graphics.text(timeZone, x_text, y_text);
+        }
     }
 
     p.drawGraphics = () => {
