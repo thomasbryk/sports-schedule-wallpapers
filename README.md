@@ -8,4 +8,4 @@ https://thomasbryk.github.io/sports-schedule-wallpapers
 
 ### Copyright Notice
 
-This package and its author are not affiliated with MLB or any MLB team. This API wrapper interfaces with MLB's Stats API. Use of MLB data is subject to the notice posted at http://gdx.mlb.com/components/copyright.txt.
+This package and its author are not affiliated with MLB or any MLB team. This website interfaces with the MLB's Stats API to obtain schedule data. Use of MLB data is subject to the notice posted at http://gdx.mlb.com/components/copyright.txt.
