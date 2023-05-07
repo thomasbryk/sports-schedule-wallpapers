@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Hockey Wallpapers</title>
+    <title>Brykhouse Schedule Wallpapers</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
@@ -46,17 +46,9 @@
             </div>
         </section>
 
-        <!-- <section>
-            <div class="league">
-                <h3>NHL Teams</h3>
-            </div>
-        </section> -->
-
         <!-- Main -->
         <div id="main">
-            <div id="leaguesCarousel" class="teamsCarousel inner">
-                <div id="teamsCarousel" class="teamsCarousel inner"></div>
-            </div>
+            <div id="leaguesCarousel" class="inner"></div>
         </div>
 
         <div id="wallpaper-selector">
@@ -81,6 +73,10 @@
                             <select name="Colour" id="Colour" class="wallpaper-select" onchange="CreateWallpaper()">
                             </select>
                         </ol>
+                        <ul>
+                            <input type="checkbox" id="schedule" name="schedule" checked="true" onchange="RetrieveSchedule()">
+                            <label for="schedule" class="wallpaper-label">Include schedule</label>
+                        </ul>
                         <!-- <ul>
                             <label for="Style" class="wallpaper-label">Schedule Style</label>
                             <select name="Style" id="Style" class="wallpaper-select" onchange="CreateWallpaper()">

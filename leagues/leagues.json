@@ -1,0 +1,16 @@
+{
+    "leagues": [{
+        "1": {
+            "id": 1,
+            "name": "MLB",
+            "path": "leagues/mlb/",
+            "jsonPath": "mlb.json"
+        },
+        "2": {
+            "id": 2,
+            "name": "NHL",
+            "path": "leagues/nhl/",
+            "jsonPath": "nhl.json"
+        }
+    }]
+}

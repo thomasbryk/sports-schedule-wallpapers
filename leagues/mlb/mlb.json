@@ -1,0 +1,15 @@
+{
+    "teams": [{
+        "id": 141,
+        "name": "Toronto Blue Jays",
+        "abbreviation": "TOR",
+        "logos": {
+            "Primary": "Primary.png"
+        },
+        "colours": {
+            "Blue": "#134A8E",
+            "Navy": "#1D2D5C",
+            "Red": "#E8291C"
+        }
+    }]
+}
