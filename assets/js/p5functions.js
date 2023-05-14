@@ -185,7 +185,6 @@ const sketch = (p) => {
                     drawDatePromises.push(p.draw_Date(currDate, currGame));
                 }
 
-
                 Promise.all(drawDatePromises).then(() => {
                     resolve();
                 })
@@ -235,7 +234,7 @@ const sketch = (p) => {
             let leaguePath = findLeagueById(drawVars.selectedLeagueId).path;
             let filePath = leaguePath + 'logos/' + game.opponent.id + '/Primary.png';
 
-            return new Promise((resolve) => {
+            return new Promise((resolve_datePromise) => {
                 p.loadImage(filePath, (img) => {
                     let imgSize = p.scaleImage(img, WallpaperData.logos.game.width, WallpaperData.logos.game.height);
 
@@ -244,7 +243,7 @@ const sketch = (p) => {
 
                     graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
-                    resolve();
+                    resolve_datePromise();
                 })
             });
         }
