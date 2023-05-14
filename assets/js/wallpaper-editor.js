@@ -73,7 +73,15 @@ function PopulateCarousels() {
     $teamsCarousel = $('.teamsCarousel');
 
     $leaguesDiv.slick({
-        slidesToShow: 4
+        slidesToShow: 4,
+
+        responsive:[{
+            breakpoint: 850,
+            settings: {
+                slidesToShow: 2
+            }
+        }
+        ]
     });
 
     $teamsCarousel.slick({
@@ -91,7 +99,7 @@ function PopulateCarousels() {
             }
         },
         {
-            breakpoint: 750,
+            breakpoint: 850,
             settings: {
                 slidesToShow: 6,
                 slidesToScroll: 6
