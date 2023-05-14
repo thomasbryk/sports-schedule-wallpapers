@@ -87,7 +87,7 @@ function PopulateCarousels() {
     $teamsCarousel.slick({
         slidesToShow: 16,
         slidesToScroll: 16,
-        autoplaySpeed: 4000,
+        autoplaySpeed: 3500,
         swipe: true,
         touchMove: true,
 
