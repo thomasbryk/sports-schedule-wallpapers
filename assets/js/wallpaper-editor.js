@@ -48,7 +48,7 @@ function PopulateCarousels() {
         let currLeague = leagues[i];
 
         let leagueHtml = '<a name="' + currLeague.id + '" class="league block link">\
-                        <article class="block" style=\'background-image: url("' + currLeague.path + 'emblem.png");\'></article>\
+                        <article class="block leagueBlock" style=\'background-image: url("' + currLeague.path + 'emblem.png");\'></article>\
                     </a>';
 
         $leaguesDiv.append(leagueHtml);
@@ -73,7 +73,7 @@ function PopulateCarousels() {
     $teamsCarousel = $('.teamsCarousel');
 
     $leaguesDiv.slick({
-        slidesToShow: 6
+        slidesToShow: 4
     });
 
     $teamsCarousel.slick({

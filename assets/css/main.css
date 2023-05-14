@@ -2544,6 +2544,10 @@ button:disabled,
     border-top: 0 !important;
 }
 
+article.block.leagueBlock {
+    height: 16vh;
+}
+
 article.block {
     -moz-align-items: center;
     -webkit-align-items: center;
