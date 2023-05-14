@@ -104,7 +104,6 @@ const sketch = (p) => {
         if (includeSchedule) drawPromises.push(p.draw_Calendar(schedule));
 
         Promise.all(drawPromises).then(() => {
-            console.log('drawGraphics');
             p.drawGraphics();
         })
     }
@@ -114,7 +113,7 @@ const sketch = (p) => {
         let leaguePath = findLeagueById(leagueId).path;
         let filePath = leaguePath + 'logos/' + teamId + '/' + logoFileName;
 
-        return new Promise((resolve_logoPromise) => {
+        return new Promise((resolve) => {
             p.loadImage(filePath, (img) => {
                 let imgSize = p.scaleImage(img, WallpaperData.logos.main.width, WallpaperData.logos.main.height);
 
@@ -123,9 +122,8 @@ const sketch = (p) => {
 
                 graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
-                console.log("draw_Logo")
-                resolve_logoPromise();
-            });
+                resolve();
+            }, () => {console.log("mainLogo failed to load.")});
         });
     }
 
@@ -160,7 +158,7 @@ const sketch = (p) => {
 
         let monthFilePath = 'assets/images/' + WallpaperData.month.block.filename;
 
-        return new Promise((resolve_calendarPromise) => {
+        return new Promise((resolve) => {
             p.loadImage(monthFilePath, (img) => {
                 let imgSize = p.scaleImage(img, WallpaperData.month.block.size.width, WallpaperData.month.block.size.height);
 
@@ -186,11 +184,11 @@ const sketch = (p) => {
                     drawDatePromises.push(p.draw_Date(currDate, currGame));
                 }
 
+
                 Promise.all(drawDatePromises).then(() => {
-                    console.log("resolve_calendarPromise")
-                    resolve_calendarPromise();
+                    resolve();
                 })
-            });
+            }, () => {console.log("monthLogo failed to load.")});
         });
     }
 
@@ -236,17 +234,18 @@ const sketch = (p) => {
             let leaguePath = findLeagueById(drawVars.selectedLeagueId).path;
             let filePath = leaguePath + 'logos/' + game.opponent.id + '/Primary.png';
 
-            return new Promise((resolve_datePromise) => {
+            return new Promise((resolve) => {
                 p.loadImage(filePath, (img) => {
+                    console.log(img)
                     let imgSize = p.scaleImage(img, WallpaperData.logos.game.width, WallpaperData.logos.game.height);
 
                     let imgX = p.getScaledPosition(blockCenter, imgSize.width);
                     let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
 
                     graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
-                    setTimeout(() => {resolve_datePromise();}, 2000)
-                    //resolve_datePromise();
-                })
+
+                    resolve();
+                }, () => {console.log("dateLogo failed to load.")});
             });
         }
     }
