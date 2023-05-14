@@ -1580,7 +1580,6 @@ hr.major {
 /* */
 
 .league {
-    padding: 0em 1em;
     margin: 0 auto;
     max-width: 80m;
     width: calc(100% - 5em);
