@@ -61,7 +61,7 @@ function PopulateCarousels() {
 
         $.each(teams, (id, teamData) => {
             let teamHtml = '<a name="' + teamData.id + '" league=' + currLeague.id + ' class="team block link">\
-                        <article class="block" style=\'background-image: url("' + currLeague.path + 'logos/' + teamData.id + '/Primary.png"); background-color: ' + Object.values(teamData.colours)[0] + ';\'></article>\
+                        <article class="block" style=\'background-image: url("' + currLeague.path + 'logos/' + teamData.id + '/' + Object.values(teamData.logos)[0] + '"); background-color: ' + Object.values(teamData.colours)[0] + ';\'></article>\
                     </a>';
 
             $newTeamDiv.append(teamHtml);
@@ -75,7 +75,7 @@ function PopulateCarousels() {
     $leaguesDiv.slick({
         slidesToShow: 4,
 
-        responsive:[{
+        responsive: [{
             breakpoint: 850,
             settings: {
                 slidesToShow: 2
@@ -185,11 +185,10 @@ function PopulateColours() {
     var $colour = $("#Colour");
     $colour.empty();
 
-    $colour.append(new Option("Black", "#000000"));
-
     jQuery.each(selectedTeam.colours, (name, hex) => {
         $colour.append(new Option(name, hex));
     });
+    $colour.append(new Option("Black", "#000000"));
 
     dropdownsPopulated = true;
 }
@@ -208,23 +207,37 @@ function PopulateStyles() {
 }
 
 function LeagueSelected(leagueId) {
-    let $leagueCarousels = $(".teamsCarousel");
+    let $visibleLeagues = $(".teamsCarousel:visible");
 
-    $.each($leagueCarousels, (i, league) => {
-        let $league = $(league);
-        if (league.id == leagueId && $league.css('display') == 'none') {
-            $league.slick('slickGoTo', 0);
-            $league.slideDown();
-            $league.slick('slickPlay');
-        }
-        else {
-            let $leagueButton = $('a.league[name=' + league.id + ']');
-            $leagueButton.removeClass('selected');
+    //Check if league is re-selected - close the teams carousel if so
+    if ($visibleLeagues.length > 0) {
+        let $currLeague = $($visibleLeagues[0]);
+        let currLeagueId = $currLeague[0].id;
+        let $currLeagueButton = $('a.league[name=' + currLeagueId + ']');
 
-            $league.slick('slickPause');
-            $league.slideUp();
+        $('button.slick-arrow:visible').fadeOut('fast');
+        $currLeagueButton.removeClass('selected');
+        $currLeague.slick('slickPause');
+        $currLeague.slideUp();
+
+        if (currLeagueId == leagueId) {
+            return; //Same league, exiting..
         }
-    })
+    }
+
+    //Open newly selected league
+    let $selectedLeague = $('.teamsCarousel#' + leagueId + '');
+
+    if ($selectedLeague.length > 0) {
+        let $leagueButtons = $selectedLeague.children('button.slick-arrow');
+        $leagueButtons.hide();
+
+        $($selectedLeague[0]).slick('slickGoTo', 0);
+        $($selectedLeague[0]).slideDown(() => {
+            $leagueButtons.fadeIn();
+            $($selectedLeague[0]).slick('slickPlay')
+        });
+    }
 
     selectedLeague = findLeagueById(leagueId);
 }

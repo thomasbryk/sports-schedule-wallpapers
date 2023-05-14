@@ -15,8 +15,8 @@ const sketch = (p) => {
 
     let WallpaperData = null;
     fetch("assets/data/wallpaper-data.json")
-    .then(response => response.json())
-    .then(json => WallpaperData = json.WallpaperData);
+        .then(response => response.json())
+        .then(json => WallpaperData = json.WallpaperData);
 
     p.center = (objectWidth) => center - (objectWidth / 2);
     p.middle = (objectHeight) => middle - (objectHeight / 2);
@@ -96,10 +96,10 @@ const sketch = (p) => {
         graphics.background(colour);
 
         drawVars.logo = false;
-        
+
         let drawPromises = [];
         drawPromises.push(p.draw_Logo(leagueId, teamId));
-        
+
         let includeSchedule = $('#Schedule').prop('checked');
         if (includeSchedule) drawPromises.push(p.draw_Calendar(schedule));
 
@@ -108,7 +108,7 @@ const sketch = (p) => {
         })
     }
 
-    p.draw_Logo = async(leagueId, teamId) => {
+    p.draw_Logo = async (leagueId, teamId) => {
         let logoFileName = $('#Logo').val();
         let leaguePath = findLeagueById(leagueId).path;
         //let filePath = window.location.href + "/" + leaguePath + 'logos/' + teamId + '/' + logoFileName;
@@ -128,7 +128,7 @@ const sketch = (p) => {
         });
     }
 
-    p.draw_Calendar = async(schedule = null) => {
+    p.draw_Calendar = async (schedule = null) => {
         graphics.noStroke();
 
         let date = new Date();
@@ -193,7 +193,7 @@ const sketch = (p) => {
         });
     }
 
-    p.draw_Date = async(date, game = null) => {
+    p.draw_Date = async (date, game = null) => {
         let dayNum = date.getDate();
         let dayOfWeek = date.getDay() + 1;
         let weekOfMonth = p.getWeekOfMonth(date.getFullYear(), date.getMonth(), dayNum);

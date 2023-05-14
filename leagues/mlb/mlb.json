@@ -47,8 +47,8 @@
                 "Primary": "Primary.png"
             },
             "colours": {
-                "Red": "#BD3039",
-                "Blue": "#0C2340"
+                "Blue": "#0C2340",
+                "Red": "#BD3039"
             }
         },
         {
@@ -87,8 +87,8 @@
                 "Indians": "Indians.png"
             },
             "colours": {
-                "Red": "#E50022",
-                "Blue": "#00385D"
+                "Blue": "#00385D",
+                "Red": "#E50022"
             }
         },
         {
@@ -100,8 +100,8 @@
                 "Rockies": "Rockies.png"
             },
             "colours": {
-                "Silver": "#C4CED4",
-                "Purple": "#333366"
+                "Purple": "#333366",
+                "Silver": "#C4CED4"
             }
         },
         {
@@ -126,8 +126,8 @@
             },
             "colours": {
                 "Navy": "#002D62",
-                "Orange": "#EB6E1F",
-                "Light Orange": "#F4911E"
+                "Light Orange": "#F4911E",
+                "Orange": "#EB6E1F"
             }
         },
         {
@@ -139,7 +139,6 @@
                 "Main": "Main.png",
                 "Home": "Home.png",
                 "Crown": "Crown.png"
-
             },
             "colours": {
                 "Royal Blue": "#004687",
@@ -178,8 +177,8 @@
             "name": "New York Mets",
             "abbreviation": "NYM",
             "logos": {
-                "Main": "Main.png",
                 "Primary": "Primary.png",
+                "Main": "Main.png",
                 "Mets": "Mets.png"
             },
             "colours": {
@@ -229,8 +228,8 @@
             "colours": {
                 "Brown": "#2F241D",
                 "Gold": "#FFC425",
-                "Blue": "#002D62",
-                "Gray": "#A2AAAD"
+                "Gray": "#A2AAAD",
+                "Blue": "#002D62"
             }
         },
         {
@@ -297,8 +296,8 @@
             "name": "Texas Rangers",
             "abbreviation": "TEX",
             "logos": {
-                "Main": "Main.png",
                 "Primary": "Primary.png",
+                "Main": "Main.png",
                 "Home": "Home.png"
             },
             "colours": {
@@ -316,8 +315,9 @@
                 "Retro": "Retro.png"
             },
             "colours": {
-                "Blue": "#134A8E",
                 "Navy": "#1D2D5C",
+                "Blue": "#134A8E",
+                "Powder Blue": "#6caadd",
                 "Red": "#E8291C"
             }
         },
@@ -326,8 +326,8 @@
             "name": "Minnesota Twins",
             "abbreviation": "MIN",
             "logos": {
-                "Twins": "Twins.png",
                 "Primary": "Primary.png",
+                "Twins": "Twins.png",
                 "Home": "Home.png",
                 "Main": "Main.png"
             },
@@ -342,8 +342,8 @@
             "name": "Philadelphia Phillies",
             "abbreviation": "PHI",
             "logos": {
-                "Main": "Main.png",
                 "Primary": "Primary.png",
+                "Main": "Main.png",
                 "Home": "Home.png"
             },
             "colours": {
@@ -361,8 +361,8 @@
                 "Light": "Light.png"
             },
             "colours": {
-                "Red": "#CE1141",
                 "Navy": "#13274F",
+                "Red": "#CE1141",
                 "Gold": "#EAAA00"
             }
         },
