@@ -22,7 +22,10 @@ function onload() {
                 promises.push(RetrieveLeague(leagues[i]));
             });
 
-            Promise.all(promises).then(Setup);
+            Promise.all(promises).then(() => {
+                PopulateCarousels();
+                PopulateTimeZones();
+            })
         });
 }
 
@@ -33,11 +36,6 @@ async function RetrieveLeague(league) {
             .then(json => league["teams"] = json.teams)
             .then(resolve);
     });
-}
-
-function Setup() {
-    PopulateCarousels();
-    PopulateTimeZones();
 }
 
 function PopulateCarousels() {

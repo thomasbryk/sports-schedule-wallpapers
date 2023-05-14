@@ -104,6 +104,7 @@ const sketch = (p) => {
         if (includeSchedule) drawPromises.push(p.draw_Calendar(schedule));
 
         Promise.all(drawPromises).then(() => {
+            console.log('drawGraphics');
             p.drawGraphics();
         })
     }
@@ -122,6 +123,7 @@ const sketch = (p) => {
 
                 graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
+                console.log("draw_Logo")
                 resolve_logoPromise();
             });
         });
@@ -185,6 +187,7 @@ const sketch = (p) => {
                 }
 
                 Promise.all(drawDatePromises).then(() => {
+                    console.log("resolve_calendarPromise")
                     resolve_calendarPromise();
                 })
             });
@@ -241,7 +244,7 @@ const sketch = (p) => {
                     let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
 
                     graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
-
+                    console.log("resolve_datePromise " + dayNum)
                     resolve_datePromise();
                 })
             });
