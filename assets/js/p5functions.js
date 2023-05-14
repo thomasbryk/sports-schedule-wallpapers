@@ -244,8 +244,8 @@ const sketch = (p) => {
                     let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
 
                     graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
-                    console.log("resolve_datePromise " + dayNum)
-                    resolve_datePromise();
+                    setTimeout(() => {resolve_datePromise();}, 2000)
+                    //resolve_datePromise();
                 })
             });
         }

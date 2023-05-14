@@ -106,6 +106,7 @@ function PopulateCarousels() {
         {
             breakpoint: 550,
             settings: {
+                mobileFirst: true,
                 slidesToShow: 4,
                 slidesToScroll: 4
             }
