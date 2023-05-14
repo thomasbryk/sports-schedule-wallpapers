@@ -111,10 +111,9 @@ const sketch = (p) => {
     p.draw_Logo = async (leagueId, teamId) => {
         let logoFileName = $('#Logo').val();
         let leaguePath = findLeagueById(leagueId).path;
-        //let filePath = window.location.href + "/" + leaguePath + 'logos/' + teamId + '/' + logoFileName;
         let filePath = leaguePath + 'logos/' + teamId + '/' + logoFileName;
 
-        return new Promise((resolve) => {
+        return new Promise((resolve_logoPromise) => {
             p.loadImage(filePath, (img) => {
                 let imgSize = p.scaleImage(img, WallpaperData.logos.main.width, WallpaperData.logos.main.height);
 
@@ -123,7 +122,7 @@ const sketch = (p) => {
 
                 graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
-                resolve();
+                resolve_logoPromise();
             });
         });
     }
@@ -159,7 +158,7 @@ const sketch = (p) => {
 
         let monthFilePath = 'assets/images/' + WallpaperData.month.block.filename;
 
-        return new Promise((resolve) => {
+        return new Promise((resolve_calendarPromise) => {
             p.loadImage(monthFilePath, (img) => {
                 let imgSize = p.scaleImage(img, WallpaperData.month.block.size.width, WallpaperData.month.block.size.height);
 
@@ -186,7 +185,7 @@ const sketch = (p) => {
                 }
 
                 Promise.all(drawDatePromises).then(() => {
-                    resolve();
+                    resolve_calendarPromise();
                 })
             });
         });
