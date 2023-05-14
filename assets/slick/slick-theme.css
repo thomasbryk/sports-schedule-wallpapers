@@ -27,7 +27,7 @@
 
     display: block;
 
-    width: 20px;
+    width: 25px;
     height: 20px;
     padding: 0;
     -webkit-transform: translate(0, -50%);
@@ -67,10 +67,10 @@
 .slick-next:before
 {
     font-family: 'slick';
-    font-size: 20px;
+    font-size: 25px;
     line-height: 1;
 
-    opacity: .75;
+    opacity: .6;
     color: white;
 
     -webkit-font-smoothing: antialiased;

@@ -1,92 +1,3 @@
-let WallpaperData = {
-    logos: {
-        main: {
-            width: 550,
-            height: 500,
-            position: {
-                y: 953
-            }
-        },
-        game: {
-            width: 65,
-            height: 52,
-            offset: {
-                x: 69.5,
-                y: 66.5
-            }
-        },
-        solo: {
-            width: 600,
-            height: 550
-        }
-    },
-    dateBlock: {
-        opacity: {
-            default: 0.04,
-            home: 0.2,
-            away: 0.03
-        },
-        width: 138,
-        height: 138,
-        offset: {
-            x: 12,
-            y: 14
-        },
-        position: {
-            x: 65.75,
-            y: 1469
-        },
-
-        date: {
-            fontSize: 36.82,
-            offset: {
-                x: 8,
-                y: 4
-            }
-        },
-
-        time: {
-            fontSize: {
-                time: 29.46
-            },
-            offset: {
-                x: 44,
-                y: 95
-            }
-        }
-    },
-    month: {
-        block: {
-            position: {
-                x: 458,
-                y: 1356
-            },
-            size: {
-                width: 254,
-                height: 49
-            },
-            fontSize: 44.85,
-            filename: 'month-name.png'
-        },
-        text: {
-            opacity: 0.25,
-            fontSize: 27.78,
-            position: {
-                y: 1430
-            }
-        },
-        home_away: {
-            size: {
-                width: 66,
-                height: 66
-            },
-            fontSize: 22.2
-        },
-        weekdays: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-    }
-}
-
-
 const sketch = (p) => {
     let jerseyFont;
 
@@ -98,14 +9,14 @@ const sketch = (p) => {
 
     let drawVars = {
         schedule: null,
-        selectedTeam: null,
-        saveWallpaper: false,
         logo: false,
-        games: false,
-        datesToDraw: 0,
-        calendar: false
+        datesToDraw: 0
     }
 
+    let WallpaperData = null;
+    fetch("assets/data/wallpaper-data.json")
+    .then(response => response.json())
+    .then(json => WallpaperData = json.WallpaperData);
 
     p.center = (objectWidth) => center - (objectWidth / 2);
     p.middle = (objectHeight) => middle - (objectHeight / 2);
@@ -171,10 +82,11 @@ const sketch = (p) => {
     }
 
 
-    p.draw = (selectedTeamId, schedule = null) => {
-        if (!selectedTeamId) return;
+    p.draw = (leagueId, teamId, schedule = null) => {
+        if (!teamId) return;
 
-        drawVars.selectedTeamId = selectedTeamId;
+        drawVars.selectedLeagueId = leagueId;
+        drawVars.selectedTeamId = teamId;
 
         graphics.clear(); // Clear graphics each frame
         canvas.clear()
@@ -184,19 +96,23 @@ const sketch = (p) => {
         graphics.background(colour);
 
         drawVars.logo = false;
-
+        
         let drawPromises = [];
-        drawPromises.push(p.draw_Logo(selectedTeamId));
-        drawPromises.push(p.draw_Calendar(schedule));
+        drawPromises.push(p.draw_Logo(leagueId, teamId));
+        
+        let includeSchedule = $('#Schedule').prop('checked');
+        if (includeSchedule) drawPromises.push(p.draw_Calendar(schedule));
 
         Promise.all(drawPromises).then(() => {
             p.drawGraphics();
         })
     }
 
-    p.draw_Logo = async(selectedTeamId) => {
+    p.draw_Logo = async(leagueId, teamId) => {
         let logoFileName = $('#Logo').val();
-        let filePath = window.location.href + 'leagues/nhl/logos/' + selectedTeamId + '/' + logoFileName;
+        let leaguePath = findLeagueById(leagueId).path;
+        //let filePath = window.location.href + "/" + leaguePath + 'logos/' + teamId + '/' + logoFileName;
+        let filePath = leaguePath + 'logos/' + teamId + '/' + logoFileName;
 
         return new Promise((resolve) => {
             p.loadImage(filePath, (img) => {
@@ -241,7 +157,7 @@ const sketch = (p) => {
 
         let drawDatePromises = [];
 
-        let monthFilePath = window.location.href + 'assets/images/' + WallpaperData.month.block.filename;
+        let monthFilePath = 'assets/images/' + WallpaperData.month.block.filename;
 
         return new Promise((resolve) => {
             p.loadImage(monthFilePath, (img) => {
@@ -316,7 +232,8 @@ const sketch = (p) => {
             graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.date.fontSize));
             graphics.text(game.date.dateText, timeX, timeY);
 
-            let filePath = window.location.href + 'leagues/nhl/logos/' + game.opponent.id + '/Primary.png';
+            let leaguePath = findLeagueById(drawVars.selectedLeagueId).path;
+            let filePath = leaguePath + 'logos/' + game.opponent.id + '/Primary.png';
 
             return new Promise((resolve) => {
                 p.loadImage(filePath, (img) => {
@@ -341,7 +258,7 @@ const sketch = (p) => {
         let offsetY = 0;
         let offsetY_TimeZone = WallpaperData.dateBlock.height - WallpaperData.month.home_away.size.height;
 
-        if (dayOfWeek_firstDay == 0) {
+        if (dayOfWeek_firstDay == 0 || dayOfWeek_firstDay == 1) {
             let weekOfMonth = p.getWeekOfMonth(date.getFullYear(), date.getMonth(), drawVars.datesToDraw);
 
             offsetX = (WallpaperData.dateBlock.width + WallpaperData.dateBlock.offset.x) * (6)

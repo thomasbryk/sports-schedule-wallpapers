@@ -1580,7 +1580,7 @@ hr.major {
 /* */
 
 .league {
-    padding: 1em 0 0 0;
+    padding: 0em 1em;
     margin: 0 auto;
     max-width: 80m;
     width: calc(100% - 5em);
@@ -2545,7 +2545,7 @@ button:disabled,
     border-top: 0 !important;
 }
 
-article.team {
+article.block {
     -moz-align-items: center;
     -webkit-align-items: center;
     -ms-align-items: center;
@@ -2570,21 +2570,21 @@ article.team {
     text-align: center;
 }
 
-article.team .image {
+article.block .image {
     display: none;
 }
 
-article.team header {
+article.block header {
     position: relative;
     z-index: 3;
     width: 100%
 }
 
-article.team h3 {
+article.block h3 {
     font-size: 1.75em;
 }
 
-article.team h3 a:hover {
+article.block h3 a:hover {
     color: inherit !important;
 }
 
@@ -2593,7 +2593,7 @@ article.team h3 a:hover {
     border-bottom: none;
 }
 
-article.team:before {
+article.block:before {
     -moz-transition: opacity 0.5s ease;
     -webkit-transition: opacity 0.5s ease;
     -ms-transition: opacity 0.5s ease;
@@ -2611,7 +2611,7 @@ article.team:before {
     background-color: #2a2f4a;
 }
 
-article.team:after {
+article.block:after{
     content: '';
     display: block;
     height: 100%;
@@ -2623,11 +2623,11 @@ article.team:after {
     z-index: 1;
 }
 
-article.team:hover:before {
+article.block:hover:before, a.selected>article.block:before {
     opacity: 0;
 }
 
-article.team.is-transitioning {
+article.block.is-transitioning {
     -moz-transform: scale(0.95);
     -webkit-transform: scale(0.95);
     -ms-transform: scale(0.95);
@@ -2640,7 +2640,7 @@ article.team.is-transitioning {
 }
 
 @media screen and (max-width: 736px) {
-    article.team {
+    article.block {
         height: 8vh;
     }
 }
@@ -3646,6 +3646,14 @@ body.is-menu-visible #menu .inner {
     visibility: visible;
 }
 
+label:has(+ select:disabled)  {
+    color: #777;
+  }
+
+input:disabled+label  {
+    color: #777;
+  }
+
 #wallpaper-selector {
     padding: 2.5em 0;
     display: flex;
@@ -3711,7 +3719,7 @@ body.is-menu-visible #menu .inner {
     font-size: 0.75em;
 }
 
-#selectTeamError {
+.error {
     text-align: left;
     font-size: 8pt;
     opacity: 75%;

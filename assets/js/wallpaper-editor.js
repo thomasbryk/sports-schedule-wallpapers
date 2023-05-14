@@ -1,11 +1,12 @@
-var selectedTeam, selectedLeague, schedule;
 var leagues = null;
-var scheduleRetrieved = false;
+
+var selectedTeam, selectedLeague, schedule;
 var dropdownsPopulated = false;
+var leagueSlider_mouseDownX = null;
 var teamSlider_mouseDownX = null;
 
 
-$(document).ready(function() {
+$(document).ready(function () {
     $("#wallpaper").hide();
     onload();
 });
@@ -35,19 +36,19 @@ async function RetrieveLeague(league) {
 }
 
 function Setup() {
-    PopulateTeams();
+    PopulateCarousels();
     PopulateTimeZones();
 }
 
-function PopulateTeams() {
+function PopulateCarousels() {
     let $leaguesDiv = $("#leaguesCarousel");
     let $mainDiv = $("#main");
 
     $.each(leagues, (i) => {
         let currLeague = leagues[i];
 
-        let leagueHtml = '<a name="' + currLeague.id + '" class="team link">\
-                        <article class="team";\>' + currLeague.name + '</article>\
+        let leagueHtml = '<a name="' + currLeague.id + '" class="league block link">\
+                        <article class="block" style=\'background-image: url("' + currLeague.path + 'emblem.png");\'></article>\
                     </a>';
 
         $leaguesDiv.append(leagueHtml);
@@ -59,47 +60,69 @@ function PopulateTeams() {
         teams.sort((a, b) => a.name.localeCompare(b.name))
 
         $.each(teams, (id, teamData) => {
-            let teamHtml = '<a name="' + teamData.id + '" league=' + currLeague.id + ' class="team link">\
-                        <article class="team" style=\'background-image: url("' + currLeague.path + 'logos/' + teamData.id + '/Primary.png"); background-color: ' + Object.values(teamData.colours)[0] + ';\'></article>\
+            let teamHtml = '<a name="' + teamData.id + '" league=' + currLeague.id + ' class="team block link">\
+                        <article class="block" style=\'background-image: url("' + currLeague.path + 'logos/' + teamData.id + '/Primary.png"); background-color: ' + Object.values(teamData.colours)[0] + ';\'></article>\
                     </a>';
 
             $newTeamDiv.append(teamHtml);
         });
 
+        $newTeamDiv.hide();
     });
 
-    $('#leaguesCarousel').slick({
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        autoplay: false,
-        autoplaySpeed: 4000,
-        swipe: true,
-        touchMove: true,
+    $teamsCarousel = $('.teamsCarousel');
+
+    $leaguesDiv.slick({
+        slidesToShow: 6
     });
 
-    $('.teamsCarousel').slick({
+    $teamsCarousel.slick({
         slidesToShow: 16,
         slidesToScroll: 16,
-        autoplay: true,
         autoplaySpeed: 4000,
         swipe: true,
         touchMove: true,
 
         responsive: [{
-                breakpoint: 1920,
-                settings: {
-                    slidesToShow: 8,
-                    slidesToScroll: 8
-                }
-            },
-            {
-                breakpoint: 1140,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4
-                }
+            breakpoint: 1100,
+            settings: {
+                slidesToShow: 8,
+                slidesToScroll: 8
             }
+        },
+        {
+            breakpoint: 750,
+            settings: {
+                slidesToShow: 6,
+                slidesToScroll: 6
+            }
+        },
+        {
+            breakpoint: 550,
+            settings: {
+                slidesToShow: 4,
+                slidesToScroll: 4
+            }
+        }
         ]
+    });
+
+    let $leagues = $('.league');
+
+    $.each($leagues, (i, league) => {
+        $(league).mousedown((e) => {
+            leagueSlider_mouseDownX = e.pageX;
+        });
+
+        $(league).mouseup((e) => {
+            if (leagueSlider_mouseDownX >= e.pageX - 3 && leagueSlider_mouseDownX <= e.pageX + 3) {
+                let $parent = $(e.target).parent();
+                let leagueId = $parent.attr("name");
+                $parent.addClass('selected');
+
+                LeagueSelected(leagueId);
+            }
+        });
     });
 
     let $teams = $('.team');
@@ -176,41 +199,61 @@ function PopulateStyles() {
     }
 }
 
-function TeamSelected(teamId, leagueId) {
-    if (selectedTeam && selectedTeam.id == teamId) return; //Same team, skip
+function LeagueSelected(leagueId) {
+    let $leagueCarousels = $(".teamsCarousel");
+
+    $.each($leagueCarousels, (i, league) => {
+        let $league = $(league);
+        if (league.id == leagueId && $league.css('display') == 'none') {
+            $league.slick('slickGoTo', 0);
+            $league.slideDown();
+            $league.slick('slickPlay');
+        }
+        else {
+            let $leagueButton = $('a.league[name=' + league.id + ']');
+            $leagueButton.removeClass('selected');
+
+            $league.slick('slickPause');
+            $league.slideUp();
+        }
+    })
 
     selectedLeague = findLeagueById(leagueId);
+}
+
+function TeamSelected(teamId) {
+    if (selectedTeam && selectedTeam.id == teamId) return; //Same team, skip
 
     $("#wallpaper-viewer").addClass("spinner");
 
-    selectedTeam = selectedLeague.teams.find(team => team.id == teamId);
+    $selectedTeams = $('a.team.selected');
+    $.each($selectedTeams, (i, team) => {
+        let $team = $(team);
+        if (!($team.league == selectedLeague.id && $team.id == teamId)) {
+            $team.removeClass('selected');
+        }
+    });
 
-    scheduleRetrieved = false;
+    let $team = $('a.team[league=' + selectedLeague.id + '][name=' + teamId + ']');
+    $team.addClass('selected');
+    $team.parent().parent().parent().slick('slickPause');
+
+    selectedTeam = selectedLeague.teams.find(team => team.id == teamId);
+    schedule = null;
+
     dropdownsPopulated = false;
 
     var $selectTeamError = $("#selectTeamError");
     $selectTeamError.fadeOut();
 
-    var wallpaperEditor = $("#wallpaper-selector");
+    var wallpaperEditor = $("#wallpaper-editor");
     $('html,body').animate({ scrollTop: wallpaperEditor.offset().top }, 'slow').promise().done(() => {
         PopulateLogos();
-        RetrieveSchedule();
+        RetrieveSchedule(firstSelection = true);
     });
 }
 
-function RetrieveSchedule() {
-    switch (selectedLeague.id) {
-        case 1:
-            RetrieveSchedule_MLB();
-        case 2:
-            RetrieveSchedule_NHL();
-    }
-
-}
-
-function RetrieveSchedule_MLB() {
-    schedule = null;
-
+function RetrieveSchedule(firstSelection = null) {
     let currDate = new Date(),
         yyyy = currDate.getFullYear(),
         mm = currDate.getMonth();
@@ -221,63 +264,94 @@ function RetrieveSchedule_MLB() {
     let lastDay = new Date(yyyy, mm + 1, 0).toISOString();
     lastDay = lastDay.substring(0, lastDay.indexOf("T"));
 
+    let includeSchedule = $('#Schedule').prop('checked');
+
+    if (includeSchedule || firstSelection) {
+        switch (selectedLeague.id) {
+            case 1:
+                RetrieveSchedule_MLB(firstDay, lastDay);
+                break;
+            case 2:
+                RetrieveSchedule_NHL(firstDay, lastDay);
+                break;
+        }
+    }
+    else if (!firstSelection && schedule == null) {
+        enableScheduleControls(enable = false);
+        return;
+    }
+    else {
+        CreateWallpaper();
+    }
+
+}
+
+function RetrieveSchedule_MLB(firstDay, lastDay) {
     $.ajax({
         url: "https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=" + firstDay + "&endDate=" + lastDay,
         accepts: {
             text: "application/json"
         },
-        success: function(games) {
+        success: function (games) {
             if (!games) {
                 console.log("[RetrieveSchedule_MLB]: Retrieved schedule object is null");
                 return;
             }
-            let scheduleArr = games.dates.filter(date => (date.games.filter(game => (game.teams.away.team.id == selectedTeam.id) || (game.teams.home.team.id == selectedTeam.id))));
-            console.log(scheduleArr)
-            BuildSchedule_MLB(scheduleArr);
+
+            let scheduleArr = [];
+
+            $.each(games.dates, (i, date) => {
+                let gamesOnThisDate = date.games.filter(game => (game.teams.away.team.id == selectedTeam.id) || (game.teams.home.team.id == selectedTeam.id));
+                $.each(gamesOnThisDate, (j, game) => {
+                    scheduleArr.push(game);
+                });
+            });
+
+            if (scheduleArr.length <= 0) scheduleArr = null;
+
+            BuildSchedule(scheduleArr);
         }
-    })
+    });
 }
 
-function RetrieveSchedule_NHL() {
-    schedule = null;
-
-    let currDate = new Date(),
-        yyyy = currDate.getFullYear(),
-        mm = currDate.getMonth();
-
-    let firstDay = new Date(yyyy, mm, 1).toISOString();
-    firstDay = firstDay.substring(0, firstDay.indexOf("T"));
-
-    let lastDay = new Date(yyyy, mm + 1, 0).toISOString();
-    lastDay = lastDay.substring(0, lastDay.indexOf("T"));
-
+function RetrieveSchedule_NHL(firstDay, lastDay) {
     $.ajax({
         url: "https://statsapi.web.nhl.com/api/v1/schedule?teamId=" + selectedTeam.id + "&startDate=" + firstDay + "&endDate=" + lastDay,
         accepts: {
             text: "application/json"
         },
-        success: function(games) {
+        success: function (games) {
             if (!games) {
                 console.log("[RetrieveSchedule_NHL]: Retrieved schedule object is null");
                 return;
             }
-            let scheduleJson = games.dates;
+            let scheduleArr = [];
 
-            BuildSchedule_NHL(scheduleJson);
+            $.each(games.dates, (i, date) => {
+                $.each(date.games, (j, game) => {
+                    scheduleArr.push(game);
+                });
+            });
+
+            if (scheduleArr.length <= 0) scheduleArr = null;
+
+            BuildSchedule(scheduleArr);
         }
     })
 }
 
-function BuildSchedule_MLB(scheduleArr = null) {
+function BuildSchedule(scheduleArr = null) {
     $("#wallpaper-viewer").addClass("spinner");
 
+    let leaguePath = selectedLeague.path;
     let timeZone_Val = $("#TimeZone").val();
+
     if (scheduleArr) {
+        enableScheduleControls(enable = true);
         schedule = [];
 
-        scheduleArr.forEach(gameData => {
+        scheduleArr.forEach(currGame => {
             let currScheduleObj = {};
-            let currGame = gameData.games[0];
 
             currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.gameDate);
 
@@ -296,7 +370,7 @@ function BuildSchedule_MLB(scheduleArr = null) {
             currScheduleObj.opponent = {
                 id: opponentObj.id,
                 abbreviation: opponentObj.abbreviation,
-                logo: "../../leagues/nhl/logos/" + opponentObj.id + "/Primary.png"
+                logo: "../../" + leaguePath + "logos/" + opponentObj.id + "/Primary.png"
             }
 
             schedule.push(currScheduleObj);
@@ -310,64 +384,18 @@ function BuildSchedule_MLB(scheduleArr = null) {
             gameData.date.dateText = timeHour + ":" + timeMin;
         })
     }
-
-    scheduleRetrieved = true;
-
-    CreateWallpaper();
-}
-
-function BuildSchedule_NHL(scheduleJson = null) {
-    $("#wallpaper-viewer").addClass("spinner");
-
-    let timeZone_Val = $("#TimeZone").val();
-    if (scheduleJson) {
-        schedule = [];
-
-        scheduleJson.forEach(gameData => {
-            let currScheduleObj = {};
-            let currGame = gameData.games[0];
-
-            currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.gameDate);
-
-            let timeHour = (currScheduleObj.date.hour > 12 ? currScheduleObj.date.hour - 12 : (currScheduleObj.date.hour == 0 ? 12 : currScheduleObj.date.hour));
-            let timeMin = (currScheduleObj.date.minute < 10 ? "0" + currScheduleObj.date.minute : currScheduleObj.date.minute);
-            currScheduleObj.date.dateText = timeHour + ":" + timeMin;
-
-            currScheduleObj.home = (currGame.teams.home.team.id == selectedTeam.id);
-
-            let opponent = (currScheduleObj.home ?
-                currGame.teams.away.team :
-                currGame.teams.home.team);
-
-            let opponentObj = selectedLeague.teams.find(team => team.id == opponent.id);
-
-            currScheduleObj.opponent = {
-                id: opponentObj.id,
-                abbreviation: opponentObj.abbreviation,
-                logo: "../../leagues/nhl/logos/" + opponentObj.id + "/Primary.png"
-            }
-
-            schedule.push(currScheduleObj);
-        })
-    } else if (schedule) {
-        schedule.forEach(gameData => {
-            gameData.date = TZIntl.getDateTime(timeZone_Val, gameData.date.toISOString());
-
-            let timeHour = (gameData.date.hour > 12 ? gameData.date.hour - 12 : (gameData.date.hour == 0 ? 12 : gameData.date.hour));
-            let timeMin = (gameData.date.minute < 10 ? "0" + gameData.date.minute : gameData.date.minute);
-            gameData.date.dateText = timeHour + ":" + timeMin;
-        })
+    else {
+        schedule = null;
+        enableScheduleControls(enable = false);
     }
-
-    scheduleRetrieved = true;
 
     CreateWallpaper();
 }
 
 function CreateWallpaper() {
-    if (scheduleRetrieved && dropdownsPopulated) {
+    if (dropdownsPopulated) {
         $("#wallpaper-viewer").addClass("spinner");
-        p.draw(selectedTeam.id, schedule);
+        p.draw(selectedLeague.id, selectedTeam.id, schedule);
     }
 }
 
@@ -379,8 +407,17 @@ function DownloadWallpaper() {
     saveAs(imageUrl, filename);
 }
 
-
+///// Helper functions /////
 const findLeagueById = (id) => {
     const league = Object.keys(leagues).find(league => leagues[league].id == id);
     return leagues[league];
+}
+
+function enableScheduleControls(enable) {
+    if (enable) $("#scheduleError").fadeOut("fast");
+    else $("#scheduleError").fadeIn("fast");
+
+    $("#Schedule").prop('disabled', !enable);
+    $("#Schedule").prop('checked', enable);
+    $("#TimeZone").prop('disabled', !enable);
 }
