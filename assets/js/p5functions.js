@@ -8,9 +8,11 @@ const sketch = (p) => {
     let canvas;
 
     let drawVars = {
+        datesToDraw: 0,
+        opponentData: {},
         schedule: null,
-        logo: false,
-        datesToDraw: 0
+        selectedLeague: null,
+        selectedTeam: null
     }
 
     let WallpaperData = null;
@@ -82,35 +84,34 @@ const sketch = (p) => {
     }
 
 
-    p.draw = (leagueId, teamId, schedule = null) => {
-        if (!teamId) return;
-
-        drawVars.selectedLeagueId = leagueId;
-        drawVars.selectedTeamId = teamId;
+    p.draw = (league, team, schedule = null) => {
+        if (!league || !team) return;
 
         graphics.clear(); // Clear graphics each frame
         canvas.clear()
 
-        let colour = $('#Colour').val();
+        let sameTeam = (league.id == drawVars.selectedLeague && team.id == drawVars.selectedTeam) ? true : false;
 
+        drawVars.selectedLeague = league.id;
+        drawVars.selectedTeam= team.id;
+        let leaguePath = league.path;
+
+        let colour = $('#Colour').val();
         graphics.background(colour);
 
-        drawVars.logo = false;
-
         let drawPromises = [];
-        drawPromises.push(p.draw_Logo(leagueId, teamId));
+        drawPromises.push(p.draw_Logo(team.id, leaguePath));
 
         let includeSchedule = $('#Schedule').prop('checked');
-        if (includeSchedule) drawPromises.push(p.draw_Calendar(schedule));
+        if (includeSchedule) drawPromises.push(p.draw_Calendar(schedule, leaguePath, sameTeam));
 
         Promise.all(drawPromises).then(() => {
             p.drawGraphics();
         })
     }
 
-    p.draw_Logo = async (leagueId, teamId) => {
+    p.draw_Logo = async (teamId, leaguePath) => {
         let logoFileName = $('#Logo').val();
-        let leaguePath = findLeagueById(leagueId).path;
         let filePath = leaguePath + 'logos/' + teamId + '/' + logoFileName;
 
         return new Promise((resolve) => {
@@ -123,11 +124,11 @@ const sketch = (p) => {
                 graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
                 resolve();
-            }, () => {console.log("mainLogo failed to load.")});
+            }, () => { console.log("mainLogo failed to load.") });
         });
     }
 
-    p.draw_Calendar = async (schedule = null) => {
+    p.draw_Calendar = async (schedule, leaguePath, sameTeam) => {
         graphics.noStroke();
 
         let date = new Date();
@@ -175,20 +176,33 @@ const sketch = (p) => {
                 graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.block.fontSize));
                 graphics.text(month.toUpperCase(), center, imgY + p.getScaled(WallpaperData.month.block.size.height / 2) - 3);
 
-                let currDate, currGame = null;
+                let opponentPromises = [];
 
-                for (let i = 1; i <= drawVars.datesToDraw; i++) {
-                    currDate = new Date(date.getFullYear(), date.getMonth(), i);
-                    currGame = (schedule ? schedule.find(g => g.date.day == currDate.getDate()) : null);
+                if (!sameTeam) {
+                    drawVars.opponentData = {};
+                    let opponentIds = new Set(schedule.map(g => g.opponent.id));
 
-                    drawDatePromises.push(p.draw_Date(currDate, currGame));
+                    opponentIds.forEach((opponentId) => {
+                        let filePath = leaguePath + 'logos/' + opponentId + '/Primary.png';
+                        opponentPromises.push(p.loadTeamImage(filePath, opponentId));
+                    });
                 }
 
+                let currDate, currGame = null;
 
-                Promise.all(drawDatePromises).then(() => {
-                    resolve();
+                Promise.all(opponentPromises).then(() => {
+                    for (let i = 1; i <= drawVars.datesToDraw; i++) {
+                        currDate = new Date(date.getFullYear(), date.getMonth(), i);
+                        currGame = schedule.find(g => g.date.day == currDate.getDate());
+
+                        drawDatePromises.push(p.draw_Date(currDate, currGame));
+                    }
+
+                    Promise.all(drawDatePromises).then(() => {
+                        resolve();
+                    })
                 })
-            }, () => {console.log("monthLogo failed to load.")});
+            });
         });
     }
 
@@ -231,21 +245,16 @@ const sketch = (p) => {
             graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.date.fontSize));
             graphics.text(game.date.dateText, timeX, timeY);
 
-            let leaguePath = findLeagueById(drawVars.selectedLeagueId).path;
-            let filePath = leaguePath + 'logos/' + game.opponent.id + '/Primary.png';
+            let opponentData = drawVars.opponentData[game.opponent.id];
+            let img = opponentData.img;
+            let imgSize = opponentData.imgSize;
+
+            let imgX = p.getScaledPosition(blockCenter, imgSize.width);
+            let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
 
             return new Promise((resolve) => {
-                p.loadImage(filePath, (img) => {
-                    console.log(img)
-                    let imgSize = p.scaleImage(img, WallpaperData.logos.game.width, WallpaperData.logos.game.height);
-
-                    let imgX = p.getScaledPosition(blockCenter, imgSize.width);
-                    let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
-
-                    graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
-
-                    resolve();
-                }, () => {console.log("dateLogo failed to load.")});
+                graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
+                resolve();
             });
         }
     }
@@ -316,6 +325,22 @@ const sketch = (p) => {
             }
             setTimeout(() => $("#wallpaper-viewer").removeClass("spinner"), 100);
         }, "image/jpeg")
+    }
+
+    p.loadTeamImage = async (filePath, teamId) => {
+        return new Promise((resolve) => {
+            p.loadImage(filePath, (img) => {
+                let imgSize = p.scaleImage(img, WallpaperData.logos.game.width, WallpaperData.logos.game.height);
+                Object.defineProperty(drawVars.opponentData, teamId, {
+                    value: {
+                        'img': img,
+                        'imgSize': imgSize
+                    }
+                });
+
+                resolve();
+            });
+        });
     }
 }
 

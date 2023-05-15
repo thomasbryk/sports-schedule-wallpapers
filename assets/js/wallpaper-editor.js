@@ -415,7 +415,8 @@ function BuildSchedule(scheduleArr = null) {
 function CreateWallpaper() {
     if (dropdownsPopulated) {
         $("#wallpaper-viewer").addClass("spinner");
-        p.draw(selectedLeague.id, selectedTeam.id, schedule);
+
+        p.draw(selectedLeague, selectedTeam, schedule);
     }
 }
 
