@@ -237,7 +237,7 @@ const sketch = (p) => {
         graphics.rect(block.x, block.y, block.width, block.height);
 
         if (games.length > 0) {
-            let timeText = (games.length == 2) ? games[0].date.dateText + "|" + games[1].date.dateText : game.date.dateText;
+            let timeText = (games.length == 2) ? games[0].date.dateText + "|" + games[1].date.dateText : games[0].date.dateText;
             let timeFontSize = (games.length == 2) ? WallpaperData.dateBlock.time.doubleHeader.fontSize : WallpaperData.dateBlock.time.time.fontSize;
             let timeOffset_Y = (games.length == 2) ? WallpaperData.dateBlock.time.doubleHeader.offset.y : WallpaperData.dateBlock.time.time.offset.y;
 
