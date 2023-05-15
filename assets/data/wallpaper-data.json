@@ -38,7 +38,7 @@
                 "y": 1469
             },
             "date": {
-                "fontSize": 36.82,
+                "fontSize": 29.46,
                 "offset": {
                     "x": 8,
                     "y": 4
@@ -46,7 +46,8 @@
             },
             "time": {
                 "fontSize": {
-                    "time": 29.46
+                    "time": 36.82,
+                    "doubleHeader": 31
                 },
                 "offset": {
                     "x": 44,

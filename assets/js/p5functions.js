@@ -193,9 +193,10 @@ const sketch = (p) => {
                 Promise.all(opponentPromises).then(() => {
                     for (let i = 1; i <= drawVars.datesToDraw; i++) {
                         currDate = new Date(date.getFullYear(), date.getMonth(), i);
-                        currGame = schedule.find(g => g.date.day == currDate.getDate());
+                        currGames = schedule.filter(g => g.date.day == currDate.getDate());
+                        currGames.sort((a,b) => a.date.hour - b.date.hour);
 
-                        drawDatePromises.push(p.draw_Date(currDate, currGame));
+                        drawDatePromises.push(p.draw_Date(currDate, currGames));
                     }
 
                     Promise.all(drawDatePromises).then(() => {
@@ -206,7 +207,7 @@ const sketch = (p) => {
         });
     }
 
-    p.draw_Date = async (date, game = null) => {
+    p.draw_Date = async (date, games = null) => {
         let dayNum = date.getDate();
         let dayOfWeek = date.getDay() + 1;
         let weekOfMonth = p.getWeekOfMonth(date.getFullYear(), date.getMonth(), dayNum);
@@ -228,22 +229,28 @@ const sketch = (p) => {
 
         graphics.textAlign(p.LEFT, p.TOP);
         graphics.fill('white');
-        graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.time.fontSize));
+        graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.date.fontSize));
         graphics.text(dayNum, dayX, dayY);
 
-        let opacity = (game ? (game.home ? WallpaperData.dateBlock.opacity.home : WallpaperData.dateBlock.opacity.away) : WallpaperData.dateBlock.opacity.default);
+        let opacity = (games[0] ? (games[0].home ? WallpaperData.dateBlock.opacity.home : WallpaperData.dateBlock.opacity.away) : WallpaperData.dateBlock.opacity.default);
         graphics.fill('rgba(255, 255, 255, ' + opacity + ')');
         graphics.rect(block.x, block.y, block.width, block.height);
 
-        if (game) {
+        if (games.length > 0) {
+            let game = games[0];
+            let timeOffset_Y = (games.length == 2) ? 3.5 : 0;
+
             let blockCenter = blockX_prescaled + WallpaperData.dateBlock.width / 2;
             let timeX = p.getScaled(blockX_prescaled + WallpaperData.dateBlock.width / 2);
-            let timeY = p.getScaled(blockY_prescaled + WallpaperData.dateBlock.time.offset.y);
+            let timeY = p.getScaled(blockY_prescaled + WallpaperData.dateBlock.time.offset.y + timeOffset_Y);
+
+            let timeFontSize = (games.length == 2) ? WallpaperData.dateBlock.time.fontSize.doubleHeader : WallpaperData.dateBlock.time.fontSize.time;
+            let timeText = (games.length == 2) ? games[0].date.dateText + "|" + games[1].date.dateText : game.date.dateText;
 
             graphics.textAlign(p.CENTER, p.TOP);
             graphics.fill('white');
-            graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.date.fontSize));
-            graphics.text(game.date.dateText, timeX, timeY);
+            graphics.textFont(jerseyFont, p.getScaled(timeFontSize));
+            graphics.text(timeText, timeX, timeY);
 
             let opponentData = drawVars.opponentData[game.opponent.id];
             let img = opponentData.img;
