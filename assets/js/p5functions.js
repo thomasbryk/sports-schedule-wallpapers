@@ -237,22 +237,20 @@ const sketch = (p) => {
         graphics.rect(block.x, block.y, block.width, block.height);
 
         if (games.length > 0) {
-            let game = games[0];
-            let timeOffset_Y = (games.length == 2) ? 3.5 : 0;
+            let timeText = (games.length == 2) ? games[0].date.dateText + "|" + games[1].date.dateText : game.date.dateText;
+            let timeFontSize = (games.length == 2) ? WallpaperData.dateBlock.time.doubleHeader.fontSize : WallpaperData.dateBlock.time.time.fontSize;
+            let timeOffset_Y = (games.length == 2) ? WallpaperData.dateBlock.time.doubleHeader.offset.y : WallpaperData.dateBlock.time.time.offset.y;
 
             let blockCenter = blockX_prescaled + WallpaperData.dateBlock.width / 2;
             let timeX = p.getScaled(blockX_prescaled + WallpaperData.dateBlock.width / 2);
             let timeY = p.getScaled(blockY_prescaled + WallpaperData.dateBlock.time.offset.y + timeOffset_Y);
-
-            let timeFontSize = (games.length == 2) ? WallpaperData.dateBlock.time.fontSize.doubleHeader : WallpaperData.dateBlock.time.fontSize.time;
-            let timeText = (games.length == 2) ? games[0].date.dateText + "|" + games[1].date.dateText : game.date.dateText;
 
             graphics.textAlign(p.CENTER, p.TOP);
             graphics.fill('white');
             graphics.textFont(jerseyFont, p.getScaled(timeFontSize));
             graphics.text(timeText, timeX, timeY);
 
-            let opponentData = drawVars.opponentData[game.opponent.id];
+            let opponentData = drawVars.opponentData[games[0].opponent.id];
             let img = opponentData.img;
             let imgSize = opponentData.imgSize;
 

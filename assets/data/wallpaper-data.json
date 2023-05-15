@@ -45,9 +45,17 @@
                 }
             },
             "time": {
-                "fontSize": {
-                    "time": 36.82,
-                    "doubleHeader": 31
+                "time": {
+                    "fontSize": 36.82,
+                    "offset":{
+                        "y": 0
+                    }
+                },
+                "doubleHeader": {
+                    "fontSize": 31,
+                    "offset":{
+                        "y": 3.5
+                    }
                 },
                 "offset": {
                     "x": 44,
