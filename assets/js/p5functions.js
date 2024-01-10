@@ -10,7 +10,7 @@ const sketch = (p) => {
     let drawVars = {
         datesToDraw: 0,
         opponentData: {},
-        schedule: null,
+        schedule: false,
         selectedLeague: null,
         selectedTeam: null
     }
@@ -90,8 +90,11 @@ const sketch = (p) => {
         graphics.clear(); // Clear graphics each frame
         canvas.clear()
 
-        let sameTeam = (league.id == drawVars.selectedLeague && team.id == drawVars.selectedTeam) ? true : false;
+        const isScheduleNull = (schedule == null);
 
+        let sameTeam = (!isScheduleNull && drawVars.schedule) && (league.id == drawVars.selectedLeague && team.id == drawVars.selectedTeam) ? true : false;
+
+        drawVars.schedule = !isScheduleNull;
         drawVars.selectedLeague = league.id;
         drawVars.selectedTeam= team.id;
         let leaguePath = league.path;
@@ -195,7 +198,6 @@ const sketch = (p) => {
                         currDate = new Date(date.getFullYear(), date.getMonth(), i);
                         currGames = schedule.filter(g => g.date.day == currDate.getDate());
                         currGames.sort((a,b) => a.date.hour - b.date.hour);
-
                         drawDatePromises.push(p.draw_Date(currDate, currGames));
                     }
 
@@ -249,7 +251,6 @@ const sketch = (p) => {
             graphics.fill('white');
             graphics.textFont(jerseyFont, p.getScaled(timeFontSize));
             graphics.text(timeText, timeX, timeY);
-
             let opponentData = drawVars.opponentData[games[0].opponent.id];
             let img = opponentData.img;
             let imgSize = opponentData.imgSize;

@@ -6,8 +6,12 @@ var leagueSlider_mouseDownX = null;
 var teamSlider_mouseDownX = null;
 
 
-$(document).ready(function () {
+$(document).ready(function() {
     $("#wallpaper").hide();
+    $("#scheduleError").hide();
+    $("#scheduleRetry").hide();
+    $("#TimeZone").val("");
+
     onload();
 });
 
@@ -78,8 +82,7 @@ function PopulateCarousels() {
             settings: {
                 slidesToShow: 2
             }
-        }
-        ]
+        }]
     });
 
     $teamsCarousel.slick({
@@ -90,27 +93,27 @@ function PopulateCarousels() {
         touchMove: true,
 
         responsive: [{
-            breakpoint: 1100,
-            settings: {
-                slidesToShow: 8,
-                slidesToScroll: 8
+                breakpoint: 1100,
+                settings: {
+                    slidesToShow: 8,
+                    slidesToScroll: 8
+                }
+            },
+            {
+                breakpoint: 850,
+                settings: {
+                    slidesToShow: 6,
+                    slidesToScroll: 6
+                }
+            },
+            {
+                breakpoint: 550,
+                settings: {
+                    mobileFirst: true,
+                    slidesToShow: 4,
+                    slidesToScroll: 4
+                }
             }
-        },
-        {
-            breakpoint: 850,
-            settings: {
-                slidesToShow: 6,
-                slidesToScroll: 6
-            }
-        },
-        {
-            breakpoint: 550,
-            settings: {
-                mobileFirst: true,
-                slidesToShow: 4,
-                slidesToScroll: 4
-            }
-        }
         ]
     });
 
@@ -158,7 +161,9 @@ function PopulateTimeZones() {
         $timeZone.append(new Option(tzName, tz));
     })
 
-    $timeZone.val(Intl.DateTimeFormat().resolvedOptions().timeZone);
+
+    if ($("#TimeZone").prop('disabled')) $timeZone.val("")
+    else $timeZone.val(Intl.DateTimeFormat().resolvedOptions().timeZone);
 }
 
 function PopulateLogos() {
@@ -279,7 +284,7 @@ function RetrieveSchedule(firstSelection = null) {
         mm = currDate.getMonth();
 
     let firstDay = new Date(yyyy, mm, 1).toISOString();
-    firstDay = firstDay.substring(0, firstDay.indexOf("T"));
+    firstDay = firstDay.substring(0, 7);
 
     let lastDay = new Date(yyyy, mm + 1, 0).toISOString();
     lastDay = lastDay.substring(0, lastDay.indexOf("T"));
@@ -295,12 +300,10 @@ function RetrieveSchedule(firstSelection = null) {
                 RetrieveSchedule_NHL(firstDay, lastDay);
                 break;
         }
-    }
-    else if (!firstSelection && schedule == null) {
+    } else if (!firstSelection && schedule == null) {
         enableScheduleControls(enable = false);
         return;
-    }
-    else {
+    } else {
         CreateWallpaper();
     }
 
@@ -312,7 +315,7 @@ function RetrieveSchedule_MLB(firstDay, lastDay) {
         accepts: {
             text: "application/json"
         },
-        success: function (games) {
+        success: function(games) {
             if (!games) {
                 console.log("[RetrieveSchedule_MLB]: Retrieved schedule object is null");
                 return;
@@ -335,29 +338,39 @@ function RetrieveSchedule_MLB(firstDay, lastDay) {
 }
 
 function RetrieveSchedule_NHL(firstDay, lastDay) {
+    const month_querystring = firstDay.substring(0, 7);
+
     $.ajax({
-        url: "https://statsapi.web.nhl.com/api/v1/schedule?teamId=" + selectedTeam.id + "&startDate=" + firstDay + "&endDate=" + lastDay,
-        accepts: {
-            text: "application/json"
-        },
-        success: function (games) {
-            if (!games) {
-                console.log("[RetrieveSchedule_NHL]: Retrieved schedule object is null");
-                return;
-            }
-            let scheduleArr = [];
+            type: 'GET',
+            url: "https://api.allorigins.win/get?url=" + encodeURIComponent("https://api-web.nhle.com/v1/club-schedule/" + selectedTeam.abbreviation + "/month/" + month_querystring),
+            async: false,
+            cache: false,
+            dataType: 'json',
+            crossOrigin: true,
+            success: function(res) {
+                var data = JSON.parse(res.contents);
+                var games = data.games;
+                
+                if (!games) {
+                    console.log("[RetrieveSchedule_NHL]: Retrieved schedule object is null");
+                    return null;
+                }
 
-            $.each(games.dates, (i, date) => {
-                $.each(date.games, (j, game) => {
-                    scheduleArr.push(game);
+                let scheduleArr = [];
+                $.each(games, (i, game) => {
+                    if (game.gameType == 2 || game.gameType == 3) //Regular season and playoffs
+                        scheduleArr.push(game);
                 });
-            });
 
-            if (scheduleArr.length <= 0) scheduleArr = null;
+                if (scheduleArr.length <= 0) scheduleArr = null;
 
-            BuildSchedule(scheduleArr);
-        }
-    })
+                BuildSchedule(scheduleArr);
+            }
+        })
+        .fail(function(xhr, status, error) { 
+            console.log("[RetrieveSchedule_NHL] GET request to NHL API failed. ~Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+            BuildSchedule();
+        });
 }
 
 function BuildSchedule(scheduleArr = null) {
@@ -379,11 +392,11 @@ function BuildSchedule(scheduleArr = null) {
             let timeMin = (currScheduleObj.date.minute < 10 ? "0" + currScheduleObj.date.minute : currScheduleObj.date.minute);
             currScheduleObj.date.dateText = timeHour + ":" + timeMin;
 
-            currScheduleObj.home = (currGame.teams.home.team.id == selectedTeam.id);
+            currScheduleObj.home = (currGame.homeTeam.id == selectedTeam.id);
 
             let opponent = (currScheduleObj.home ?
-                currGame.teams.away.team :
-                currGame.teams.home.team);
+                currGame.awayTeam :
+                currGame.homeTeam);
 
             let opponentObj = selectedLeague.teams.find(team => team.id == opponent.id);
 
@@ -392,7 +405,6 @@ function BuildSchedule(scheduleArr = null) {
                 abbreviation: opponentObj.abbreviation,
                 logo: "../../" + leaguePath + "logos/" + opponentObj.id + "/Primary.png"
             }
-
             schedule.push(currScheduleObj);
         })
     } else if (schedule) {
@@ -403,8 +415,7 @@ function BuildSchedule(scheduleArr = null) {
             let timeMin = (gameData.date.minute < 10 ? "0" + gameData.date.minute : gameData.date.minute);
             gameData.date.dateText = timeHour + ":" + timeMin;
         })
-    }
-    else {
+    } else {
         schedule = null;
         enableScheduleControls(enable = false);
     }
@@ -435,10 +446,21 @@ const findLeagueById = (id) => {
 }
 
 function enableScheduleControls(enable) {
-    if (enable) $("#scheduleError").fadeOut("fast");
-    else $("#scheduleError").fadeIn("fast");
+    if (enable) {
+        $("#scheduleError").fadeOut("fast");
+        $("#scheduleRetry").fadeOut("fast");
+    }
+    else{
+         $("#scheduleError").fadeIn("fast");
+         $("#scheduleRetry").fadeIn("fast");
+         $("#TimeZone").val("");
+    }
 
     $("#Schedule").prop('disabled', !enable);
     $("#Schedule").prop('checked', enable);
     $("#TimeZone").prop('disabled', !enable);
+}
+
+function scheduleRetryOnClick() {
+    RetrieveSchedule(firstSelection = true)
 }
