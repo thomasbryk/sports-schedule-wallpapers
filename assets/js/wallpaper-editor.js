@@ -449,11 +449,12 @@ function enableScheduleControls(enable) {
     if (enable) {
         $("#scheduleError").fadeOut("fast");
         $("#scheduleRetry").fadeOut("fast");
+        $("#TimeZone").css({ "opacity": "100%" });
     }
     else{
          $("#scheduleError").fadeIn("fast");
          $("#scheduleRetry").fadeIn("fast");
-         $("#TimeZone").val("");
+         $("#TimeZone").css({ "opacity": "35%" });
     }
 
     $("#Schedule").prop('disabled', !enable);
@@ -462,5 +463,18 @@ function enableScheduleControls(enable) {
 }
 
 function scheduleRetryOnClick() {
-    RetrieveSchedule(firstSelection = true)
+    $("#wallpaper-viewer").addClass("spinner");
+    disableRetry ();
+    RetrieveSchedule(firstSelection = true);
+}
+
+function disableRetry () {
+    $("#scheduleRetry").addClass('disabled');
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        $("#scheduleRetry").removeClass('disabled');
+        resolve();
+    }, 3500)
+    })
 }

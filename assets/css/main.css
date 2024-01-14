@@ -2525,6 +2525,17 @@ button:disabled,
     opacity: 0.25;
 }
 
+input[type="button"].disabled-fill,
+input[type="button"]:disabled-fill,
+button.disabled-fill,
+button:disabled-fill,
+.button.disabled-fill,
+.button:disabled-fill {
+    box-shadow: inset 0 0 0 2px #9bf1ff;
+    color: #9bf1ff;
+    background-color: #9bf1ff;
+}
+
 
 /* Tiles */
 
