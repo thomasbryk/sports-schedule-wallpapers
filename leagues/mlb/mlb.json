@@ -1,0 +1,429 @@
+{
+    "teams": [
+        {
+            "id": 108,
+            "name": "Los Angeles Angels",
+            "abbreviation": "LAA",
+            "logos": {
+                "Primary": "Primary.png"
+            },
+            "colours": {
+                "Red": "#BA0021",
+                "Blue": "#003263",
+                "Maroon": "#862633",
+                "Silver": "#C4CED4"
+            }
+        },
+        {
+            "id": 109,
+            "name": "Arizona Diamondbacks",
+            "abbreviation": "ARI",
+            "logos": {
+                "Primary": "Primary.png"
+            },
+            "colours": {
+                "Red": "#A71930",
+                "Sand": "#E3D4AD",
+                "Teal": "#30CED8"
+            }
+        },
+        {
+            "id": 110,
+            "name": "Baltimore Orioles",
+            "abbreviation": "BAL",
+            "logos": {
+                "Primary": "Primary.png"
+            },
+            "colours": {
+                "Orange": "#DF4601"
+            }
+        },
+        {
+            "id": 111,
+            "name": "Boston Red Sox",
+            "abbreviation": "BOS",
+            "logos": {
+                "Main": "Main.png",
+                "Primary": "Primary.png"
+            },
+            "colours": {
+                "Blue": "#0C2340",
+                "Red": "#BD3039"
+            }
+        },
+        {
+            "id": 112,
+            "name": "Chicago Cubs",
+            "abbreviation": "CHC",
+            "logos": {
+                "Primary": "Primary.png"
+            },
+            "colours": {
+                "Blue": "#0E3386",
+                "Red": "#CC3433"
+            }
+        },
+        {
+            "id": 113,
+            "name": "Cincinnati Reds",
+            "abbreviation": "CIN",
+            "logos": {
+                "Main": "Main.png",
+                "Primary": "Primary.png",
+                "Home": "Home.png"
+            },
+            "colours": {
+                "Red": "#C6011F"
+            }
+        },
+        {
+            "id": 114,
+            "name": "Cleveland Guardians",
+            "abbreviation": "CLE",
+            "logos": {
+                "Main": "Main.png",
+                "Primary": "Primary.png",
+                "Guardians": "Guardians.png",
+                "Indians": "Indians.png"
+            },
+            "colours": {
+                "Blue": "#00385D",
+                "Red": "#E50022"
+            }
+        },
+        {
+            "id": 115,
+            "name": "Colorado Rockies",
+            "abbreviation": "COL",
+            "logos": {
+                "Primary": "Primary.png",
+                "Rockies": "Rockies.png"
+            },
+            "colours": {
+                "Purple": "#333366",
+                "Silver": "#C4CED4"
+            }
+        },
+        {
+            "id": 116,
+            "name": "Detroit Tigers",
+            "abbreviation": "DET",
+            "logos": {
+                "Primary": "Primary.png"
+            },
+            "colours": {
+                "Navy": "#0C2340",
+                "Orange": "#FA4616"
+            }
+        },
+        {
+            "id": 117,
+            "name": "Houston Astros",
+            "abbreviation": "HOU",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png"
+            },
+            "colours": {
+                "Navy": "#002D62",
+                "Light Orange": "#F4911E",
+                "Orange": "#EB6E1F"
+            }
+        },
+        {
+            "id": 118,
+            "name": "Kansas City Royals",
+            "abbreviation": "KC",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png",
+                "Home": "Home.png",
+                "Crown": "Crown.png"
+            },
+            "colours": {
+                "Royal Blue": "#004687",
+                "Gold": "#BD9B60"
+            }
+        },
+        {
+            "id": 119,
+            "name": "Los Angeles Dodgers",
+            "abbreviation": "LAD",
+            "logos": {
+                "Primary": "Primary.png"
+            },
+            "colours": {
+                "Primary": "Primary.png",
+                "Main": "Main.png",
+                "Home": "Home.png"
+            }
+        },
+        {
+            "id": 120,
+            "name": "Washington Nationals",
+            "abbreviation": "WSH",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png",
+                "Home": "Home.png"
+            },
+            "colours": {
+                "Red": "#AB0003",
+                "Navy": "#14225A"
+            }
+        },
+        {
+            "id": 121,
+            "name": "New York Mets",
+            "abbreviation": "NYM",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png",
+                "Mets": "Mets.png"
+            },
+            "colours": {
+                "Blue": "#002D72",
+                "Orange": "#FF5910"
+            }
+        },
+        {
+            "id": 133,
+            "name": "Oakland Athletics",
+            "abbreviation": "OAK",
+            "logos": {
+                "Main": "Main.png",
+                "Primary": "Primary.png",
+                "Home": "Home.png"
+            },
+            "colours": {
+                "Green": "#003831",
+                "Gold": "#EFB21E",
+                "Gray": "#A2AAAD"
+            }
+        },
+        {
+            "id": 134,
+            "name": "Pittsburgh Pirates",
+            "abbreviation": "PIT",
+            "logos": {
+                "Primary": "Primary.png",
+                "Retro": "Retro.png",
+                "Dark": "Dark.png"
+            },
+            "colours": {
+                "Priates Black": "#27251F",
+                "Gold": "#FDB827"
+            }
+        },
+        {
+            "id": 135,
+            "name": "San Diego Padres",
+            "abbreviation": "SD",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png",
+                "Padres": "Padres.png",
+                "Retro": "Retro.png"
+            },
+            "colours": {
+                "Brown": "#2F241D",
+                "Gold": "#FFC425",
+                "Gray": "#A2AAAD",
+                "Blue": "#002D62"
+            }
+        },
+        {
+            "id": 136,
+            "name": "Seattle Mariners",
+            "abbreviation": "SEA",
+            "logos": {
+                "Primary": "Primary.png"
+            },
+            "colours": {
+                "Navy": "#0C2C56",
+                "Green": "#005C5C",
+                "Silver": "#C4CED4",
+                "Red": "#D50032",
+                "Retro Blue": "#002878"
+            }
+        },
+        {
+            "id": 137,
+            "name": "San Francisco Giants",
+            "abbreviation": "SF",
+            "logos": {
+                "Main": "Main.png",
+                "Primary": "Primary.png",
+                "Home": "Home.png"
+            },
+            "colours": {
+                "Giants Black": "#27251F",
+                "Orange": "#FD5A1E",
+                "Beige": "#EFD19F",
+                "Gold": "#AE8F6F"
+            }
+        },
+        {
+            "id": 138,
+            "name": "St. Louis Cardinals",
+            "abbreviation": "STL",
+            "logos": {
+                "Main": "Main.png",
+                "Primary": "Primary.png"
+            },
+            "colours": {
+                "Red": "#C41E3A",
+                "Navy": "#0C2340",
+                "Yellow": "#FEDB00"
+            }
+        },
+        {
+            "id": 139,
+            "name": "Tampa Bay Rays",
+            "abbreviation": "TB",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png",
+                "Home": "Home.png"
+            },
+            "colours": {
+                "Navy": "#092C5C",
+                "Blue": "#8FBCE6"
+            }
+        },
+        {
+            "id": 140,
+            "name": "Texas Rangers",
+            "abbreviation": "TEX",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png",
+                "Home": "Home.png"
+            },
+            "colours": {
+                "Blue": "#003278",
+                "Red": "#C0111F"
+            }
+        },
+        {
+            "id": 141,
+            "name": "Toronto Blue Jays",
+            "abbreviation": "TOR",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png",
+                "Retro": "Retro.png"
+            },
+            "colours": {
+                "Navy": "#1D2D5C",
+                "Blue": "#134A8E",
+                "Powder Blue": "#6caadd",
+                "Red": "#E8291C"
+            }
+        },
+        {
+            "id": 142,
+            "name": "Minnesota Twins",
+            "abbreviation": "MIN",
+            "logos": {
+                "Primary": "Primary.png",
+                "Twins": "Twins.png",
+                "Home": "Home.png",
+                "Main": "Main.png"
+            },
+            "colours": {
+                "Navy": "#002B5C",
+                "Red": "#D31145",
+                "Gold": "#B9975B"
+            }
+        },
+        {
+            "id": 143,
+            "name": "Philadelphia Phillies",
+            "abbreviation": "PHI",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png",
+                "Home": "Home.png"
+            },
+            "colours": {
+                "Red": "#E81828",
+                "Blue": "#002D72"
+            }
+        },
+        {
+            "id": 144,
+            "name": "Atlanta Braves",
+            "abbreviation": "ATL",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png",
+                "Light": "Light.png"
+            },
+            "colours": {
+                "Navy": "#13274F",
+                "Red": "#CE1141",
+                "Gold": "#EAAA00"
+            }
+        },
+        {
+            "id": 145,
+            "name": "Chicago White Sox",
+            "abbreviation": "CWS",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png"
+            },
+            "colours": {
+                "White Sox Black": "#27251F",
+                "Silver": "#C4CED4"
+            }
+        },
+        {
+            "id": 146,
+            "name": "Miami Marlins",
+            "abbreviation": "MIA",
+            "logos": {
+                "Primary": "Primary.png",
+                "Main": "Main.png"
+            },
+            "colours": {
+                "Blue": "#00A3E0",
+                "Red": "#EF3340",
+                "Slate Gray": "#41748D"
+            }
+        },
+        {
+            "id": 147,
+            "name": "New York Yankees",
+            "abbreviation": "NYY",
+            "logos": {
+                "Primary": "Primary.png",
+                "Dark": "Dark.png",
+                "Main": "Main.png"
+            },
+            "colours": {
+                "Navy": "#0C2340",
+                "Blue": "#003087",
+                "Red": "#E4002C",
+                "Gray": "#C4CED3"
+            }
+        },
+        {
+            "id": 158,
+            "name": "Milwaukee Brewers",
+            "abbreviation": "MIL",
+            "logos": {
+                "Main": "Main.png",
+                "Primary": "Primary.png",
+                "Retro": "Retro.png"
+            },
+            "colours": {
+                "Navy": "#12284B",
+                "Yellow": "#FFC52F",
+                "Alternate Navy": "#0A2351",
+                "Gold": "#B6922E"
+            }
+        }
+    ]
+}

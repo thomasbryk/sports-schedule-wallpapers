@@ -1,92 +1,3 @@
-let WallpaperData = {
-    logos: {
-        main: {
-            width: 550,
-            height: 500,
-            position: {
-                y: 953
-            }
-        },
-        game: {
-            width: 65,
-            height: 52,
-            offset: {
-                x: 69.5,
-                y: 66.5
-            }
-        },
-        solo: {
-            width: 600,
-            height: 550
-        }
-    },
-    dateBlock: {
-        opacity: {
-            default: 0.04,
-            home: 0.2,
-            away: 0.03
-        },
-        width: 138,
-        height: 138,
-        offset: {
-            x: 12,
-            y: 14
-        },
-        position: {
-            x: 65.75,
-            y: 1469
-        },
-
-        date: {
-            fontSize: 36.82,
-            offset: {
-                x: 8,
-                y: 4
-            }
-        },
-
-        time: {
-            fontSize: {
-                time: 29.46
-            },
-            offset: {
-                x: 44,
-                y: 95
-            }
-        }
-    },
-    month: {
-        block: {
-            position: {
-                x: 458,
-                y: 1356
-            },
-            size: {
-                width: 254,
-                height: 49
-            },
-            fontSize: 44.85,
-            filename: 'month-name.png'
-        },
-        text: {
-            opacity: 0.25,
-            fontSize: 27.78,
-            position: {
-                y: 1430
-            }
-        },
-        home_away: {
-            size: {
-                width: 66,
-                height: 66
-            },
-            fontSize: 22.2
-        },
-        weekdays: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-    }
-}
-
-
 const sketch = (p) => {
     let jerseyFont;
 
@@ -97,15 +8,17 @@ const sketch = (p) => {
     let canvas;
 
     let drawVars = {
-        schedule: null,
-        selectedTeam: null,
-        saveWallpaper: false,
-        logo: false,
-        games: false,
         datesToDraw: 0,
-        calendar: false
+        opponentData: {},
+        schedule: false,
+        selectedLeague: null,
+        selectedTeam: null
     }
 
+    let WallpaperData = null;
+    fetch("assets/data/wallpaper-data.json")
+        .then(response => response.json())
+        .then(json => WallpaperData = json.WallpaperData);
 
     p.center = (objectWidth) => center - (objectWidth / 2);
     p.middle = (objectHeight) => middle - (objectHeight / 2);
@@ -171,32 +84,38 @@ const sketch = (p) => {
     }
 
 
-    p.draw = (selectedTeamId, schedule = null) => {
-        if (!selectedTeamId) return;
-
-        drawVars.selectedTeamId = selectedTeamId;
+    p.draw = (league, team, schedule = null) => {
+        if (!league || !team) return;
 
         graphics.clear(); // Clear graphics each frame
         canvas.clear()
 
-        let colour = $('#Colour').val();
+        const isScheduleNull = (schedule == null);
 
+        let sameTeam = (!isScheduleNull && drawVars.schedule) && (league.id == drawVars.selectedLeague && team.id == drawVars.selectedTeam) ? true : false;
+
+        drawVars.schedule = !isScheduleNull;
+        drawVars.selectedLeague = league.id;
+        drawVars.selectedTeam= team.id;
+        let leaguePath = league.path;
+
+        let colour = $('#Colour').val();
         graphics.background(colour);
 
-        drawVars.logo = false;
-
         let drawPromises = [];
-        drawPromises.push(p.draw_Logo(selectedTeamId));
-        drawPromises.push(p.draw_Calendar(schedule));
+        drawPromises.push(p.draw_Logo(team.id, leaguePath));
+
+        let includeSchedule = $('#Schedule').prop('checked');
+        if (includeSchedule) drawPromises.push(p.draw_Calendar(schedule, leaguePath, sameTeam));
 
         Promise.all(drawPromises).then(() => {
             p.drawGraphics();
         })
     }
 
-    p.draw_Logo = async(selectedTeamId) => {
+    p.draw_Logo = async (teamId, leaguePath) => {
         let logoFileName = $('#Logo').val();
-        let filePath = window.location.href + 'leagues/nhl/logos/' + selectedTeamId + '/' + logoFileName;
+        let filePath = leaguePath + 'logos/' + teamId + '/' + logoFileName;
 
         return new Promise((resolve) => {
             p.loadImage(filePath, (img) => {
@@ -208,11 +127,11 @@ const sketch = (p) => {
                 graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
                 resolve();
-            });
+            }, () => { console.log("mainLogo failed to load.") });
         });
     }
 
-    p.draw_Calendar = async(schedule = null) => {
+    p.draw_Calendar = async (schedule, leaguePath, sameTeam) => {
         graphics.noStroke();
 
         let date = new Date();
@@ -241,7 +160,7 @@ const sketch = (p) => {
 
         let drawDatePromises = [];
 
-        let monthFilePath = window.location.href + 'assets/images/' + WallpaperData.month.block.filename;
+        let monthFilePath = 'assets/images/' + WallpaperData.month.block.filename;
 
         return new Promise((resolve) => {
             p.loadImage(monthFilePath, (img) => {
@@ -260,24 +179,37 @@ const sketch = (p) => {
                 graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.block.fontSize));
                 graphics.text(month.toUpperCase(), center, imgY + p.getScaled(WallpaperData.month.block.size.height / 2) - 3);
 
-                let currDate, currGame = null;
+                let opponentPromises = [];
 
-                for (let i = 1; i <= drawVars.datesToDraw; i++) {
-                    currDate = new Date(date.getFullYear(), date.getMonth(), i);
-                    currGame = (schedule ? schedule.find(g => g.date.day == currDate.getDate()) : null);
+                if (!sameTeam) {
+                    drawVars.opponentData = {};
+                    let opponentIds = new Set(schedule.map(g => g.opponent.id));
 
-                    drawDatePromises.push(p.draw_Date(currDate, currGame));
+                    opponentIds.forEach((opponentId) => {
+                        let filePath = leaguePath + 'logos/' + opponentId + '/Primary.png';
+                        opponentPromises.push(p.loadTeamImage(filePath, opponentId));
+                    });
                 }
 
+                let currDate, currGame = null;
 
-                Promise.all(drawDatePromises).then(() => {
-                    resolve();
+                Promise.all(opponentPromises).then(() => {
+                    for (let i = 1; i <= drawVars.datesToDraw; i++) {
+                        currDate = new Date(date.getFullYear(), date.getMonth(), i);
+                        currGames = schedule.filter(g => g.date.day == currDate.getDate());
+                        currGames.sort((a,b) => a.date.hour - b.date.hour);
+                        drawDatePromises.push(p.draw_Date(currDate, currGames));
+                    }
+
+                    Promise.all(drawDatePromises).then(() => {
+                        resolve();
+                    })
                 })
             });
         });
     }
 
-    p.draw_Date = async(date, game = null) => {
+    p.draw_Date = async (date, games = null) => {
         let dayNum = date.getDate();
         let dayOfWeek = date.getDay() + 1;
         let weekOfMonth = p.getWeekOfMonth(date.getFullYear(), date.getMonth(), dayNum);
@@ -299,36 +231,36 @@ const sketch = (p) => {
 
         graphics.textAlign(p.LEFT, p.TOP);
         graphics.fill('white');
-        graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.time.fontSize));
+        graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.date.fontSize));
         graphics.text(dayNum, dayX, dayY);
 
-        let opacity = (game ? (game.home ? WallpaperData.dateBlock.opacity.home : WallpaperData.dateBlock.opacity.away) : WallpaperData.dateBlock.opacity.default);
+        let opacity = (games[0] ? (games[0].home ? WallpaperData.dateBlock.opacity.home : WallpaperData.dateBlock.opacity.away) : WallpaperData.dateBlock.opacity.default);
         graphics.fill('rgba(255, 255, 255, ' + opacity + ')');
         graphics.rect(block.x, block.y, block.width, block.height);
 
-        if (game) {
+        if (games.length > 0) {
+            let timeText = (games.length == 2) ? games[0].date.dateText + "|" + games[1].date.dateText : games[0].date.dateText;
+            let timeFontSize = (games.length == 2) ? WallpaperData.dateBlock.time.doubleHeader.fontSize : WallpaperData.dateBlock.time.time.fontSize;
+            let timeOffset_Y = (games.length == 2) ? WallpaperData.dateBlock.time.doubleHeader.offset.y : WallpaperData.dateBlock.time.time.offset.y;
+
             let blockCenter = blockX_prescaled + WallpaperData.dateBlock.width / 2;
             let timeX = p.getScaled(blockX_prescaled + WallpaperData.dateBlock.width / 2);
-            let timeY = p.getScaled(blockY_prescaled + WallpaperData.dateBlock.time.offset.y);
+            let timeY = p.getScaled(blockY_prescaled + WallpaperData.dateBlock.time.offset.y + timeOffset_Y);
 
             graphics.textAlign(p.CENTER, p.TOP);
             graphics.fill('white');
-            graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.date.fontSize));
-            graphics.text(game.date.dateText, timeX, timeY);
+            graphics.textFont(jerseyFont, p.getScaled(timeFontSize));
+            graphics.text(timeText, timeX, timeY);
+            let opponentData = drawVars.opponentData[games[0].opponent.id];
+            let img = opponentData.img;
+            let imgSize = opponentData.imgSize;
 
-            let filePath = window.location.href + 'leagues/nhl/logos/' + game.opponent.id + '/Primary.png';
+            let imgX = p.getScaledPosition(blockCenter, imgSize.width);
+            let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
 
             return new Promise((resolve) => {
-                p.loadImage(filePath, (img) => {
-                    let imgSize = p.scaleImage(img, WallpaperData.logos.game.width, WallpaperData.logos.game.height);
-
-                    let imgX = p.getScaledPosition(blockCenter, imgSize.width);
-                    let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
-
-                    graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
-
-                    resolve();
-                })
+                graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
+                resolve();
             });
         }
     }
@@ -341,7 +273,7 @@ const sketch = (p) => {
         let offsetY = 0;
         let offsetY_TimeZone = WallpaperData.dateBlock.height - WallpaperData.month.home_away.size.height;
 
-        if (dayOfWeek_firstDay == 0) {
+        if (dayOfWeek_firstDay == 0 || dayOfWeek_firstDay == 1) {
             let weekOfMonth = p.getWeekOfMonth(date.getFullYear(), date.getMonth(), drawVars.datesToDraw);
 
             offsetX = (WallpaperData.dateBlock.width + WallpaperData.dateBlock.offset.x) * (6)
@@ -399,6 +331,22 @@ const sketch = (p) => {
             }
             setTimeout(() => $("#wallpaper-viewer").removeClass("spinner"), 100);
         }, "image/jpeg")
+    }
+
+    p.loadTeamImage = async (filePath, teamId) => {
+        return new Promise((resolve) => {
+            p.loadImage(filePath, (img) => {
+                let imgSize = p.scaleImage(img, WallpaperData.logos.game.width, WallpaperData.logos.game.height);
+                Object.defineProperty(drawVars.opponentData, teamId, {
+                    value: {
+                        'img': img,
+                        'imgSize': imgSize
+                    }
+                });
+
+                resolve();
+            });
+        });
     }
 }
 

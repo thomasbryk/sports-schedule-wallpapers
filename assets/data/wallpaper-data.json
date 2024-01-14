@@ -1,0 +1,104 @@
+{
+    "WallpaperData": {
+        "logos": {
+            "main": {
+                "width": 550,
+                "height": 500,
+                "position": {
+                    "y": 953
+                }
+            },
+            "game": {
+                "width": 65,
+                "height": 52,
+                "offset": {
+                    "x": 69.5,
+                    "y": 66.5
+                }
+            },
+            "solo": {
+                "width": 600,
+                "height": 550
+            }
+        },
+        "dateBlock": {
+            "opacity": {
+                "default": 0.04,
+                "home": 0.2,
+                "away": 0.04
+            },
+            "width": 138,
+            "height": 138,
+            "offset": {
+                "x": 12,
+                "y": 14
+            },
+            "position": {
+                "x": 65.75,
+                "y": 1469
+            },
+            "date": {
+                "fontSize": 29.46,
+                "offset": {
+                    "x": 8,
+                    "y": 4
+                }
+            },
+            "time": {
+                "time": {
+                    "fontSize": 36.82,
+                    "offset":{
+                        "y": 0
+                    }
+                },
+                "doubleHeader": {
+                    "fontSize": 31,
+                    "offset":{
+                        "y": 3.5
+                    }
+                },
+                "offset": {
+                    "x": 44,
+                    "y": 95
+                }
+            }
+        },
+        "month": {
+            "block": {
+                "position": {
+                    "x": 458,
+                    "y": 1356
+                },
+                "size": {
+                    "width": 254,
+                    "height": 49
+                },
+                "fontSize": 44.85,
+                "filename": "month-name.png"
+            },
+            "text": {
+                "opacity": 0.25,
+                "fontSize": 27.78,
+                "position": {
+                    "y": 1430
+                }
+            },
+            "home_away": {
+                "size": {
+                    "width": 66,
+                    "height": 66
+                },
+                "fontSize": 22.2
+            },
+            "weekdays": [
+                "S",
+                "M",
+                "T",
+                "W",
+                "T",
+                "F",
+                "S"
+            ]
+        }
+    }
+}
