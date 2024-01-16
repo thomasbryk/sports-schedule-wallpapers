@@ -386,7 +386,7 @@ function BuildSchedule(scheduleArr = null) {
         scheduleArr.forEach(currGame => {
             let currScheduleObj = {};
 
-            currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.gameDate);
+            currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.startTimeUTC);
 
             let timeHour = (currScheduleObj.date.hour > 12 ? currScheduleObj.date.hour - 12 : (currScheduleObj.date.hour == 0 ? 12 : currScheduleObj.date.hour));
             let timeMin = (currScheduleObj.date.minute < 10 ? "0" + currScheduleObj.date.minute : currScheduleObj.date.minute);
@@ -475,6 +475,6 @@ function disableRetry () {
       setTimeout(() => {
         $("#scheduleRetry").removeClass('disabled');
         resolve();
-    }, 3500)
+    }, 4000)
     })
 }
