@@ -284,7 +284,7 @@ function RetrieveSchedule(firstSelection = null) {
         mm = currDate.getMonth();
 
     let firstDay = new Date(yyyy, mm, 1).toISOString();
-    firstDay = firstDay.substring(0, 7);
+    firstDay = firstDay.substring(0, 10);
 
     let lastDay = new Date(yyyy, mm + 1, 0).toISOString();
     lastDay = lastDay.substring(0, lastDay.indexOf("T"));
@@ -386,17 +386,17 @@ function BuildSchedule(scheduleArr = null) {
         scheduleArr.forEach(currGame => {
             let currScheduleObj = {};
 
-            currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.startTimeUTC);
+            currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.gameDate);
 
             let timeHour = (currScheduleObj.date.hour > 12 ? currScheduleObj.date.hour - 12 : (currScheduleObj.date.hour == 0 ? 12 : currScheduleObj.date.hour));
             let timeMin = (currScheduleObj.date.minute < 10 ? "0" + currScheduleObj.date.minute : currScheduleObj.date.minute);
             currScheduleObj.date.dateText = timeHour + ":" + timeMin;
 
-            currScheduleObj.home = (currGame.homeTeam.id == selectedTeam.id);
+            currScheduleObj.home = (currGame.teams.home.team.id == selectedTeam.id);
 
             let opponent = (currScheduleObj.home ?
-                currGame.awayTeam :
-                currGame.homeTeam);
+                currGame.teams.away.team :
+                currGame.teams.home.team);
 
             let opponentObj = selectedLeague.teams.find(team => team.id == opponent.id);
 
