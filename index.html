@@ -16,6 +16,8 @@
     <noscript>
         <link rel="stylesheet" href="assets/css/noscript.css" />
     </noscript>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
 </head>
 
 <body class="is-preload">
@@ -83,6 +85,11 @@
                             <label for="Schedule" class="wallpaper-label">Include schedule</label>
                             <a class="button icon solid fa-redo-alt" id="scheduleRetry" onclick="scheduleRetryOnClick()"> RETRY </a>
                         </ul>
+                        <ul>
+                            <label for="ScheduleMonth" class="wallpaper-label">Choose Month</label>
+                            <select name="ScheduleMonth" id="ScheduleMonth" class="wallpaper-select" onchange="monthSelectionOnChange()">
+                            </select>
+                        </ul>
                         <!-- <ul>
                             <label for="Style" class="wallpaper-label">Schedule Style</label>
                             <select name="Style" id="Style" class="wallpaper-select" onchange="CreateWallpaper()">
@@ -91,8 +98,8 @@
                         </ul> -->
                         <ul>
                             <label for="TimeZone" class="wallpaper-label">Time Zone</label>
-                            <select name="TimeZone" class="wallpaper-select" id="TimeZone"
-                                disabled="!enableScheduleControls" onchange="BuildSchedule()">
+                            <select name="TimeZone" class="wallpaper-select,selectpicker" data-live-search="true"
+                                id="TimeZone" disabled="!enableScheduleControls" onchange="BuildSchedule()">
                             </select>
                         </ul>
                         <ul style="margin:0;">
@@ -132,5 +139,11 @@
 <script src="assets/js/tzintl.min.js"></script>
 <script src="assets/js/util.js"></script>
 <script src="assets/js/wallpaper-editor.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossOrigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.10/moment-timezone-with-data.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
 
 </html>

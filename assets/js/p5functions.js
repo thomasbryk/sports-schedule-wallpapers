@@ -135,6 +135,8 @@ const sketch = (p) => {
         graphics.noStroke();
 
         let date = new Date();
+        let month = parseInt($('#ScheduleMonth').val())
+        date.setMonth(month);
         drawVars.datesToDraw = p.daysInMonth(date.getMonth(), date.getFullYear());
 
         let dayOfWeek = {
