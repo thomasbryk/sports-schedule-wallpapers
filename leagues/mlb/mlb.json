@@ -312,13 +312,15 @@
             "logos": {
                 "Primary": "Primary.png",
                 "Main": "Main.png",
-                "Retro": "Retro.png"
+                "Retro": "Retro.png",                
+                "Night Mode": "nightModeBird.png"
             },
             "colours": {
                 "Navy": "#1D2D5C",
                 "Blue": "#134A8E",
                 "Powder Blue": "#6caadd",
-                "Red": "#E8291C"
+                "Red": "#E8291C",
+                "Night Mode": "#141824"
             }
         },
         {
