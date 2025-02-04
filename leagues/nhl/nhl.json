@@ -417,6 +417,21 @@
                 "Boundless Blue": "#355464",
                 "Shadow Blue": "#68a2b9"
             }
+        },
+        {
+            "id": 59,
+            "name": "Utah Hockey Club",
+            "abbreviation": "UTA",
+            "division": 15,
+            "logos": {
+                "Primary": "Primary.png"
+            },
+            "colours": {
+                "Deep Sea Blue": "#001628",
+                "Ice Blue": "#99d9d9",
+                "Boundless Blue": "#355464",
+                "Shadow Blue": "#68a2b9"
+            }
         }
     ]
 }
