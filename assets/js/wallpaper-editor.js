@@ -385,8 +385,12 @@ function BuildSchedule(scheduleArr = null) {
 
         scheduleArr.forEach(currGame => {
             let currScheduleObj = {};
-
-            currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.gameDate);
+            
+            if (selectedLeague.name == "MLB") {
+                currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.gameDate);
+            } else {
+                currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.startTimeUTC);
+            }
 
             let timeHour = (currScheduleObj.date.hour > 12 ? currScheduleObj.date.hour - 12 : (currScheduleObj.date.hour == 0 ? 12 : currScheduleObj.date.hour));
             let timeMin = (currScheduleObj.date.minute < 10 ? "0" + currScheduleObj.date.minute : currScheduleObj.date.minute);
