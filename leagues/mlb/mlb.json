@@ -313,7 +313,8 @@
                 "Primary": "Primary.png",
                 "Main": "Main.png",
                 "Retro": "Retro.png",                
-                "Night Mode": "nightModeBird.png"
+                "Night Mode": "City.png",
+                "City Connect 'T'": "City_T.png"
             },
             "colours": {
                 "Navy": "#1D2D5C",
