@@ -424,12 +424,12 @@
             "abbreviation": "UTA",
             "division": 15,
             "logos": {
-                "Primary": "Primary.png"
+                "Primary": "Primary.png",
+                "Alternate": "Alternate.png"
             },
             "colours": {
                 "Rock Black": "#010101",
-                "Mountain Blue": "#69B3E7",
-                "Salt White": "#FFFFFF"
+                "Mountain Blue": "#69B3E7"
             }
         }
     ]
