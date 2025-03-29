@@ -293,10 +293,10 @@ function RetrieveSchedule(firstSelection = null) {
 
     if (includeSchedule || firstSelection) {
         switch (selectedLeague.id) {
-            case 1:
+            case 1: //MLB
                 RetrieveSchedule_MLB(firstDay, lastDay);
                 break;
-            case 2:
+            case 2: //NHL
                 RetrieveSchedule_NHL(firstDay, lastDay);
                 break;
         }
@@ -386,28 +386,35 @@ function BuildSchedule(scheduleArr = null) {
         scheduleArr.forEach(currGame => {
             let currScheduleObj = {};
             
-            if (selectedLeague.name == "MLB") {
-                currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.gameDate);
-            } else {
-                currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.startTimeUTC);
+            switch (selectedLeague.id) {
+                case 1: //MLB
+                    currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.gameDate);
+                    break;
+                case 2: //NHL
+                    currScheduleObj.date = TZIntl.getDateTime(timeZone_Val, currGame.startTimeUTC);
+                    break;
             }
 
             let timeHour = (currScheduleObj.date.hour > 12 ? currScheduleObj.date.hour - 12 : (currScheduleObj.date.hour == 0 ? 12 : currScheduleObj.date.hour));
             let timeMin = (currScheduleObj.date.minute < 10 ? "0" + currScheduleObj.date.minute : currScheduleObj.date.minute);
             currScheduleObj.date.dateText = timeHour + ":" + timeMin;
+
             let opponent = {};
-            if (selectedLeague.name == "MLB") {
-            currScheduleObj.home = (currGame.teams.home.team.id == selectedTeam.id);
 
-                opponent = (currScheduleObj.home ?
-                currGame.teams.away.team :
-                currGame.teams.home.team);
-            } else {
-                currScheduleObj.home = (currGame.homeTeam.id == selectedTeam.id);
-
+            switch (selectedLeague.id) {
+                case 1: //MLB
+                    currScheduleObj.home = (currGame.teams.home.team.id == selectedTeam.id);
                     opponent = (currScheduleObj.home ?
-                    currGame.awayTeam :
-                    currGame.homeTeam);
+                        currGame.teams.away.team :
+                        currGame.teams.home.team);
+                    break;
+                case 2: //NHL
+                    currScheduleObj.home = (currGame.homeTeam.id == selectedTeam.id);
+                    opponent = (currScheduleObj.home ?
+                        currGame.awayTeam :
+                        currGame.homeTeam);
+                    break;
+
             }
 
             let opponentObj = selectedLeague.teams.find(team => team.id == opponent.id);
