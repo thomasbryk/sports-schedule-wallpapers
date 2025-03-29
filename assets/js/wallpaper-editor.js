@@ -61,7 +61,7 @@ function PopulateCarousels() {
         let teams = currLeague.teams;
         teams.sort((a, b) => a.name.localeCompare(b.name))
 
-        $.each(teams, (id, teamData) => {
+        $.each(teams.filter((team) => team.active), (id, teamData) => {
             let teamHtml = '<a name="' + teamData.id + '" league=' + currLeague.id + ' class="team block link">\
                         <article class="block" style=\'background-image: url("' + currLeague.path + 'logos/' + teamData.id + '/' + Object.values(teamData.logos)[0] + '"); background-color: ' + Object.values(teamData.colours)[0] + ';\'></article>\
                     </a>';

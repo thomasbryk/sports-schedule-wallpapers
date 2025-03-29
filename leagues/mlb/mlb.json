@@ -2,6 +2,7 @@
     "teams": [
         {
             "id": 108,
+            "active": true,
             "name": "Los Angeles Angels",
             "abbreviation": "LAA",
             "logos": {
@@ -16,6 +17,7 @@
         },
         {
             "id": 109,
+            "active": true,
             "name": "Arizona Diamondbacks",
             "abbreviation": "ARI",
             "logos": {
@@ -29,6 +31,7 @@
         },
         {
             "id": 110,
+            "active": true,
             "name": "Baltimore Orioles",
             "abbreviation": "BAL",
             "logos": {
@@ -40,6 +43,7 @@
         },
         {
             "id": 111,
+            "active": true,
             "name": "Boston Red Sox",
             "abbreviation": "BOS",
             "logos": {
@@ -53,6 +57,7 @@
         },
         {
             "id": 112,
+            "active": true,
             "name": "Chicago Cubs",
             "abbreviation": "CHC",
             "logos": {
@@ -65,6 +70,7 @@
         },
         {
             "id": 113,
+            "active": true,
             "name": "Cincinnati Reds",
             "abbreviation": "CIN",
             "logos": {
@@ -78,6 +84,7 @@
         },
         {
             "id": 114,
+            "active": true,
             "name": "Cleveland Guardians",
             "abbreviation": "CLE",
             "logos": {
@@ -93,6 +100,7 @@
         },
         {
             "id": 115,
+            "active": true,
             "name": "Colorado Rockies",
             "abbreviation": "COL",
             "logos": {
@@ -106,6 +114,7 @@
         },
         {
             "id": 116,
+            "active": true,
             "name": "Detroit Tigers",
             "abbreviation": "DET",
             "logos": {
@@ -118,6 +127,7 @@
         },
         {
             "id": 117,
+            "active": true,
             "name": "Houston Astros",
             "abbreviation": "HOU",
             "logos": {
@@ -132,6 +142,7 @@
         },
         {
             "id": 118,
+            "active": true,
             "name": "Kansas City Royals",
             "abbreviation": "KC",
             "logos": {
@@ -147,6 +158,7 @@
         },
         {
             "id": 119,
+            "active": true,
             "name": "Los Angeles Dodgers",
             "abbreviation": "LAD",
             "logos": {
@@ -160,6 +172,7 @@
         },
         {
             "id": 120,
+            "active": true,
             "name": "Washington Nationals",
             "abbreviation": "WSH",
             "logos": {
@@ -174,6 +187,7 @@
         },
         {
             "id": 121,
+            "active": true,
             "name": "New York Mets",
             "abbreviation": "NYM",
             "logos": {
@@ -188,6 +202,7 @@
         },
         {
             "id": 133,
+            "active": true,
             "name": "Oakland Athletics",
             "abbreviation": "OAK",
             "logos": {
@@ -203,6 +218,7 @@
         },
         {
             "id": 134,
+            "active": true,
             "name": "Pittsburgh Pirates",
             "abbreviation": "PIT",
             "logos": {
@@ -217,6 +233,7 @@
         },
         {
             "id": 135,
+            "active": true,
             "name": "San Diego Padres",
             "abbreviation": "SD",
             "logos": {
@@ -234,6 +251,7 @@
         },
         {
             "id": 136,
+            "active": true,
             "name": "Seattle Mariners",
             "abbreviation": "SEA",
             "logos": {
@@ -249,6 +267,7 @@
         },
         {
             "id": 137,
+            "active": true,
             "name": "San Francisco Giants",
             "abbreviation": "SF",
             "logos": {
@@ -265,6 +284,7 @@
         },
         {
             "id": 138,
+            "active": true,
             "name": "St. Louis Cardinals",
             "abbreviation": "STL",
             "logos": {
@@ -279,6 +299,7 @@
         },
         {
             "id": 139,
+            "active": true,
             "name": "Tampa Bay Rays",
             "abbreviation": "TB",
             "logos": {
@@ -293,6 +314,7 @@
         },
         {
             "id": 140,
+            "active": true,
             "name": "Texas Rangers",
             "abbreviation": "TEX",
             "logos": {
@@ -307,6 +329,7 @@
         },
         {
             "id": 141,
+            "active": true,
             "name": "Toronto Blue Jays",
             "abbreviation": "TOR",
             "logos": {
@@ -326,6 +349,7 @@
         },
         {
             "id": 142,
+            "active": true,
             "name": "Minnesota Twins",
             "abbreviation": "MIN",
             "logos": {
@@ -342,6 +366,7 @@
         },
         {
             "id": 143,
+            "active": true,
             "name": "Philadelphia Phillies",
             "abbreviation": "PHI",
             "logos": {
@@ -356,6 +381,7 @@
         },
         {
             "id": 144,
+            "active": true,
             "name": "Atlanta Braves",
             "abbreviation": "ATL",
             "logos": {
@@ -371,6 +397,7 @@
         },
         {
             "id": 145,
+            "active": true,
             "name": "Chicago White Sox",
             "abbreviation": "CWS",
             "logos": {
@@ -384,6 +411,7 @@
         },
         {
             "id": 146,
+            "active": true,
             "name": "Miami Marlins",
             "abbreviation": "MIA",
             "logos": {
@@ -398,6 +426,7 @@
         },
         {
             "id": 147,
+            "active": true,
             "name": "New York Yankees",
             "abbreviation": "NYY",
             "logos": {
@@ -414,6 +443,7 @@
         },
         {
             "id": 158,
+            "active": true,
             "name": "Milwaukee Brewers",
             "abbreviation": "MIL",
             "logos": {

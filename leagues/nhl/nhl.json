@@ -2,6 +2,7 @@
     "teams": [
         {
             "id": 1,
+            "active": true,
             "name": "New Jersey Devils",
             "abbreviation": "NJD",
             "division": 18,
@@ -14,6 +15,7 @@
         },
         {
             "id": 2,
+            "active": true,
             "name": "New York Islanders",
             "abbreviation": "NYI",
             "division": 18,
@@ -27,6 +29,7 @@
         },
         {
             "id": 3,
+            "active": true,
             "name": "New York Rangers",
             "abbreviation": "NYR",
             "division": 18,
@@ -41,6 +44,7 @@
         },
         {
             "id": 4,
+            "active": true,
             "name": "Philadelphia Flyers",
             "abbreviation": "PHI",
             "division": 18,
@@ -53,6 +57,7 @@
         },
         {
             "id": 5,
+            "active": true,
             "name": "Pittsburgh Penguins",
             "abbreviation": "PIT",
             "division": 18,
@@ -65,6 +70,7 @@
         },
         {
             "id": 6,
+            "active": true,
             "name": "Boston Bruins",
             "abbreviation": "BOS",
             "division": 17,
@@ -77,6 +83,7 @@
         },
         {
             "id": 7,
+            "active": true,
             "name": "Buffalo Sabres",
             "abbreviation": "BUF",
             "division": 17,
@@ -90,6 +97,7 @@
         },
         {
             "id": 8,
+            "active": true,
             "name": "Montréal Canadiens",
             "abbreviation": "MTL",
             "division": 17,
@@ -103,6 +111,7 @@
         },
         {
             "id": 9,
+            "active": true,
             "name": "Ottawa Senators",
             "abbreviation": "OTT",
             "division": 17,
@@ -115,6 +124,7 @@
         },
         {
             "id": 10,
+            "active": true,
             "name": "Toronto Maple Leafs",
             "abbreviation": "TOR",
             "division": 17,
@@ -130,6 +140,7 @@
         },
         {
             "id": 12,
+            "active": true,
             "name": "Carolina Hurricanes",
             "abbreviation": "CAR",
             "division": 18,
@@ -142,6 +153,7 @@
         },
         {
             "id": 13,
+            "active": true,
             "name": "Florida Panthers",
             "abbreviation": "FLA",
             "division": 17,
@@ -156,6 +168,7 @@
         },
         {
             "id": 14,
+            "active": true,
             "name": "Tampa Bay Lightning",
             "abbreviation": "TBL",
             "division": 17,
@@ -168,6 +181,7 @@
         },
         {
             "id": 15,
+            "active": true,
             "name": "Washington Capitals",
             "abbreviation": "WSH",
             "division": 18,
@@ -181,6 +195,7 @@
         },
         {
             "id": 16,
+            "active": true,
             "name": "Chicago Blackhawks",
             "abbreviation": "CHI",
             "division": 16,
@@ -193,6 +208,7 @@
         },
         {
             "id": 17,
+            "active": true,
             "name": "Detroit Red Wings",
             "abbreviation": "DET",
             "division": 16,
@@ -205,6 +221,7 @@
         },
         {
             "id": 18,
+            "active": true,
             "name": "Nashville Predators",
             "abbreviation": "NSH",
             "division": 16,
@@ -218,6 +235,7 @@
         },
         {
             "id": 19,
+            "active": true,
             "name": "St. Louis Blues",
             "abbreviation": "STL",
             "division": 16,
@@ -232,6 +250,7 @@
         },
         {
             "id": 20,
+            "active": true,
             "name": "Calgary Flames",
             "abbreviation": "CGY",
             "division": 15,
@@ -245,6 +264,7 @@
         },
         {
             "id": 21,
+            "active": true,
             "name": "Colorado Avalanche",
             "abbreviation": "COL",
             "division": 16,
@@ -259,6 +279,7 @@
         },
         {
             "id": 22,
+            "active": true,
             "name": "Edmonton Oilers",
             "abbreviation": "EDM",
             "division": 15,
@@ -272,6 +293,7 @@
         },
         {
             "id": 23,
+            "active": true,
             "name": "Vancouver Canucks",
             "abbreviation": "VAN",
             "division": 15,
@@ -286,6 +308,7 @@
         },
         {
             "id": 24,
+            "active": true,
             "name": "Anaheim Ducks",
             "abbreviation": "ANA",
             "division": 15,
@@ -299,6 +322,7 @@
         },
         {
             "id": 25,
+            "active": true,
             "name": "Dallas Stars",
             "abbreviation": "DAL",
             "division": 16,
@@ -312,6 +336,7 @@
         },
         {
             "id": 26,
+            "active": true,
             "name": "Los Angeles Kings",
             "abbreviation": "LAK",
             "division": 15,
@@ -326,6 +351,7 @@
         },
         {
             "id": 28,
+            "active": true,
             "name": "San Jose Sharks",
             "abbreviation": "SJS",
             "division": 15,
@@ -338,6 +364,7 @@
         },
         {
             "id": 29,
+            "active": true,
             "name": "Columbus Blue Jackets",
             "abbreviation": "CBJ",
             "division": 18,
@@ -351,6 +378,7 @@
         },
         {
             "id": 30,
+            "active": true,
             "name": "Minnesota Wild",
             "abbreviation": "MIN",
             "division": 16,
@@ -364,6 +392,7 @@
         },
         {
             "id": 52,
+            "active": true,
             "name": "Winnipeg Jets",
             "abbreviation": "WPG",
             "division": 16,
@@ -377,6 +406,7 @@
         },
         {
             "id": 53,
+            "active": false,
             "name": "Arizona Coyotes",
             "abbreviation": "ARI",
             "division": 16,
@@ -391,6 +421,7 @@
         },
         {
             "id": 54,
+            "active": true,
             "name": "Vegas Golden Knights",
             "abbreviation": "VGK",
             "division": 15,
@@ -405,6 +436,7 @@
         },
         {
             "id": 55,
+            "active": true,
             "name": "Seattle Kraken",
             "abbreviation": "SEA",
             "division": 15,
@@ -420,6 +452,7 @@
         },
         {
             "id": 59,
+            "active": true,
             "name": "Utah Hockey Club",
             "abbreviation": "UTA",
             "division": 15,
