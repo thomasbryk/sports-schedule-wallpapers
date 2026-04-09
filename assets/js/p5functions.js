@@ -1,11 +1,14 @@
 const sketch = (p) => {
     let jerseyFont;
 
-    let center, middle;
-
     let scaleRatio = 1;
     let graphics;
     let canvas;
+
+    // Current render dimensions (internal full-resolution canvas)
+    let renderWidth = 1170;
+    let renderHeight = 2532;
+    let orientation = 'portrait'; // 'portrait' | 'landscape'
 
     let drawVars = {
         datesToDraw: 0,
@@ -13,341 +16,448 @@ const sketch = (p) => {
         schedule: false,
         selectedLeague: null,
         selectedTeam: null
-    }
+    };
 
     let WallpaperData = null;
+    let layoutData = null; // shortcut to WallpaperData[orientation]
+
     fetch("assets/data/wallpaper-data.json")
         .then(response => response.json())
-        .then(json => WallpaperData = json.WallpaperData);
+        .then(json => {
+            WallpaperData = json.WallpaperData;
+            layoutData = WallpaperData[orientation];
+        });
 
-    p.center = (objectWidth) => center - (objectWidth / 2);
-    p.middle = (objectHeight) => middle - (objectHeight / 2);
+    // ─── Coordinate helpers ─────────────────────────────────────────────────────
+    // All positions in WallpaperData are stored as fractions (0.0–1.0) of canvas width or height. These helpers convert them to actual pixel values on the current graphics buffer so the layout is resolution-independent.
 
-    p.getScaled = (pixels) => (pixels / scaleRatio);
-    p.getScaledPosition = (position, objectSize) => (position / scaleRatio) - (objectSize / 2);
+    // Fraction of canvas width → pixels
+    p.pw = (frac) => frac * graphics.width;
 
-    // returns week of the month starting with 0
+    // Fraction of canvas height → pixels
+    p.ph = (frac) => frac * graphics.height;
+
+    // Center an object horizontally given its pixel width
+    p.centerX = (objWidth) => (graphics.width / 2) - (objWidth / 2);
+
+    // Center an object vertically given its pixel height
+    p.centerY = (objHeight) => (graphics.height / 2) - (objHeight / 2);
+
+    // Convert a widthPct/heightPct logo spec into pixel {width, height}
+    p.pctToSize = (widthPct, heightPct) => ({
+        width: p.pw(widthPct),
+        height: p.ph(heightPct)
+    });
+
+    /**
+     * Scale an image to fit within a box defined by widthPct/heightPct,
+     * preserving the image's aspect ratio.
+     */
+    p.scaleImagePct = (img, widthPct, heightPct) => {
+        const limitW = p.pw(widthPct);
+        const limitH = p.ph(heightPct);
+        const imgW = img.width;
+        const imgH = img.height;
+        const hScale = imgH / limitH;
+        const wScale = imgW / limitW;
+        const scaleFactor = (imgW / hScale > limitW) ? wScale : hScale;
+        return {
+            width: imgW / scaleFactor,
+            height: imgH / scaleFactor
+        };
+    };
+
+    p.daysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
+
     p.getWeekOfMonth = (year, month, day) => {
-        var firstWeekday = new Date(year, month, 1).getDay();
-        var offsetDate = day + firstWeekday - 1;
+        const firstWeekday = new Date(year, month, 1).getDay();
+        const offsetDate = day + firstWeekday - 1;
         return Math.floor(offsetDate / 7) + 1;
-    }
+    };
 
-    p.daysInMonth = (month, year) => {
-        return new Date(year, month + 1, 0).getDate();
-    }
-
-    p.scaleImage = (img, widthLimit, heightLimit) => {
-        let imgW = img.width;
-        let imgH = img.height;
-
-        let hScaleFactor = imgH / heightLimit;
-        let wScaleFactor = imgW / widthLimit;
-
-        scaleFactor = (imgW / hScaleFactor > widthLimit ? wScaleFactor : hScaleFactor);
-
-        let imgSize = {
-            width: (imgW / scaleFactor) / scaleRatio,
-            height: (imgH / scaleFactor) / scaleRatio
-        }
-
-        return imgSize;
-    }
-
+    // ─── Setup ──────────────────────────────────────────────────────────────────
 
     p.preload = () => {
         jerseyFont = p.loadFont('assets/webfonts/Jersey-M54-Custom.ttf');
-    }
+    };
 
     p.setup = () => {
         const $element = $('#sketch-holder');
-
-        const w = $element.width();
-        const h = $element.height();
-
-        scaleRatio = (w == 390 ? 3 : 4.5);
+        const previewW = $element.width();
+        const previewH = $element.height();
 
         p.pixelDensity(2);
 
-        graphics = p.createGraphics(scaleRatio * w, scaleRatio * h);
-        canvas = p.createCanvas(w, h);
+        // Create the full-resolution off-screen graphics buffer
+        graphics = p.createGraphics(renderWidth, renderHeight);
+
+        // The on-screen canvas is just the preview box size
+        canvas = p.createCanvas(previewW, previewH);
         canvas.parent('sketch-holder');
 
-        center = graphics.width / 2;
-        middle = graphics.height / 2;
-        scaleRatio = 1;
-
         $(canvas.elt).hide();
-
         p.noLoop();
-        //p.noSmooth();
-    }
+    };
 
+    /**
+     * Public: update the render resolution and re-draw.
+     * Called by wallpaper-editor.js when the user changes preset or enters custom dims.
+     */
+    p.setResolution = (width, height, newOrientation) => {
+        renderWidth = width;
+        renderHeight = height;
+        orientation = newOrientation;
+
+        if (WallpaperData) {
+            layoutData = WallpaperData[orientation];
+        }
+
+        // Resize the off-screen buffer; leave the preview canvas untouched
+        if (graphics) graphics.remove();
+        graphics = p.createGraphics(renderWidth, renderHeight);
+    };
+
+    /**
+     * Resize the visible preview canvas to match the sketch-holder element.
+     * Called after the holder's CSS dimensions change (orientation switch).
+     */
+    p.resizePreview = () => {
+        const $element = $('#sketch-holder');
+        p.resizeCanvas($element.width(), $element.height());
+    };
+
+    // ─── Main draw entry point ───────────────────────────────────────────────────
 
     p.draw = (league, team, schedule = null) => {
-        if (!league || !team) return;
+        if (!league || !team || !WallpaperData) return;
 
-        graphics.clear(); // Clear graphics each frame
-        canvas.clear()
+        layoutData = WallpaperData[orientation];
+
+        graphics.clear();
+        canvas.clear();
 
         const isScheduleNull = (schedule == null);
-
-        let sameTeam = (!isScheduleNull && drawVars.schedule) && (league.id == drawVars.selectedLeague && team.id == drawVars.selectedTeam) ? true : false;
+        const sameTeam = (!isScheduleNull && drawVars.schedule) &&
+                         (league.id === drawVars.selectedLeague &&
+                          team.id === drawVars.selectedTeam);
 
         drawVars.schedule = !isScheduleNull;
         drawVars.selectedLeague = league.id;
-        drawVars.selectedTeam= team.id;
-        let leaguePath = league.path;
+        drawVars.selectedTeam = team.id;
 
-        let colour = $('#Colour').val();
+        const leaguePath = league.path;
+        const colour = $('#Colour').val();
         graphics.background(colour);
 
-        let drawPromises = [];
+        const drawPromises = [];
         drawPromises.push(p.draw_Logo(team.id, leaguePath));
 
-        let includeSchedule = $('#Schedule').prop('checked');
-        if (includeSchedule) drawPromises.push(p.draw_Calendar(schedule, leaguePath, sameTeam));
+        const includeSchedule = $('#Schedule').prop('checked');
+        if (includeSchedule) {
+            drawPromises.push(p.draw_Calendar(schedule, leaguePath, sameTeam));
+        }
 
-        Promise.all(drawPromises).then(() => {
-            p.drawGraphics();
-        })
-    }
+        Promise.all(drawPromises).then(() => p.drawGraphics());
+    };
+
+    // ─── Logo ────────────────────────────────────────────────────────────────────
 
     p.draw_Logo = async (teamId, leaguePath) => {
-        let logoFileName = $('#Logo').val();
-        let filePath = leaguePath + 'logos/' + teamId + '/' + logoFileName;
+        const logoFileName = $('#Logo').val();
+        const filePath = `${leaguePath}logos/${teamId}/${logoFileName}`;
+        const ld = layoutData;
 
         return new Promise((resolve) => {
             p.loadImage(filePath, (img) => {
-                let imgSize = p.scaleImage(img, WallpaperData.logos.main.width, WallpaperData.logos.main.height);
+                const imgSize = p.scaleImagePct(
+                    img,
+                    ld.logos.main.widthPct,
+                    ld.logos.main.heightPct
+                );
 
-                let imgX = p.center(imgSize.width);
-                let imgY = p.getScaledPosition(WallpaperData.logos.main.position.y, imgSize.height)
+                let imgX, imgY;
+
+                if (orientation === 'portrait') {
+                    imgX = p.centerX(imgSize.width);
+                    imgY = p.ph(ld.logos.main.position.yPct) - (imgSize.height / 2);
+                } else {
+                    // Landscape: logo is positioned by xPct + yPct (center point)
+                    imgX = p.pw(ld.logos.main.position.xPct) - (imgSize.width / 2);
+                    imgY = p.ph(ld.logos.main.position.yPct) - (imgSize.height / 2);
+                }
 
                 graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
-
                 resolve();
-            }, () => { console.log("mainLogo failed to load.") });
+            }, () => { console.log("mainLogo failed to load."); });
         });
-    }
+    };
+
+    // ─── Calendar ────────────────────────────────────────────────────────────────
 
     p.draw_Calendar = async (schedule, leaguePath, sameTeam) => {
+        const ld = layoutData;
         graphics.noStroke();
 
-        let date = new Date();
+        const date = new Date();
         drawVars.datesToDraw = p.daysInMonth(date.getMonth(), date.getFullYear());
 
-        let dayOfWeek = {
-            offsetX: 0,
-            posX: 0,
-            posY: p.getScaled(WallpaperData.month.text.position.y)
-        }
+        // Derived pixel values for the date block grid
+        const blockW    = p.pw(ld.dateBlock.widthPct);
+        const blockH    = p.ph(ld.dateBlock.heightPct);
+        const blockOffX = p.pw(ld.dateBlock.offset.xPct);
+        const blockOffY = p.ph(ld.dateBlock.offset.yPct);
+        const gridOriginX = p.pw(ld.dateBlock.position.xPct);
+        const gridOriginY = p.ph(ld.dateBlock.position.yPct);
 
+        // Draw weekday headers
         graphics.textAlign(p.CENTER, p.CENTER);
 
-        //Loop through days of the week
-        for (let i = 1; i < WallpaperData.month.weekdays.length + 1; i++) {
-            dayOfWeek.offsetX = (i == 1) ? 0 : (WallpaperData.dateBlock.width + WallpaperData.dateBlock.offset.x) * (i - 1)
-            dayOfWeek.posX = p.getScaled(WallpaperData.dateBlock.position.x + dayOfWeek.offsetX + (WallpaperData.dateBlock.width / 2));
+        for (let i = 1; i <= ld.month.weekdays.length; i++) {
+            const colOffsetX = (i === 1)
+                ? 0
+                : (blockW + blockOffX) * (i - 1);
+            const dayX = gridOriginX + colOffsetX + (blockW / 2);
+            const dayY = p.ph(ld.month.text.position.yPct);
 
-            graphics.fill('rgba(255, 255, 255, ' + WallpaperData.month.text.opacity + ')');
-            graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.text.fontSize));
-            graphics.text(WallpaperData.month.weekdays[i - 1], dayOfWeek.posX, dayOfWeek.posY);
+            graphics.fill(`rgba(255, 255, 255, ${ld.month.text.opacity})`);
+            graphics.textFont(jerseyFont, p.pw(ld.month.text.fontSizePct));
+            graphics.text(ld.month.weekdays[i - 1], dayX, dayY);
         }
 
-        let timeZone = schedule ? schedule[0].date.timeZoneName : null;
+        const timeZone = schedule ? schedule[0].date.timeZoneName : null;
         p.draw_HomeAway(timeZone);
 
-        let drawDatePromises = [];
-
-        let monthFilePath = 'assets/images/' + WallpaperData.month.block.filename;
+        const monthFilePath = `assets/images/${ld.month.block.filename}`;
 
         return new Promise((resolve) => {
             p.loadImage(monthFilePath, (img) => {
-                let imgSize = p.scaleImage(img, WallpaperData.month.block.size.width, WallpaperData.month.block.size.height);
+                const imgSize = p.scaleImagePct(
+                    img,
+                    ld.month.block.size.widthPct,
+                    ld.month.block.size.heightPct
+                );
 
-                let imgX = p.center(imgSize.width);
-                let imgY = p.getScaledPosition(WallpaperData.month.block.position.y, imgSize.height)
-
+                const imgX = p.centerX(imgSize.width);
+                const imgY = p.ph(ld.month.block.position.yPct) - (imgSize.height / 2);
                 graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
 
-                let colour = $('#Colour').val();
-                let month = date.toLocaleDateString('default', { month: 'long' });
+                const colour = $('#Colour').val();
+                const month = date.toLocaleDateString('default', { month: 'long' });
 
                 graphics.textAlign(p.CENTER, p.CENTER);
                 graphics.fill(colour);
-                graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.block.fontSize));
-                graphics.text(month.toUpperCase(), center, imgY + p.getScaled(WallpaperData.month.block.size.height / 2) - 3);
+                graphics.textFont(jerseyFont, p.pw(ld.month.block.fontSizePct));
+                graphics.text(
+                    month.toUpperCase(),
+                    graphics.width / 2,
+                    imgY + imgSize.height / 2 - 3
+                );
 
-                let opponentPromises = [];
-
+                // Load all unique opponent logos before drawing dates
+                const opponentPromises = [];
                 if (!sameTeam) {
                     drawVars.opponentData = {};
-                    let opponentIds = new Set(schedule.map(g => g.opponent.id));
-
+                    const opponentIds = new Set(schedule.map(g => g.opponent.id));
                     opponentIds.forEach((opponentId) => {
-                        let filePath = leaguePath + 'logos/' + opponentId + '/Primary.png';
+                        const filePath = `${leaguePath}logos/${opponentId}/Primary.png`;
                         opponentPromises.push(p.loadTeamImage(filePath, opponentId));
                     });
                 }
 
-                let currDate, currGame = null;
-
                 Promise.all(opponentPromises).then(() => {
+                    const drawDatePromises = [];
                     for (let i = 1; i <= drawVars.datesToDraw; i++) {
-                        currDate = new Date(date.getFullYear(), date.getMonth(), i);
-                        currGames = schedule.filter(g => g.date.day == currDate.getDate());
-                        currGames.sort((a,b) => a.date.hour - b.date.hour);
+                        const currDate = new Date(date.getFullYear(), date.getMonth(), i);
+                        const currGames = schedule
+                            .filter(g => g.date.day === currDate.getDate())
+                            .sort((a, b) => a.date.hour - b.date.hour);
                         drawDatePromises.push(p.draw_Date(currDate, currGames));
                     }
-
-                    Promise.all(drawDatePromises).then(() => {
-                        resolve();
-                    })
-                })
+                    Promise.all(drawDatePromises).then(resolve);
+                });
             });
         });
-    }
+    };
 
-    p.draw_Date = async (date, games = null) => {
-        let dayNum = date.getDate();
-        let dayOfWeek = date.getDay() + 1;
-        let weekOfMonth = p.getWeekOfMonth(date.getFullYear(), date.getMonth(), dayNum);
+    // ─── Individual date block ────────────────────────────────────────────────────
 
-        let block_offsetX = (dayOfWeek == 1) ? 0 : (WallpaperData.dateBlock.width + WallpaperData.dateBlock.offset.x) * (dayOfWeek - 1)
-        let block_offsetY = (weekOfMonth == 1) ? 0 : (WallpaperData.dateBlock.height + WallpaperData.dateBlock.offset.y) * (weekOfMonth - 1)
-        let blockX_prescaled = WallpaperData.dateBlock.position.x + block_offsetX;
-        let blockY_prescaled = WallpaperData.dateBlock.position.y + block_offsetY;
+    p.draw_Date = async (date, games = []) => {
+        const ld = layoutData;
+        const dayNum     = date.getDate();
+        const dayOfWeek  = date.getDay() + 1;
+        const weekOfMonth = p.getWeekOfMonth(date.getFullYear(), date.getMonth(), dayNum);
 
-        let block = {
-            x: p.getScaled(WallpaperData.dateBlock.position.x + block_offsetX),
-            y: p.getScaled(WallpaperData.dateBlock.position.y + block_offsetY),
-            width: p.getScaled(WallpaperData.dateBlock.width),
-            height: p.getScaled(WallpaperData.dateBlock.height)
-        }
+        const blockW    = p.pw(ld.dateBlock.widthPct);
+        const blockH    = p.ph(ld.dateBlock.heightPct);
+        const blockOffX = p.pw(ld.dateBlock.offset.xPct);
+        const blockOffY = p.ph(ld.dateBlock.offset.yPct);
+        const gridOriginX = p.pw(ld.dateBlock.position.xPct);
+        const gridOriginY = p.ph(ld.dateBlock.position.yPct);
 
-        let dayX = p.getScaled(blockX_prescaled + WallpaperData.dateBlock.date.offset.x);
-        let dayY = p.getScaled(blockY_prescaled + WallpaperData.dateBlock.date.offset.y);
+        const colOffsetX = (dayOfWeek === 1) ? 0 : (blockW + blockOffX) * (dayOfWeek - 1);
+        const rowOffsetY = (weekOfMonth === 1) ? 0 : (blockH + blockOffY) * (weekOfMonth - 1);
+
+        const block = {
+            x: gridOriginX + colOffsetX,
+            y: gridOriginY + rowOffsetY,
+            width: blockW,
+            height: blockH
+        };
+
+        // Date number
+        const dayX = block.x + p.pw(ld.dateBlock.date.offset.xPct);
+        const dayY = block.y + p.ph(ld.dateBlock.date.offset.yPct);
 
         graphics.textAlign(p.LEFT, p.TOP);
         graphics.fill('white');
-        graphics.textFont(jerseyFont, p.getScaled(WallpaperData.dateBlock.date.fontSize));
+        graphics.textFont(jerseyFont, p.pw(ld.dateBlock.date.fontSizePct));
         graphics.text(dayNum, dayX, dayY);
 
-        let opacity = (games[0] ? (games[0].home ? WallpaperData.dateBlock.opacity.home : WallpaperData.dateBlock.opacity.away) : WallpaperData.dateBlock.opacity.default);
-        graphics.fill('rgba(255, 255, 255, ' + opacity + ')');
+        // Block background
+        const hasGame = games.length > 0;
+        const opacity = hasGame
+            ? (games[0].home ? ld.dateBlock.opacity.home : ld.dateBlock.opacity.away)
+            : ld.dateBlock.opacity.default;
+
+        graphics.fill(`rgba(255, 255, 255, ${opacity})`);
         graphics.rect(block.x, block.y, block.width, block.height);
 
-        if (games.length > 0) {
-            let timeText = (games.length == 2) ? games[0].date.dateText + "|" + games[1].date.dateText : games[0].date.dateText;
-            let timeFontSize = (games.length == 2) ? WallpaperData.dateBlock.time.doubleHeader.fontSize : WallpaperData.dateBlock.time.time.fontSize;
-            let timeOffset_Y = (games.length == 2) ? WallpaperData.dateBlock.time.doubleHeader.offset.y : WallpaperData.dateBlock.time.time.offset.y;
+        if (!hasGame) return Promise.resolve();
 
-            let blockCenter = blockX_prescaled + WallpaperData.dateBlock.width / 2;
-            let timeX = p.getScaled(blockX_prescaled + WallpaperData.dateBlock.width / 2);
-            let timeY = p.getScaled(blockY_prescaled + WallpaperData.dateBlock.time.offset.y + timeOffset_Y);
+        // Game time text
+        const isDouble = games.length === 2;
+        const timeText = isDouble
+            ? `${games[0].date.dateText}|${games[1].date.dateText}`
+            : games[0].date.dateText;
 
-            graphics.textAlign(p.CENTER, p.TOP);
-            graphics.fill('white');
-            graphics.textFont(jerseyFont, p.getScaled(timeFontSize));
-            graphics.text(timeText, timeX, timeY);
-            let opponentData = drawVars.opponentData[games[0].opponent.id];
-            let img = opponentData.img;
-            let imgSize = opponentData.imgSize;
+        const timeFontSizePct = isDouble
+            ? ld.dateBlock.time.doubleHeader.fontSizePct
+            : ld.dateBlock.time.time.fontSizePct;
 
-            let imgX = p.getScaledPosition(blockCenter, imgSize.width);
-            let imgY = p.getScaledPosition(blockY_prescaled + WallpaperData.logos.game.offset.y, imgSize.height)
+        const timeOffsetYPct = isDouble
+            ? ld.dateBlock.time.doubleHeader.offset.yPct
+            : ld.dateBlock.time.time.offset.yPct;
 
-            return new Promise((resolve) => {
-                graphics.image(img, imgX, imgY, imgSize.width, imgSize.height);
-                resolve();
-            });
-        }
-    }
+        const timeX = block.x + p.pw(ld.dateBlock.time.offset.xPct);
+        const timeY = block.y + p.ph(ld.dateBlock.time.offset.yPct) + p.ph(timeOffsetYPct);
+
+        graphics.textAlign(p.CENTER, p.TOP);
+        graphics.fill('white');
+        graphics.textFont(jerseyFont, p.pw(timeFontSizePct));
+        graphics.text(timeText, timeX, timeY);
+
+        // Opponent logo
+        const opponentData = drawVars.opponentData[games[0].opponent.id];
+        if (!opponentData) return Promise.resolve();
+
+        const { img, imgSize } = opponentData;
+        const logoX = block.x + (block.width / 2) - (imgSize.width / 2);
+        const logoY = block.y + p.ph(ld.logos.game.offset.yPct) - (imgSize.height / 2);
+
+        return new Promise((resolve) => {
+            graphics.image(img, logoX, logoY, imgSize.width, imgSize.height);
+            resolve();
+        });
+    };
+
+    // ─── Home / Away legend + timezone label ─────────────────────────────────────
 
     p.draw_HomeAway = (timeZone = null) => {
-        let date = new Date();
-        let dayOfWeek_firstDay = (new Date(date.getFullYear(), date.getMonth(), 1)).getDay();
+        const ld = layoutData;
+        const date = new Date();
+        const dayOfWeek_firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+
+        const blockW    = p.pw(ld.dateBlock.widthPct);
+        const blockH    = p.ph(ld.dateBlock.heightPct);
+        const blockOffX = p.pw(ld.dateBlock.offset.xPct);
+        const blockOffY = p.ph(ld.dateBlock.offset.yPct);
+        const gridOriginX = p.pw(ld.dateBlock.position.xPct);
+        const gridOriginY = p.ph(ld.dateBlock.position.yPct);
+        const haW = p.pw(ld.month.home_away.size.widthPct);
+        const haH = p.ph(ld.month.home_away.size.heightPct);
 
         let offsetX = 0;
         let offsetY = 0;
-        let offsetY_TimeZone = WallpaperData.dateBlock.height - WallpaperData.month.home_away.size.height;
+        let offsetY_TimeZone = blockH - haH;
 
-        if (dayOfWeek_firstDay == 0 || dayOfWeek_firstDay == 1) {
-            let weekOfMonth = p.getWeekOfMonth(date.getFullYear(), date.getMonth(), drawVars.datesToDraw);
-
-            offsetX = (WallpaperData.dateBlock.width + WallpaperData.dateBlock.offset.x) * (6)
-            offsetY = (WallpaperData.dateBlock.height + WallpaperData.dateBlock.offset.y) * (weekOfMonth - 1)
-            offsetY_TimeZone = offsetY + WallpaperData.month.home_away.size.height / 2;
-            offsetY += WallpaperData.dateBlock.height - WallpaperData.month.home_away.size.height
+        if (dayOfWeek_firstDay === 0 || dayOfWeek_firstDay === 1) {
+            const weekOfMonth = p.getWeekOfMonth(
+                date.getFullYear(), date.getMonth(), drawVars.datesToDraw
+            );
+            offsetX = (blockW + blockOffX) * 6;
+            offsetY = (blockH + blockOffY) * (weekOfMonth - 1);
+            offsetY_TimeZone = offsetY + haH / 2;
+            offsetY += blockH - haH;
         }
 
-        let x_home = p.getScaled(WallpaperData.dateBlock.position.x + offsetX);
-        let x_away = p.getScaled(WallpaperData.dateBlock.position.x + offsetX + (WallpaperData.dateBlock.width - WallpaperData.month.home_away.size.width));
-        let y = p.getScaled(WallpaperData.dateBlock.position.y + offsetY);
+        const x_home = gridOriginX + offsetX;
+        const x_away = gridOriginX + offsetX + (blockW - haW);
+        const y      = gridOriginY + offsetY;
 
-        graphics.fill('rgba(255, 255, 255, ' + WallpaperData.dateBlock.opacity.home + ')');
-        graphics.rect(x_home, y, p.getScaled(WallpaperData.month.home_away.size.width), p.getScaled(WallpaperData.month.home_away.size.height));
+        graphics.fill(`rgba(255, 255, 255, ${ld.dateBlock.opacity.home})`);
+        graphics.rect(x_home, y, haW, haH);
 
-        graphics.fill('rgba(255, 255, 255, ' + WallpaperData.dateBlock.opacity.away + ')');
-        graphics.rect(x_away, y, p.getScaled(WallpaperData.month.home_away.size.width), p.getScaled(WallpaperData.month.home_away.size.height));
+        graphics.fill(`rgba(255, 255, 255, ${ld.dateBlock.opacity.away})`);
+        graphics.rect(x_away, y, haW, haH);
 
-        let x_homeText = x_home + p.getScaled(WallpaperData.month.home_away.size.width / 2);
-        let x_awayText = x_away + p.getScaled((WallpaperData.month.home_away.size.width / 2) - 4);
-        let y_text = y + p.getScaled(WallpaperData.month.home_away.size.height / 2);
+        const x_homeText = x_home + haW / 2;
+        const x_awayText = x_away + haW / 2 - p.pw(0.0034);
+        const y_text     = y + haH / 2;
 
         graphics.textAlign(p.CENTER, p.CENTER);
         graphics.fill('white');
-        graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.home_away.fontSize));
-        graphics.text("HOME", x_homeText, y_text);
-        graphics.text("AWAY", x_awayText, y_text);
+        graphics.textFont(jerseyFont, p.pw(ld.month.home_away.fontSizePct));
+        graphics.text('HOME', x_homeText, y_text);
+        graphics.text('AWAY', x_awayText, y_text);
 
         if (timeZone) {
-            y = p.getScaled(WallpaperData.dateBlock.position.y + offsetY_TimeZone);
+            const tzY = gridOriginY + offsetY_TimeZone;
+            const tzH = haH / 2;
 
-            graphics.noFill()
-            graphics.strokeWeight(1)
-            graphics.stroke('rgba(255, 255, 255, ' + WallpaperData.month.text.opacity + ')')
-            graphics.rect(x_home, y, p.getScaled(WallpaperData.dateBlock.width), p.getScaled(WallpaperData.month.home_away.size.height / 2));
-            graphics.noStroke()
+            graphics.noFill();
+            graphics.strokeWeight(1);
+            graphics.stroke(`rgba(255, 255, 255, ${ld.month.text.opacity})`);
+            graphics.rect(x_home, tzY, blockW, tzH);
+            graphics.noStroke();
 
-            let x_text = x_home + p.getScaled(WallpaperData.dateBlock.width / 2);
-            let y_text = y + p.getScaled(WallpaperData.month.home_away.size.height / 4) - 2;
+            const tzTextX = x_home + blockW / 2;
+            const tzTextY = tzY + tzH / 2 - 2;
 
             graphics.textAlign(p.CENTER, p.CENTER);
-            graphics.fill('rgba(255, 255, 255, ' + WallpaperData.month.text.opacity + ')');
-            graphics.textFont(jerseyFont, p.getScaled(WallpaperData.month.home_away.fontSize));
-            graphics.text(timeZone, x_text, y_text);
+            graphics.fill(`rgba(255, 255, 255, ${ld.month.text.opacity})`);
+            graphics.textFont(jerseyFont, p.pw(ld.month.home_away.fontSizePct));
+            graphics.text(timeZone, tzTextX, tzTextY);
         }
-    }
+    };
 
-    p.drawGraphics = () => {
-        p.image(graphics, 0, 0); // Draw graphics to canvas
-        graphics.elt.toBlob((blob) => {
-            let $wallpaper = $("#wallpaper");
-            $wallpaper.attr("src", URL.createObjectURL(blob));
-            if (!$wallpaper.is(":visible")) {
-                $wallpaper.fadeIn();
-            }
-            setTimeout(() => $("#wallpaper-viewer").removeClass("spinner"), 100);
-        }, "image/jpeg")
-    }
+    // ─── Utilities ───────────────────────────────────────────────────────────────
 
     p.loadTeamImage = async (filePath, teamId) => {
         return new Promise((resolve) => {
             p.loadImage(filePath, (img) => {
-                let imgSize = p.scaleImage(img, WallpaperData.logos.game.width, WallpaperData.logos.game.height);
-                Object.defineProperty(drawVars.opponentData, teamId, {
-                    value: {
-                        'img': img,
-                        'imgSize': imgSize
-                    }
-                });
-
+                const imgSize = p.scaleImagePct(
+                    img,
+                    layoutData.logos.game.widthPct,
+                    layoutData.logos.game.heightPct
+                );
+                // Use a plain object assignment instead of defineProperty so the cache can be overwritten when the team changes
+                drawVars.opponentData[teamId] = { img, imgSize };
                 resolve();
             });
         });
-    }
-}
+    };
+
+    p.drawGraphics = () => {
+        // Draw the full-res buffer scaled to fit the preview canvas
+        p.image(graphics, 0, 0, p.width, p.height);
+
+        graphics.elt.toBlob((blob) => {
+            const $wallpaper = $('#wallpaper');
+            $wallpaper.attr('src', URL.createObjectURL(blob));
+            if (!$wallpaper.is(':visible')) $wallpaper.fadeIn();
+            setTimeout(() => $('#wallpaper-viewer').removeClass('spinner'), 100);
+        }, 'image/jpeg');
+    };
+};
 
 let p = new p5(sketch);

@@ -1,104 +1,193 @@
 {
     "WallpaperData": {
-        "logos": {
-            "main": {
-                "width": 550,
-                "height": 500,
+        "portrait": {
+            "logos": {
+                "main": {
+                    "widthPct": 0.4701,
+                    "heightPct": 0.1975,
+                    "position": {
+                        "yPct": 0.3764
+                    }
+                },
+                "game": {
+                    "widthPct": 0.0556,
+                    "heightPct": 0.0205,
+                    "offset": {
+                        "xPct": 0.0594,
+                        "yPct": 0.0263
+                    }
+                },
+                "solo": {
+                    "widthPct": 0.5128,
+                    "heightPct": 0.2173
+                }
+            },
+            "dateBlock": {
+                "opacity": {
+                    "default": 0.04,
+                    "home": 0.2,
+                    "away": 0.04
+                },
+                "widthPct": 0.1179,
+                "heightPct": 0.0545,
+                "offset": {
+                    "xPct": 0.0103,
+                    "yPct": 0.0055
+                },
                 "position": {
-                    "y": 953
-                }
-            },
-            "game": {
-                "width": 65,
-                "height": 52,
-                "offset": {
-                    "x": 69.5,
-                    "y": 66.5
-                }
-            },
-            "solo": {
-                "width": 600,
-                "height": 550
-            }
-        },
-        "dateBlock": {
-            "opacity": {
-                "default": 0.04,
-                "home": 0.2,
-                "away": 0.04
-            },
-            "width": 138,
-            "height": 138,
-            "offset": {
-                "x": 12,
-                "y": 14
-            },
-            "position": {
-                "x": 65.75,
-                "y": 1469
-            },
-            "date": {
-                "fontSize": 29.46,
-                "offset": {
-                    "x": 8,
-                    "y": 4
-                }
-            },
-            "time": {
+                    "xPct": 0.0562,
+                    "yPct": 0.5802
+                },
+                "date": {
+                    "fontSizePct": 0.0252,
+                    "offset": {
+                        "xPct": 0.0068,
+                        "yPct": 0.0016
+                    }
+                },
                 "time": {
-                    "fontSize": 36.82,
-                    "offset":{
-                        "y": 0
+                    "time": {
+                        "fontSizePct": 0.0315,
+                        "offset": {
+                            "yPct": 0
+                        }
+                    },
+                    "doubleHeader": {
+                        "fontSizePct": 0.0265,
+                        "offset": {
+                            "yPct": 0.00138
+                        }
+                    },
+                    "offset": {
+                        "xPct": 0.0376,
+                        "yPct": 0.0375
                     }
-                },
-                "doubleHeader": {
-                    "fontSize": 31,
-                    "offset":{
-                        "y": 3.5
-                    }
-                },
-                "offset": {
-                    "x": 44,
-                    "y": 95
                 }
+            },
+            "month": {
+                "block": {
+                    "position": {
+                        "xPct": 0.3915,
+                        "yPct": 0.5356
+                    },
+                    "size": {
+                        "widthPct": 0.2171,
+                        "heightPct": 0.0194
+                    },
+                    "fontSizePct": 0.0383,
+                    "filename": "month-name.png"
+                },
+                "text": {
+                    "opacity": 0.25,
+                    "fontSizePct": 0.0237,
+                    "position": {
+                        "yPct": 0.5649
+                    }
+                },
+                "home_away": {
+                    "size": {
+                        "widthPct": 0.0564,
+                        "heightPct": 0.0261
+                    },
+                    "fontSizePct": 0.0190
+                },
+                "weekdays": ["S", "M", "T", "W", "T", "F", "S"]
             }
         },
-        "month": {
-            "block": {
-                "position": {
-                    "x": 458,
-                    "y": 1356
+        "landscape": {
+            "logos": {
+                "main": {
+                    "widthPct": 0.2200,
+                    "heightPct": 0.5000,
+                    "position": {
+                        "xPct": 0.1250,
+                        "yPct": 0.3200
+                    }
                 },
-                "size": {
-                    "width": 254,
-                    "height": 49
+                "game": {
+                    "widthPct": 0.0370,
+                    "heightPct": 0.0833,
+                    "offset": {
+                        "xPct": 0.0185,
+                        "yPct": 0.0417
+                    }
                 },
-                "fontSize": 44.85,
-                "filename": "month-name.png"
-            },
-            "text": {
-                "opacity": 0.25,
-                "fontSize": 27.78,
-                "position": {
-                    "y": 1430
+                "solo": {
+                    "widthPct": 0.2500,
+                    "heightPct": 0.5556
                 }
             },
-            "home_away": {
-                "size": {
-                    "width": 66,
-                    "height": 66
+            "dateBlock": {
+                "opacity": {
+                    "default": 0.04,
+                    "home": 0.2,
+                    "away": 0.04
                 },
-                "fontSize": 22.2
+                "widthPct": 0.0893,
+                "heightPct": 0.1944,
+                "offset": {
+                    "xPct": 0.0075,
+                    "yPct": 0.0185
+                },
+                "position": {
+                    "xPct": 0.3900,
+                    "yPct": 0.1667
+                },
+                "date": {
+                    "fontSizePct": 0.0185,
+                    "offset": {
+                        "xPct": 0.0050,
+                        "yPct": 0.0056
+                    }
+                },
+                "time": {
+                    "time": {
+                        "fontSizePct": 0.0231,
+                        "offset": {
+                            "yPct": 0
+                        }
+                    },
+                    "doubleHeader": {
+                        "fontSizePct": 0.0194,
+                        "offset": {
+                            "yPct": 0.00500
+                        }
+                    },
+                    "offset": {
+                        "xPct": 0.0446,
+                        "yPct": 0.1250
+                    }
+                }
             },
-            "weekdays": [
-                "S",
-                "M",
-                "T",
-                "W",
-                "T",
-                "F",
-                "S"
-            ]
+            "month": {
+                "block": {
+                    "position": {
+                        "xPct": 0.5600,
+                        "yPct": 0.0833
+                    },
+                    "size": {
+                        "widthPct": 0.1600,
+                        "heightPct": 0.0694
+                    },
+                    "fontSizePct": 0.0278,
+                    "filename": "month-name.png"
+                },
+                "text": {
+                    "opacity": 0.25,
+                    "fontSizePct": 0.0174,
+                    "position": {
+                        "yPct": 0.1528
+                    }
+                },
+                "home_away": {
+                    "size": {
+                        "widthPct": 0.0430,
+                        "heightPct": 0.0926
+                    },
+                    "fontSizePct": 0.0139
+                },
+                "weekdays": ["S", "M", "T", "W", "T", "F", "S"]
+            }
         }
     }
 }

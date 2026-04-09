@@ -1,0 +1,304 @@
+/* ==========================================================================
+   Resolution Selector Bar
+   Appended to main.css — add these rules to the bottom of assets/css/main.css
+   ========================================================================== */
+
+/* ── Bar wrapper ─────────────────────────────────────────────────────────── */
+
+#resolution-bar {
+    background-color: #1e2238;
+    border-top: 1px solid rgba(212, 212, 255, 0.08);
+    border-bottom: 1px solid rgba(212, 212, 255, 0.08);
+    padding: 0.85em 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#resolution-selector {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75em;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* ── Orientation toggle ──────────────────────────────────────────────────── */
+
+.orientation-toggle {
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.orient-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    font-size: 0.72em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.45em 0.85em;
+    transition: background-color 0.18s ease, color 0.18s ease;
+    line-height: 1;
+    /* Reset any inherited button styles */
+    box-shadow: none;
+    height: auto;
+    text-align: left;
+}
+
+.orient-btn svg {
+    width: 18px;
+    height: auto;
+    flex-shrink: 0;
+    color: inherit;
+}
+
+.orient-btn:hover {
+    color: rgba(255, 255, 255, 0.75);
+    box-shadow: none;
+}
+
+.orient-btn.active {
+    background-color: rgba(155, 241, 255, 0.15);
+    color: #9bf1ff;
+    box-shadow: none;
+}
+
+.orient-btn.active:hover {
+    color: #9bf1ff;
+    box-shadow: none;
+}
+
+/* ── Divider between toggle and presets ──────────────────────────────────── */
+
+#resolution-selector::after {
+    content: '';
+    display: none; /* used for flex spacing if needed */
+}
+
+/* ── Preset buttons ──────────────────────────────────────────────────────── */
+
+.res-presets {
+    display: flex;
+    gap: 0.45em;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.res-preset-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 212, 255, 0.12);
+    border-radius: 7px;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 0.75em;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.4em 0.9em;
+    line-height: 1.2;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    /* Reset inherited button styles */
+    box-shadow: none;
+    height: auto;
+}
+
+.res-preset-btn small {
+    display: block;
+    font-size: 0.82em;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.65;
+    text-transform: none;
+    margin-top: 1px;
+}
+
+.res-preset-btn:hover {
+    background: rgba(155, 241, 255, 0.08);
+    border-color: rgba(155, 241, 255, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: none;
+}
+
+.res-preset-btn.active {
+    background: rgba(155, 241, 255, 0.15);
+    border-color: rgba(155, 241, 255, 0.5);
+    color: #9bf1ff;
+    box-shadow: none;
+}
+
+.res-preset-btn.active:hover {
+    box-shadow: none;
+    color: #9bf1ff;
+}
+
+/* ── Custom dimension inputs ─────────────────────────────────────────────── */
+
+.res-custom {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    margin-left: auto; /* push to the right */
+}
+
+.res-custom input[type="number"] {
+    width: 72px;
+    height: 2.1em;
+    background: rgba(212, 212, 255, 0.05);
+    border: 1px solid rgba(212, 212, 255, 0.15);
+    border-radius: 6px;
+    color: #fff;
+    font-size: 0.78em;
+    padding: 0 0.5em;
+    text-align: center;
+    /* Remove spinner arrows */
+    -moz-appearance: textfield;
+}
+
+.res-custom input[type="number"]::-webkit-inner-spin-button,
+.res-custom input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.res-custom input[type="number"]:focus {
+    outline: none;
+    border-color: rgba(155, 241, 255, 0.5);
+    box-shadow: 0 0 0 2px rgba(155, 241, 255, 0.12);
+}
+
+.res-sep {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.85em;
+    user-select: none;
+}
+
+.res-apply-btn {
+    background: transparent;
+    border: 1px solid rgba(212, 212, 255, 0.2);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+    font-size: 0.72em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.45em 0.85em;
+    height: auto;
+    line-height: 1;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+    box-shadow: none;
+    white-space: nowrap;
+}
+
+.res-apply-btn:hover {
+    border-color: rgba(155, 241, 255, 0.4);
+    color: #9bf1ff;
+    background: rgba(155, 241, 255, 0.06);
+    box-shadow: none;
+}
+
+/* ── Device presets dropdown (portrait only) ─────────────────────────────── */
+
+.res-device-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.res-device-wrap select {
+    background: rgba(212, 212, 255, 0.05);
+    border: 1px solid rgba(212, 212, 255, 0.15);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.75em;
+    height: 2.1em;
+    padding: 0 2em 0 0.65em;
+    cursor: pointer;
+    /* Keep the custom arrow from main.css but adjust sizing */
+    background-size: 1rem;
+    min-width: 150px;
+}
+
+.res-device-wrap select:focus {
+    outline: none;
+    border-color: rgba(155, 241, 255, 0.4);
+    box-shadow: 0 0 0 2px rgba(155, 241, 255, 0.1);
+}
+
+/* ── Responsive adjustments ──────────────────────────────────────────────── */
+
+@media only screen and (max-width: 850px) {
+    #resolution-bar {
+        padding: 0.75em 1em;
+    }
+
+    #resolution-selector {
+        gap: 0.5em;
+    }
+
+    .res-custom {
+        margin-left: 0;
+    }
+
+    .orient-btn span {
+        display: none; /* icon only on small screens */
+    }
+
+    .orient-btn svg {
+        width: 20px;
+    }
+
+    .orient-btn {
+        padding: 0.55em 0.7em;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    #resolution-selector {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6em;
+    }
+
+    .res-custom {
+        width: 100%;
+    }
+
+    .res-presets {
+        width: 100%;
+    }
+}
+
+/* ── Override wallpaper-box to use dynamic sizing from JS ────────────────── */
+/* The JS now controls width/height on #sketch-holder via .css()             */
+/* so we only set the viewer container min-sizes here.                       */
+
+#wallpaper-viewer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Remove fixed min-height so the box can go landscape */
+    min-height: 0;
+    min-width: 0;
+}
+
+#sketch-holder {
+    /* Dimensions set dynamically by updatePreviewBox() in wallpaper-editor.js */
+    transition: width 0.25s ease, height 0.25s ease;
+    flex-shrink: 0;
+}
